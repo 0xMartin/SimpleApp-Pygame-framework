@@ -1,10 +1,6 @@
 import random
 
-import SimpleApp
-from SimpleApp.colors import *
-from SimpleApp.application import *
-from SimpleApp.gui import *
-
+from SimpleApp import *
 
 # button and canvas style
 style = {
@@ -69,10 +65,10 @@ class GreenView(View):
         super().setFillColor(GREEN)
 
     def createEvt(self):
-        #button
+        # button
         btn = Button(self, 50, 50, 160, 50, style, "Go to red")
         btn.setClickEvt(lambda btn: self.app.showViewWithID(RED_VIEW_ID))
-        #text input
+        # text input
         txt = TextInput(self, 50, 150, 250, 50, style, "Text")
         self.addGUIElements([btn, txt])
 

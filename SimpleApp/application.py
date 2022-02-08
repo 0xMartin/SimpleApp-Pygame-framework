@@ -37,7 +37,7 @@ import abc
 import threading
 from typing import final
 
-from .gui import *
+from .guielement import *
 from .colors import *
 
 

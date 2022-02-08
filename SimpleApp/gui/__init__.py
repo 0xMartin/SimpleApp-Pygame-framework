@@ -31,8 +31,6 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 
-from SimpleApp.application import *
-from SimpleApp.guielement import *
-from SimpleApp.gui import *
-from SimpleApp.colors import *
-from SimpleApp.utils import *
+from SimpleApp.gui.textinput import *
+from SimpleApp.gui.canvas import *
+from SimpleApp.gui.button import *
