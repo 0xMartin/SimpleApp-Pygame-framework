@@ -1,1 +1,1 @@
-# SimpleApp-Pygame-framework
+# SimpleApp Pygame framework
