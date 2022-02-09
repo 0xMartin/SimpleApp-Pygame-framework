@@ -29,7 +29,7 @@ class RedView(View):
         btn = Button(self, 50, 50, 160, 50, style, "Go to green")
         btn.setClickEvt(lambda btn: self.app.showViewWithID(GREEN_VIEW_ID))
         # canvas
-        canvas = Canvas(self, 50, 150, 410, 200, style)
+        canvas = Canvas(self, 50, 150, 200, 200, style)
         canvas.setPaintEvt(self.paint)
         # label
         label = Label(self, 300, 50, style, "LABEL 1")
@@ -78,13 +78,25 @@ class GreenView(View):
         # text input
         txt = TextInput(self, 50, 150, 250, 50, style, "Text")
 
-        #combo box
+        # combo box
         group = RadioButtonGroup([])
         combobox1 = RadioButton(self, 300, 50, style, "Option 1", group)
         combobox2 = RadioButton(self, 300, 80, style, "Option 2", group)
         combobox3 = RadioButton(self, 300, 110, style, "Option 3", group)
 
-        self.addGUIElements([btn, txt, combobox1, combobox2, combobox3])
+        # image
+        img = Image(self, 310, 140, 200, 200, "src/img1.jpg")
+
+        # graph
+        data = buildGraphData([
+            [1, 2, 4, 6], 
+            [3, 3, 4, 3],
+            [6, 6, 5, 4]
+            ])
+        graph = Graph(self, 5, 205, 300, 190, data)
+
+        self.addGUIElements(
+            [btn, txt, combobox1, combobox2, combobox3, img, graph])
 
     def closeEvt(self):
         pass

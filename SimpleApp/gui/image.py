@@ -1,8 +1,8 @@
 """
 Simple library for multiple views game aplication with pygame
 
-File:       __init__.py
-Date:       08.02.2022
+File:       image.py
+Date:       09.02.2022
 
 Github:     https://github.com/0xMartin
 Email:      martin.krcma1@gmail.com
@@ -31,12 +31,33 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 
-from SimpleApp.gui.textinput import *
-from SimpleApp.gui.canvas import *
-from SimpleApp.gui.button import *
-from SimpleApp.gui.label import *
-from SimpleApp.gui.checkbox import *
-from SimpleApp.gui.radiobutton import *
-from SimpleApp.gui.image import *
-from SimpleApp.gui.graph import *
-from SimpleApp.gui.table import *
+import pygame
+from ..utils import *
+from ..colors import *
+from ..guielement import *
+from ..application import *
+
+
+class Image(GUIElement):
+    def __init__(self, view, x, y, width, height, image_path):
+        """
+        Create Image element 
+        Parameters:
+            x -> X position
+            y -> Y position
+            width -> Width of image
+            height -> Height of image
+        """
+        super().__init__(view, x, y, width, height, None)
+        self.image = loadImage(image_path)
+
+    def draw(self, view, screen):
+        if self.image is not None:
+            screen.blit(pygame.transform.scale(self.image, (super().getWidth(
+            ), super().getHeight())), (super().getX(), super().getY()))
+
+    def processEvent(self, view, event):
+        pass
+
+    def update(self, view):
+        pass

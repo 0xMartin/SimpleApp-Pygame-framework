@@ -31,10 +31,24 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 
+import pygame
 from time import time
+import os.path
+
+import matplotlib
+import matplotlib.pyplot as plt
+import matplotlib.backends.backend_agg as agg
+import pylab
 
 
 def inRect(x, y, rect):
+    """
+    Check if x, y is in rect
+    Parameters:
+        x -> X position
+        y -> Y position
+        rect -> rectangle {left, top, width, height}  
+    """
     if x >= rect.left and y >= rect.top and x <= rect.left + rect.width and y <= rect.top + rect.height:
         return True
     else:
@@ -42,4 +56,38 @@ def inRect(x, y, rect):
 
 
 def generateSignal(ms_periode):
+    """
+    Genereta pariodic signal -> (ms_periode) True -> (ms_periode) False -> ...
+    Parameters:
+        ms_periode -> Half periode of signal in ms   
+    """
     return round((time() * 1000) / ms_periode) % 2 == 0
+
+
+def loadImage(img_path):
+    """
+    Load image from File system
+    Parameters:
+        img_path -> Path of image    
+    """
+    if os.path.isfile(img_path):
+        return pygame.image.load(img_path)
+    else:
+        return None
+
+
+def drawGraph(width, height, data):
+    matplotlib.use("Agg")
+
+    fig = pylab.figure(figsize=[width/100, height/100], dpi=100)
+    fig.patch.set_alpha(0.1)
+
+    ax = fig.gca()
+    ax.plot(data)
+
+    canvas = agg.FigureCanvasAgg(fig)
+    canvas.draw()
+    renderer = canvas.get_renderer()
+    raw_data = renderer.buffer_rgba()
+
+    return pygame.image.frombuffer(raw_data, canvas.get_width_height(), "RGBA")

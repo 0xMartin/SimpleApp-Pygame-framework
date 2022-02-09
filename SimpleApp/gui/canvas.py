@@ -47,7 +47,7 @@ class Canvas(GUIElement):
             y -> Y position
             width -> Width of button
             height -> Height of button
-            style -> Style of button {b_color, f_color}
+            style -> Style of Canvas {b_color, f_color}
         """
         super().__init__(view, x, y, width, height, style)
         self.callback = None

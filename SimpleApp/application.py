@@ -32,13 +32,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 """
 
 import pygame
-import os.path
 import abc
 import threading
 from typing import final
 
 from .guielement import *
 from .colors import *
+from .utils import *
 
 
 # Application class, provides work with views
@@ -110,9 +110,9 @@ class Application:
         pygame.init()
         self.default_font = pygame.font.SysFont("Verdana", 35, bold=True)
         pygame.display.set_caption(name)
-        if os.path.isfile(self.icon):
-            logo = pygame.image.load(icon)
-            pygame.display.set_icon(logo)
+        img = loadImage(self.icon)
+        if img is not None:
+            pygame.display.set_icon(img)
         self.screen = pygame.display.set_mode((width, height))
         self.inited = True
 
@@ -166,6 +166,7 @@ class Application:
         update_thread.start()
 
         # event loop
+        clock = pygame.time.Clock()
         while self.running:
             # quit event
             event = pygame.event.poll()
@@ -174,6 +175,7 @@ class Application:
             # visible view proccess app events and render
             if self.visible_view is not None:
                 self.visible_view.processEvt(event)
+            clock.tick(60)
 
         # close
         pygame.quit()

@@ -46,7 +46,7 @@ class CheckBox(GUIElement):
         Parameters:
             x -> X position
             y -> Y position
-            style -> Style of TextInput {font_name, font_size, font_bold, b_color, f_color}
+            style -> Style of CheckBox {font_name, font_size, font_bold, b_color, f_color}
             text -> Text of TextInput
         """
         super().__init__(view, x, y, style["size"], style["size"], style)

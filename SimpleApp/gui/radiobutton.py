@@ -1,7 +1,7 @@
 """
 Simple library for multiple views game aplication with pygame
 
-File:       combobox.py
+File:       radiobutton.py
 Date:       08.02.2022
 
 Github:     https://github.com/0xMartin
@@ -31,13 +31,12 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 
-from SimpleApp.gui.checkbox import CheckBox
-from SimpleApp.gui.label import Label
 import pygame
 from ..utils import *
 from ..colors import *
 from ..guielement import *
 from ..application import *
+from SimpleApp.gui.label import Label
 
 
 class RadioButton(GUIElement):
@@ -47,7 +46,7 @@ class RadioButton(GUIElement):
         Parameters:
             x -> X position
             y -> Y position
-            style -> Style of TextInput {font_name, font_size, font_bold, b_color, f_color}
+            style -> Style of RadioButton {font_name, font_size, font_bold, b_color, f_color}
             text -> Text of TextInput
         """
         super().__init__(view, x, y, style["size"], style["size"], style)
