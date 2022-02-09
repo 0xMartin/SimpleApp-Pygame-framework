@@ -39,6 +39,7 @@ from typing import final
 from .guielement import *
 from .colors import *
 from .utils import *
+from .stylemanager import *
 
 
 # Application class, provides work with views
@@ -53,6 +54,7 @@ class Application:
         self.views = []
         self.visible_view = None
         self.inited = False
+        self.stylemanager = StyleManager("SimpleApp/config/styles.json")
         self.setFillColor(WHITE)
         for v in views:
             if isinstance(v, View):
@@ -107,6 +109,8 @@ class Application:
         self.name = name
         self.icon = icon
 
+        self.stylemanager.init()
+
         pygame.init()
         self.default_font = pygame.font.SysFont("Verdana", 35, bold=True)
         pygame.display.set_caption(name)
@@ -157,7 +161,8 @@ class Application:
 
         # call start event for each view
         for view in self.views:
-            view.createEvt()
+            view.createEvt_base(self.screen.get_width(),
+                                self.screen.get_height())
 
         # threads for render and update loops
         render_thread = threading.Thread(target=self.render_loop, args=(1,))
@@ -207,7 +212,8 @@ class Application:
             # show new view
             self.visible_view = view
             view.setVisibility(True)
-            view.openEvt()
+            view.openEvt_base(self.screen.get_width(),
+                              self.screen.get_height())
             # change window title
             if len(view.name) == 0:
                 pygame.display.set_caption(self.name)
@@ -253,6 +259,7 @@ class View(metaclass=abc.ABCMeta):
         self.visible = False
         self.fill_color = None
         self.GUIElements = []
+        self.layout_manager_list = []
 
     def setID(self, id):
         self.ID = id
@@ -274,6 +281,28 @@ class View(metaclass=abc.ABCMeta):
             element -> Element to be removed
         """
         self.GUIElements.remove(element)
+
+    @final
+    def registerLayoutManager(self, layoutManager):
+        """
+        Register new layout manager
+        Parameters:
+            layoutManager -> New layout manager    
+        """
+        if isinstance(layoutManager, Layout):
+            self.layout_manager_list.append(layoutManager)
+            return True
+        else:
+            return False
+
+    @final
+    def unregisterLayoutManager(self, layoutManager):
+        """
+        Unregister layout manager
+        Parameters:
+            layoutManager -> layout manager    
+        """
+        self.layout_manager_list.remove(layoutManager)
 
     @final
     def getGUIElement(self):
@@ -318,6 +347,17 @@ class View(metaclass=abc.ABCMeta):
         else:
             return False
 
+    @final
+    def createEvt_base(self, width, height):
+        """
+        Create event + layout update
+        """
+        # call abstract def
+        self.createEvt()
+        # update layout managers
+        for lm in self.layout_manager_list:
+            lm.update(width, height)
+
     @abc.abstractmethod
     def createEvt(self):
         """
@@ -333,6 +373,17 @@ class View(metaclass=abc.ABCMeta):
         Called when the application closing
         """
         pass
+
+    @final
+    def openEvt_base(self, width, height):
+        """
+        Open event + layout update
+        """
+        # update layout managers
+        for lm in self.layout_manager_list:
+            lm.update(width, height)
+        # call abstract def
+        self.openEvt()
 
     @abc.abstractmethod
     def openEvt(self):
@@ -357,6 +408,7 @@ class View(metaclass=abc.ABCMeta):
         Parameters:
             event -> Application event
         """
+        # all events send to view elements
         if self.app is not None:
             for el in self.GUIElements:
                 el.processEvent(self, event)
@@ -378,3 +430,52 @@ class View(metaclass=abc.ABCMeta):
         if self.app is not None:
             for el in self.GUIElements:
                 el.update(self)
+
+# base layout manager for view
+
+
+class Layout(metaclass=abc.ABCMeta):
+    def __init__(self, view):
+        """
+        Base layout class, automatically register layout manager to view
+        Parameters:
+            screen -> Pygame screen
+            view -> Application view
+        """
+        if isinstance(view, View):
+            self.view = view
+        self.layoutElements = []
+        # register
+        view.registerLayoutManager(self)
+
+    @final
+    def getLayoutElements(self):
+        """
+        Return all elements in layout
+        """
+        return self.layoutElements
+
+    @final
+    def addElement(self, element, propt):
+        """
+        Add new element to layout
+        Parameters:
+            element -> GUIElement
+            propt -> Property of element for layout manager (LEFT, RIGHT, CENTER, ...) denpends on manager
+        """
+        if isinstance(element, GUIElement):
+            self.layoutElements.append({"element": element, "propt": propt})
+
+    @abc.abstractmethod
+    def update(self, width, height):
+        """
+        Update layout
+        Parameters:
+            width -> Width of view screen  
+            height -> Height of view screen   
+        """
+        pass
+
+    @final
+    def getView(self):
+        return self.view

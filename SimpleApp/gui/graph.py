@@ -39,7 +39,7 @@ from ..application import *
 
 
 class Graph(GUIElement):
-    def __init__(self, view, x, y, width, height, data):
+    def __init__(self, view, data, x=0, y=0, width=0, height=0):
         """
         Create Graph element
         Parameters:

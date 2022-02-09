@@ -40,7 +40,7 @@ from SimpleApp.gui.label import Label
 
 
 class RadioButton(GUIElement):
-    def __init__(self, view, x, y, style, text, group):
+    def __init__(self, view, style, text, group, x=0, y=0):
         """
         Create RadioButton element 
         Parameters:
@@ -50,7 +50,7 @@ class RadioButton(GUIElement):
             text -> Text of TextInput
         """
         super().__init__(view, x, y, style["size"], style["size"], style)
-        self.label = Label(view, x, y, style, text)
+        self.label = Label(view, style, text, x, y)
         self.group = group
         group.addRadioButton(self)
         self.checked = False

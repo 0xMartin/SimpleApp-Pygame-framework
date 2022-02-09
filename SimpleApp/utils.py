@@ -34,6 +34,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 import pygame
 from time import time
 import os.path
+import json
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -77,6 +78,13 @@ def loadImage(img_path):
 
 
 def drawGraph(width, height, data):
+    """
+    Draw graph and print it to the image
+    Parameters:
+        width -> Width of graph  
+        height -> Height of graph  
+        data -> Data of graph  
+    """
     matplotlib.use("Agg")
 
     fig = pylab.figure(figsize=[width/100, height/100], dpi=100)
@@ -91,3 +99,16 @@ def drawGraph(width, height, data):
     raw_data = renderer.buffer_rgba()
 
     return pygame.image.frombuffer(raw_data, canvas.get_width_height(), "RGBA")
+
+def loadConfig(path):
+    """
+    Load config
+    Parameters:
+        path -> path to the file
+    """    
+    if not os.path.isfile(path):
+        return None
+    f = open(path)
+    data = json.load(f)
+    f.close()
+    return data

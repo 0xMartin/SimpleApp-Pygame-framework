@@ -39,7 +39,7 @@ from ..application import *
 
 
 class Canvas(GUIElement):
-    def __init__(self, view, x, y, width, height, style):
+    def __init__(self, view, style, x=0, y=0, width=0, height=0):
         """
         Create button
         Parameters:

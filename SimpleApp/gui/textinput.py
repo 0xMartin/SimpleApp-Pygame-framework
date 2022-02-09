@@ -39,7 +39,7 @@ from ..application import *
 
 
 class TextInput(GUIElement):
-    def __init__(self, view, x, y, width, height, style, text):
+    def __init__(self, view, style, text, x=0, y=0, width=0, height=0):
         """
         Create TextInput element 
         Parameters:

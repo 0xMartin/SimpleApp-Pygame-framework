@@ -144,7 +144,6 @@ class GUIElement(metaclass=abc.ABCMeta):
         """
         self.style = style
 
-    @final
     def updateViewRect(self):
         """
         Update view rect of this element

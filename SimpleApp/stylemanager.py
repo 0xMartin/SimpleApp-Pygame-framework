@@ -1,7 +1,7 @@
 """
 Simple library for multiple views game aplication with pygame
 
-File:       image.py
+File:       stylemanager.py
 Date:       09.02.2022
 
 Github:     https://github.com/0xMartin
@@ -31,33 +31,22 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 
-import pygame
-from ..utils import *
-from ..colors import *
-from ..guielement import *
-from ..application import *
+from .utils import *
 
 
-class Image(GUIElement):
-    def __init__(self, view, image_path, x=0, y=0, width=0, height=0):
+class StyleManager:
+    def __init__(self, styles_path):
         """
-        Create Image element 
-        Parameters:
-            x -> X position
-            y -> Y position
-            width -> Width of image
-            height -> Height of image
         """
-        super().__init__(view, x, y, width, height, None)
-        self.image = loadImage(image_path)
+        self.styles_path = styles_path
 
-    def draw(self, view, screen):
-        if self.image is not None:
-            screen.blit(pygame.transform.scale(self.image, (super().getWidth(
-            ), super().getHeight())), (super().getX(), super().getY()))
+    def init(self):
+        """
+        """
+        self.styles = loadConfig(self.styles_path)
+        print(self.styles)
 
-    def processEvent(self, view, event):
-        pass
-
-    def update(self, view):
+    def getStyle(self, quielemnet):
+        """
+        """
         pass

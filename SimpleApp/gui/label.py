@@ -39,7 +39,7 @@ from ..application import *
 
 
 class Label(GUIElement):
-    def __init__(self, view, x, y, style, text):
+    def __init__(self, view, style, text, centered=False, x=0, y=0):
         """
         Create Label element 
         Parameters:
@@ -50,8 +50,17 @@ class Label(GUIElement):
         """
         super().__init__(view, x, y, 0, 0, style)
         self.text = text
+        self.centered = centered
         self.font = pygame.font.SysFont(
             style["font_name"], style["font_size"], bold=style["font_bold"])
+
+    def setCentered(self, centered):
+        """
+        Set label align centered
+        Parameters:
+            centered -> True: text will be aligned to the center of the coordinates
+        """
+        self.centered = centered
 
     def setText(self, text):
         """
@@ -65,7 +74,10 @@ class Label(GUIElement):
         if len(self.text) != 0:
             text = self.font.render(
                 self.text, 1, super().getStyle()["f_color"])
-            screen.blit(text, (super().getX(), super().getY()))
+            if self.centered:
+                screen.blit(text, (super().getX() - text.get_width()/2, super().getY()))
+            else:
+                screen.blit(text, (super().getX(), super().getY()))    
 
     def processEvent(self, view, event):
         pass

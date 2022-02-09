@@ -39,7 +39,7 @@ from ..application import *
 
 
 class VerticalScroll(GUIElement):
-    def __init__(self, view, x, y, width, height, style, scroller_size):
+    def __init__(self, view, style, scroller_size, x=0, y=0, width=0, height=0):
         """
         Create VerticalScroll
         Parameters:
@@ -83,7 +83,8 @@ class VerticalScroll(GUIElement):
                 super().getY() + self.scroller_pos,
                 super().getWidth(),
                 self.scroller_size
-            )
+            ),
+            border_radius=6
         )
         # outline
         pygame.draw.rect(screen, super().getStyle()[

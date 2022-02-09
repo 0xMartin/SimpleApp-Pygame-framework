@@ -40,7 +40,7 @@ from ..application import *
 
 
 class CheckBox(GUIElement):
-    def __init__(self, view, x, y, style, text, checked):
+    def __init__(self, view, style, text, checked, x=0, y=0):
         """
         Create CheckBox element 
         Parameters:
@@ -50,7 +50,7 @@ class CheckBox(GUIElement):
             text -> Text of TextInput
         """
         super().__init__(view, x, y, style["size"], style["size"], style)
-        self.label = Label(view, x, y, style, text)
+        self.label = Label(view, style, text, x, y)
         self.checked = checked
         self.callback = None
         self.hover = False
