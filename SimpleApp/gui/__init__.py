@@ -34,3 +34,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 from SimpleApp.gui.textinput import *
 from SimpleApp.gui.canvas import *
 from SimpleApp.gui.button import *
+from SimpleApp.gui.label import *
+from SimpleApp.gui.checkbox import *
+from SimpleApp.gui.radiobutton import *

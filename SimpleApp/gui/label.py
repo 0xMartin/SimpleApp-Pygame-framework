@@ -1,7 +1,7 @@
 """
 Simple library for multiple views game aplication with pygame
 
-File:       button.py
+File:       label.py
 Date:       08.02.2022
 
 Github:     https://github.com/0xMartin
@@ -38,58 +38,37 @@ from ..guielement import *
 from ..application import *
 
 
-class Button(GUIElement):
-    def __init__(self, view, x, y, width, height, style, text):
+class Label(GUIElement):
+    def __init__(self, view, x, y, style, text):
         """
-        Create button
+        Create Label element 
         Parameters:
             x -> X position
             y -> Y position
-            width -> Width of button
-            height -> Height of button
-            style -> Style of button {font_name, font_size, font_bold, b_color, f_color}
-            text - Text of button
+            style -> Style of TextInput {font_name, font_size, font_bold, b_color, f_color}
+            text -> Text of TextInput
         """
-        super().__init__(view, x, y, width, height, style)
+        super().__init__(view, x, y, 0, 0, style)
         self.text = text
-        self.callback = None
-        self.hover = False
         self.font = pygame.font.SysFont(
             style["font_name"], style["font_size"], bold=style["font_bold"])
 
-    def setClickEvt(self, callback):
+    def setText(self, text):
         """
-        Set button click event
+        Set text of TextInput
         Parameters:
-            callback -> callback function
+            text -> New text
         """
-        self.callback = callback
+        self.text = text
 
     def draw(self, view, screen):
-        # background
-        if self.hover:
-            pygame.draw.rect(screen, colorChange(
-                super().getStyle()["b_color"], -0.6), super().getViewRect(), border_radius=10)
-        else:
-            pygame.draw.rect(screen, super().getStyle()[
-                             "b_color"], super().getViewRect(), border_radius=10)
-        # button text
         if len(self.text) != 0:
             text = self.font.render(
                 self.text, 1, super().getStyle()["f_color"])
-            screen.blit(text, (super().getX() + (super().getWidth() - text.get_width())/2,
-                               super().getY() + (super().getHeight() - text.get_height())/2))
+            screen.blit(text, (super().getX(), super().getY()))
 
     def processEvent(self, view, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if inRect(event.pos[0], event.pos[1], super().getViewRect()):
-                if self.callback is not None:
-                    self.callback(self)
-        elif event.type == pygame.MOUSEMOTION:
-            if inRect(event.pos[0], event.pos[1], super().getViewRect()):
-                self.hover = True
-            else:
-                self.hover = False
+        pass
 
     def update(self, view):
         pass

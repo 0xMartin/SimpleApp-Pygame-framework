@@ -1,14 +1,16 @@
 import random
+from tkinter import Label
 
 from SimpleApp import *
 
-# button and canvas style
+# style
 style = {
     "f_color":      WHITE,
     "b_color":      GRAY,
     "font_name":    "Verdena",
     "font_size":    32,
-    "font_bold":    False
+    "font_bold":    False,
+    "size": 25
 }
 
 RED_VIEW_ID = 1
@@ -27,10 +29,15 @@ class RedView(View):
         btn = Button(self, 50, 50, 160, 50, style, "Go to green")
         btn.setClickEvt(lambda btn: self.app.showViewWithID(GREEN_VIEW_ID))
         # canvas
-        canvas = Canvas(self, 50, 150, 300, 200, style)
+        canvas = Canvas(self, 50, 150, 410, 200, style)
         canvas.setPaintEvt(self.paint)
+        # label
+        label = Label(self, 300, 50, style, "LABEL 1")
+        # checkbox
+        checkbox1 = CheckBox(self, 300, 80, style, "Check box 1", True)
+        checkbox2 = CheckBox(self, 300, 110, style, "Check box 2", True)
 
-        self.addGUIElements([btn, canvas])
+        self.addGUIElements([btn, canvas, label, checkbox1, checkbox2])
 
     def closeEvt(self):
         pass
@@ -70,7 +77,14 @@ class GreenView(View):
         btn.setClickEvt(lambda btn: self.app.showViewWithID(RED_VIEW_ID))
         # text input
         txt = TextInput(self, 50, 150, 250, 50, style, "Text")
-        self.addGUIElements([btn, txt])
+
+        #combo box
+        group = RadioButtonGroup([])
+        combobox1 = RadioButton(self, 300, 50, style, "Option 1", group)
+        combobox2 = RadioButton(self, 300, 80, style, "Option 2", group)
+        combobox3 = RadioButton(self, 300, 110, style, "Option 3", group)
+
+        self.addGUIElements([btn, txt, combobox1, combobox2, combobox3])
 
     def closeEvt(self):
         pass
@@ -87,7 +101,7 @@ def main():
     view2 = GreenView()
     app = Application([view1, view2], 60)
     app.init(640, 400, "Application", "")
-    app.showView(view2)
+    app.showView(view1)
     app.run()
 
 
