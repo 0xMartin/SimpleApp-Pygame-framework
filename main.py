@@ -1,7 +1,6 @@
 import random
-from tkinter import Label
-
 from SimpleApp import *
+from SimpleApp.gui import vertical_scroll
 
 # style
 style = {
@@ -11,6 +10,23 @@ style = {
     "font_size":    32,
     "font_bold":    False,
     "size": 25
+}
+
+# table style
+h_style = {
+    "f_color":      WHITE,
+    "b_color":      BLACK,
+    "font_name":    "Verdena",
+    "font_size":    32,
+    "font_bold":    True
+}
+b_style = {
+    "f_color":      BLACK,
+    "b_color":      WHITE,
+    "s_color":      GRAY,
+    "font_name":    "Verdena",
+    "font_size":    22,
+    "font_bold":    False
 }
 
 RED_VIEW_ID = 1
@@ -37,7 +53,27 @@ class RedView(View):
         checkbox1 = CheckBox(self, 300, 80, style, "Check box 1", True)
         checkbox2 = CheckBox(self, 300, 110, style, "Check box 2", True)
 
-        self.addGUIElements([btn, canvas, label, checkbox1, checkbox2])
+        # table
+        data = {
+            "header": ["Col 1", "Col 2", "Col 3", "Col 4"],
+            "body": [
+                ["A1", "B1", "C1", "D1"],
+                ["A2", "B2", "C2", "D2"],
+                ["A3", "B3", "C3", "D3"],
+                ["A4", "B4", "C4", "D4"],
+                ["A1", "B1", "C1", "D1"],
+                ["A2", "B2", "C2", "D2"],
+                ["A3", "B3", "C3", "D3"],
+                ["A4", "B4", "C4", "D4"],
+                ["A1", "B1", "C1", "D1"],
+                ["A2", "B2", "C2", "D2"],
+                ["A3", "B3", "C3", "D3"],
+                ["A4", "B4", "C4", "D4"]
+            ]
+        }
+        table = Table(self, 260, 150, 300, 200, h_style, b_style, data)
+
+        self.addGUIElements([btn, canvas, label, checkbox1, checkbox2, table])
 
     def closeEvt(self):
         pass
@@ -89,10 +125,10 @@ class GreenView(View):
 
         # graph
         data = buildGraphData([
-            [1, 2, 4, 6], 
+            [1, 2, 4, 6],
             [3, 3, 4, 3],
             [6, 6, 5, 4]
-            ])
+        ])
         graph = Graph(self, 5, 205, 300, 190, data)
 
         self.addGUIElements(

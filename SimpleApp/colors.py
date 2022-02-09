@@ -48,13 +48,32 @@ def colorChange(color, amount):
     Change color lightness
     Parameters:
         color -> default color
-        amount -> from -1(darker) o 1(lighter)
+        amount -> from -2(darker) o 2(lighter)
     """
     rgb = list(color)
     amount = 1.0 + amount / 2.0
     rgb[0] *= amount
     rgb[1] *= amount
     rgb[2] *= amount
+    rgb[0] = max(min(rgb[0], 255), 0)
+    rgb[1] = max(min(rgb[1], 255), 0)
+    rgb[2] = max(min(rgb[2], 255), 0)
+    return tuple(rgb)
+
+def colorAdd(color, amount):
+    """
+    Add number to color
+    Parameters:
+        color -> default color
+        amount -> 
+    """
+    rgb = list(color)
+    rgb[0] += amount
+    rgb[0] = max(min(rgb[0], 255), 0)
+    rgb[1] += amount
+    rgb[1] = max(min(rgb[1], 255), 0)
+    rgb[2] += amount
+    rgb[2] = max(min(rgb[2], 255), 0)
     return tuple(rgb)
 
 

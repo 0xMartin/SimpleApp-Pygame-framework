@@ -57,6 +57,10 @@ class GUIElement(metaclass=abc.ABCMeta):
         self.updateViewRect()
 
     @final
+    def getView(self):
+        return self.view
+
+    @final
     def getX(self):
         """
         Get x position of this element
