@@ -39,15 +39,17 @@ from ..application import *
 
 
 class VerticalScroll(GUIElement):
-    def __init__(self, view, style, scroller_size, x=0, y=0, width=0, height=0):
+    def __init__(self, view, style, scroller_size, width=0, height=0, x=0, y=0):
         """
         Create VerticalScroll
         Parameters:
-            x -> X position
-            y -> Y position
+            view -> View where is element
+            style -> more about style for this element in config/styles.json
+            scroller_size -> Scroller height
             width -> Width of button
             height -> Height of button
-            style -> Style of Canvas {b_color, f_color}
+            x -> X position
+            y -> Y position
         """
         super().__init__(view, x, y, width, height, style)
         self.callback = None
@@ -73,11 +75,11 @@ class VerticalScroll(GUIElement):
     def draw(self, view, screen):
         # background
         pygame.draw.rect(screen, super().getStyle()[
-                         "b_color"], super().getViewRect())
+                         "background_color"], super().getViewRect())
         # scroller
         pygame.draw.rect(
             screen,
-            super().getStyle()["s_color"],
+            super().getStyle()["foreground_color"],
             pygame.Rect(
                 super().getX(),
                 super().getY() + self.scroller_pos,
@@ -88,7 +90,7 @@ class VerticalScroll(GUIElement):
         )
         # outline
         pygame.draw.rect(screen, super().getStyle()[
-                         "f_color"], super().getViewRect(), 2)
+                         "outline_color"], super().getViewRect(), 2)
 
     def processEvent(self, view, event):
         if self.scroller_size >= super().getHeight():

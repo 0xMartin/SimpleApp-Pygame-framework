@@ -41,4 +41,3 @@ from SimpleApp.gui.image import *
 from SimpleApp.gui.graph import *
 from SimpleApp.gui.table import *
 from SimpleApp.gui.vertical_scroll import *
-from SimpleApp.gui.layout import *

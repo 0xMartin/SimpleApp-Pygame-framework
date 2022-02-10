@@ -43,16 +43,17 @@ class Label(GUIElement):
         """
         Create Label element 
         Parameters:
+            view -> View where is element
+            style -> More about style for this element in config/styles.json
+            text -> Text of TextInput
             x -> X position
             y -> Y position
-            style -> Style of Label {font_name, font_size, font_bold, f_color}
-            text -> Text of TextInput
         """
         super().__init__(view, x, y, 0, 0, style)
         self.text = text
         self.centered = centered
         self.font = pygame.font.SysFont(
-            style["font_name"], style["font_size"], bold=style["font_bold"])
+            super().getStyle()["font_name"], super().getStyle()["font_size"], bold=super().getStyle()["font_bold"])
 
     def setCentered(self, centered):
         """
@@ -73,7 +74,7 @@ class Label(GUIElement):
     def draw(self, view, screen):
         if len(self.text) != 0:
             text = self.font.render(
-                self.text, 1, super().getStyle()["f_color"])
+                self.text, 1, super().getStyle()["foreground_color"])
             if self.centered:
                 screen.blit(text, (super().getX() - text.get_width()/2, super().getY()))
             else:

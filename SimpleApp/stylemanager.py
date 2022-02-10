@@ -32,21 +32,72 @@ OTHER DEALINGS IN THE SOFTWARE.
 """
 
 from .utils import *
+from .gui import *
 
 
 class StyleManager:
     def __init__(self, styles_path):
         """
+        Create style manager
+        Parameters:
+            styles_path -> Path where is file with styles for all guil elements    
         """
         self.styles_path = styles_path
 
     def init(self):
         """
+        Init style manager
         """
         self.styles = loadConfig(self.styles_path)
-        print(self.styles)
+
+    def getStyleWithName(self, name):
+        """
+        Get all styles
+        Parameters:
+            name -> Name of style
+        """
+        if name not in self.styles.keys():
+            return None
+        else:
+            return self.processStyle(self.styles[name])
 
     def getStyle(self, quielemnet):
         """
+        Get style for specific gui element
+        Parameters:
+            quielemnet -> gui element
         """
-        pass
+        if self.styles is None:
+            return None
+
+        if isinstance(quielemnet, Button):
+            return self.processStyle(self.styles["Button"])
+        elif isinstance(quielemnet, Canvas):
+            return self.processStyle(self.styles["Canvas"])
+        elif isinstance(quielemnet, CheckBox):
+            return self.processStyle(self.styles["CheckBox"])
+        elif isinstance(quielemnet, Graph):
+            return self.processStyle(self.styles["Graph"])
+        elif isinstance(quielemnet, Image):
+            return self.processStyle(self.styles["Image"])
+        elif isinstance(quielemnet, Label):
+            return self.processStyle(self.styles["Label"])
+        elif isinstance(quielemnet, RadioButton):
+            return self.processStyle(self.styles["RadioButton"])
+        elif isinstance(quielemnet, Table):
+            return self.processStyle(self.styles["Table"])
+        elif isinstance(quielemnet, TextInput):
+            return self.processStyle(self.styles["TextInput"])
+        elif isinstance(quielemnet, VerticalScroll):
+            return self.processStyle(self.styles["VerticalScroll"])
+
+    def processStyle(self, style):
+        # colors
+        new_style = style.copy()
+        for tag in new_style.keys():
+            if "color" in tag:
+                rgb = new_style[tag].split(",")
+                new_style[tag] = tuple([int(rgb[0]), int(rgb[1]), int(rgb[2])])
+            elif isinstance(new_style[tag], dict):
+                new_style[tag] = self.processStyle(new_style[tag])   
+        return new_style

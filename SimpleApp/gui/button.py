@@ -39,8 +39,8 @@ from ..application import *
 
 
 class Button(GUIElement):
-   
-    def __init__(self, view, style, text, x=0, y=0, width=0, height=0):
+
+    def __init__(self, view, style, text, width=0, height=0, x=0, y=0):
         """
         Create button
         Parameters:
@@ -49,7 +49,7 @@ class Button(GUIElement):
             y -> Y position
             width -> Width of button
             height -> Height of button
-            style -> Style of button {font_name, font_size, font_bold, b_color, f_color}
+            style -> More about style for this element in config/styles.json
             text - Text of button
         """
         super().__init__(view, x, y, width, height, style)
@@ -57,7 +57,7 @@ class Button(GUIElement):
         self.callback = None
         self.hover = False
         self.font = pygame.font.SysFont(
-            style["font_name"], style["font_size"], bold=style["font_bold"])
+            super().getStyle()["font_name"], super().getStyle()["font_size"], bold=super().getStyle()["font_bold"])
 
     def setClickEvt(self, callback):
         """
@@ -71,14 +71,14 @@ class Button(GUIElement):
         # background
         if self.hover:
             pygame.draw.rect(screen, colorChange(
-                super().getStyle()["b_color"], -0.6), super().getViewRect(), border_radius=10)
+                super().getStyle()["background_color"], -0.6), super().getViewRect(), border_radius=10)
         else:
             pygame.draw.rect(screen, super().getStyle()[
-                             "b_color"], super().getViewRect(), border_radius=10)
+                             "background_color"], super().getViewRect(), border_radius=10)
         # button text
         if len(self.text) != 0:
             text = self.font.render(
-                self.text, 1, super().getStyle()["f_color"])
+                self.text, 1, super().getStyle()["foreground_color"])
             screen.blit(text, (super().getX() + (super().getWidth() - text.get_width())/2,
                                super().getY() + (super().getHeight() - text.get_height())/2))
 

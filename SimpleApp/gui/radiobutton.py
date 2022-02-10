@@ -40,24 +40,29 @@ from SimpleApp.gui.label import Label
 
 
 class RadioButton(GUIElement):
-    def __init__(self, view, style, text, group, x=0, y=0):
+    def __init__(self, view, style, text, group, size=20, x=0, y=0):
         """
         Create RadioButton element 
         Parameters:
+            view -> View where is element
+            style -> More about style for this element in config/styles.json
+            text -> Text of TextInput
+            size -> Size of radio button (circe diameter)
             x -> X position
             y -> Y position
-            style -> Style of RadioButton {font_name, font_size, font_bold, b_color, f_color}
-            text -> Text of TextInput
         """
-        super().__init__(view, x, y, style["size"], style["size"], style)
-        self.label = Label(view, style, text, x, y)
+        super().__init__(view, x, y, size, size, style)
+        self.label = Label(view, super().getStyle()["label"], text, x, y)
         self.group = group
         group.addRadioButton(self)
         self.checked = False
         self.callback = None
         self.hover = False
         self.font = pygame.font.SysFont(
-            style["font_name"], style["font_size"], bold=style["font_bold"])
+            super().getStyle()["label"]["font_name"],
+            super().getStyle()["label"]["font_size"],
+            bold=super().getStyle()["label"]["font_bold"]
+        )
 
     def setText(self, text):
         """
@@ -105,16 +110,16 @@ class RadioButton(GUIElement):
         )
         if self.hover:
             pygame.draw.circle(screen, colorChange(super().getStyle()[
-                "b_color"], -0.6), center, super().getWidth() / 2)
+                "background_color"], -0.6), center, super().getWidth() / 2)
         else:
             pygame.draw.circle(screen, super().getStyle()[
-                "b_color"], center, super().getWidth() / 2)
+                "background_color"], center, super().getWidth() / 2)
         pygame.draw.circle(screen, super().getStyle()[
-            "f_color"], center, super().getWidth() / 2, 2)
+            "outline_color"], center, super().getWidth() / 2, 2)
         # check
         if self.checked:
             pygame.draw.circle(screen, super().getStyle()[
-                "f_color"], center, super().getWidth() / 4)
+                "foreground_color"], center, super().getWidth() / 4)
 
     def processEvent(self, view, event):
         if event.type == pygame.MOUSEBUTTONDOWN:

@@ -39,15 +39,16 @@ from ..application import *
 
 
 class Graph(GUIElement):
-    def __init__(self, view, data, x=0, y=0, width=0, height=0):
+    def __init__(self, view, data, width=0, height=0, x=0, y=0):
         """
         Create Graph element
         Parameters:
-            x -> X position
-            y -> Y position
+            view -> View where is element
+            data -> Data of graph
             width -> Width of image
             height -> Height of image
-            data -> Data of graph
+            x -> X position
+            y -> Y position
         """
         super().__init__(view, x, y, width, height, None)
         self.refreshGraph(data)

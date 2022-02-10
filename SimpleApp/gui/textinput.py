@@ -39,22 +39,23 @@ from ..application import *
 
 
 class TextInput(GUIElement):
-    def __init__(self, view, style, text, x=0, y=0, width=0, height=0):
+    def __init__(self, view, style, text, width=0, height=0, x=0, y=0):
         """
         Create TextInput element 
         Parameters:
-            x -> X position
-            y -> Y position
+            view -> View where is element
+            style -> more about style for this element in config/styles.json
+            text -> Text of TextInput
             width -> Width of TextInput
             height -> Height of TextInput
-            style -> Style of TextInput {font_name, font_size, font_bold, b_color, f_color}
-            text -> Text of TextInput
+            x -> X position
+            y -> Y position
         """
         super().__init__(view, x, y, width, height, style)
         self.callback = None
         self.text = text
         self.font = pygame.font.SysFont(
-            style["font_name"], style["font_size"], bold=style["font_bold"])
+            super().getStyle()["font_name"], super().getStyle()["font_size"], bold=super().getStyle()["font_bold"])
 
     def setText(self, text):
         """
@@ -76,17 +77,17 @@ class TextInput(GUIElement):
         # background
         if super().isSelected():
             pygame.draw.rect(screen, colorChange(super().getStyle()[
-                             "b_color"], 0.4), super().getViewRect(), border_radius=5)
+                             "background_color"], 0.4), super().getViewRect(), border_radius=5)
         else:
             pygame.draw.rect(screen, super().getStyle()[
-                             "b_color"], super().getViewRect(), border_radius=5)
+                             "background_color"], super().getViewRect(), border_radius=5)
 
         # create subsurface
         surface = screen.subsurface(super().getViewRect())
         offset = 0
         if len(self.text) != 0:
             text = self.font.render(
-                self.text, 1, super().getStyle()["f_color"])
+                self.text, 1, super().getStyle()["foreground_color"])
             offset = max(text.get_width() + 20 - super().getWidth(), 0)
             if not super().isSelected():
                 offset = 0
@@ -98,11 +99,11 @@ class TextInput(GUIElement):
             x = 8 + (0 if (len(self.text) == 0) else text.get_width()) - offset
             y = surface.get_height() * 0.2
             pygame.draw.line(surface, super().getStyle()[
-                             "f_color"], (x, y), (x, surface.get_height() - y), 2)
+                             "foreground_color"], (x, y), (x, surface.get_height() - y), 2)
 
         # outline
         pygame.draw.rect(screen, super().getStyle()[
-                         "f_color"], super().getViewRect(), 2, border_radius=5)
+                         "outline_color"], super().getViewRect(), 2, border_radius=5)
 
     def processEvent(self, view, event):
         if event.type == pygame.MOUSEBUTTONDOWN:

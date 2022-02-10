@@ -1,24 +1,103 @@
 {
-    "view": {
+    "default": {
+        "fill_color": "245, 245, 245"
     },
-    "button": {
+    "Button": {
+        "foreground_color": "255, 255, 255",
+        "background_color": "90, 90, 90",
+        "font_name": "Verdena",
+        "font_size": 32,
+        "font_bold": "False"
     },
-    "canvas": {
+    "Canvas": {
+        "foreground_color": "190, 190, 190",
+        "background_color": "255, 255, 255",
+        "font_name": "Verdena",
+        "font_size": 32,
+        "font_bold": "False"
     },
-    "checkbox": {
+    "CheckBox": {
+        "outline_color": "50, 50, 50",
+        "foreground_color": "255, 255, 255",
+        "background_color": "140, 140, 140",
+        "size": 20,
+        "label": {
+            "foreground_color": "40, 40, 40",
+            "font_name": "Verdena",
+            "font_size": 28,
+            "font_bold": "False"
+        }
     },
-    "graph": {
+    "Graph": {
+        "foreground_color": "255, 255, 255",
+        "background_color": "50, 50, 50",
+        "font_name": "Verdena",
+        "font_size": 32,
+        "font_bold": "False"
     },
-    "image": {
+    "Image": {
+        "foreground_color": "255, 255, 255",
+        "background_color": "50, 50, 50",
+        "font_name": "Verdena",
+        "font_size": 32,
+        "font_bold": "False"
     },
-    "label": {
+    "Label": {
+        "foreground_color": "40, 40, 40",
+        "font_name": "Verdena",
+        "font_size": 32,
+        "font_bold": "False"
     },
-    "radiobutton": {
+    "RadioButton": {
+        "outline_color": "50, 50, 50",
+        "foreground_color": "255, 255, 255",
+        "background_color": "140, 140, 140",       
+        "size": 20,
+        "label": {
+            "foreground_color": "40, 40, 40",
+            "font_name": "Verdena",
+            "font_size": 28,
+            "font_bold": "False"
+        }
     },
-    "table": {
+    "Table": {
+        "header": {
+            "foreground_color": "255, 255, 255",
+            "background_color": "50, 50, 50",
+            "font_name": "Verdena",
+            "font_size": 24,
+            "font_bold": "False"
+        },
+        "body": {
+            "foreground_color": "30, 30, 30",
+            "background_color": "230, 230, 230",
+            "font_name": "Verdena",
+            "font_size": 22,
+            "font_bold": "False"
+        },
+        "scroller": {
+            "outline_color": "30, 30, 30",
+            "background_color": "150, 150, 150",
+            "foreground_color": "90, 90, 90",
+            "font_name": "Verdena",
+            "font_size": 32,
+            "font_bold": "False"
+        }
     },
-    "textinput": {
+    "TextInput": {
+        "foreground_color": "30, 30, 30",
+        "outline_color": "70, 70, 70",
+        "background_color": "230, 230, 230",
+        "font_name": "Verdena",
+        "font_size": 24,
+        "font_bold": "False"
     },
-    "verticalscroll": {
+    "VerticalScroll": {
+        "outline_color": "30, 30, 30",
+        "background_color": "130, 130, 130",
+        "foreground_color": "70, 70, 70",
+        "font_name": "Verdena",
+        "font_size": 32,
+        "font_bold": "False"
     }
 }

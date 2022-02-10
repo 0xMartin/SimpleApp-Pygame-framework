@@ -37,3 +37,4 @@ from SimpleApp.gui import *
 from SimpleApp.colors import *
 from SimpleApp.utils import *
 from SimpleApp.stylemanager import *
+from SimpleApp.layout import *

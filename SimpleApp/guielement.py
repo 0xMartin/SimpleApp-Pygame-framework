@@ -51,7 +51,12 @@ class GUIElement(metaclass=abc.ABCMeta):
         self.y = y
         self.width = width
         self.height = height
-        self.style = style
+
+        sm = view.getApp().getStyleManager()
+        if style is None:
+            self.style = sm.getStyle(self)
+        else:
+            self.style = style
 
         self.selected = False
         self.updateViewRect()

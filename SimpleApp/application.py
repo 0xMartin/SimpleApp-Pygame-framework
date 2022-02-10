@@ -74,9 +74,19 @@ class Application:
         if(isinstance(view, View)):
             view.setApplication(self)
             self.views.append(view)
+            # call create event (only if app is running)
+            if self.run:
+                view.createEvt_base(self.screen.get_width(),
+                                    self.screen.get_height())
             return True
         else:
             return False
+
+    def getStyleManager(self):
+        """
+        Return style manager
+        """
+        return self.stylemanager
 
     def removeView(self, view):
         """
@@ -283,6 +293,13 @@ class View(metaclass=abc.ABCMeta):
         self.GUIElements.remove(element)
 
     @final
+    def getApp(self):
+        """
+        Return app
+        """
+        return self.app
+
+    @final
     def registerLayoutManager(self, layoutManager):
         """
         Register new layout manager
@@ -354,6 +371,10 @@ class View(metaclass=abc.ABCMeta):
         """
         # call abstract def
         self.createEvt()
+        # update style
+        if self.fill_color is None:
+            self.fill_color = self.getApp().getStyleManager(
+            ).getStyleWithName("default")["fill_color"]
         # update layout managers
         for lm in self.layout_manager_list:
             lm.update(width, height)

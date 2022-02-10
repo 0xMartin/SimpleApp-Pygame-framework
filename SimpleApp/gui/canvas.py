@@ -39,15 +39,16 @@ from ..application import *
 
 
 class Canvas(GUIElement):
-    def __init__(self, view, style, x=0, y=0, width=0, height=0):
+    def __init__(self, view, style, width=0, height=0, x=0, y=0):
         """
         Create button
         Parameters:
-            x -> X position
-            y -> Y position
+            view -> View where is element
+            style -> More about style for this element in config/styles.json
             width -> Width of button
             height -> Height of button
-            style -> Style of Canvas {b_color, f_color}
+            x -> X position
+            y -> Y position
         """
         super().__init__(view, x, y, width, height, style)
         self.callback = None
@@ -63,7 +64,7 @@ class Canvas(GUIElement):
     def draw(self, view, screen):
         # background
         pygame.draw.rect(screen, super().getStyle()[
-                         "b_color"], super().getViewRect())
+                         "background_color"], super().getViewRect())
 
         # create subsurface
         surface = screen.subsurface(super().getViewRect())
@@ -73,7 +74,7 @@ class Canvas(GUIElement):
 
         # outline
         pygame.draw.rect(screen, super().getStyle()[
-                         "f_color"], super().getViewRect(), 2)
+                         "foreground_color"], super().getViewRect(), 2)
 
     def processEvent(self, view, event):
         pass

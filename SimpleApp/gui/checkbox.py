@@ -40,22 +40,29 @@ from ..application import *
 
 
 class CheckBox(GUIElement):
-    def __init__(self, view, style, text, checked, x=0, y=0):
+    def __init__(self, view, style, text, checked, size=20, x=0, y=0):
         """
         Create CheckBox element 
         Parameters:
+            view -> View where is element
+            style -> More about style for this element in config/styles.json
+            text -> Text of TextInput
+            checked -> Is checked?
+            width -> Width of button
+            height -> Height of button
             x -> X position
             y -> Y position
-            style -> Style of CheckBox {font_name, font_size, font_bold, b_color, f_color}
-            text -> Text of TextInput
         """
-        super().__init__(view, x, y, style["size"], style["size"], style)
-        self.label = Label(view, style, text, x, y)
+        super().__init__(view, x, y, size, size, style)
+        self.label = Label(view, super().getStyle()["label"], text, x, y)
         self.checked = checked
         self.callback = None
         self.hover = False
         self.font = pygame.font.SysFont(
-            style["font_name"], style["font_size"], bold=style["font_bold"])
+            super().getStyle()["label"]["font_name"],
+            super().getStyle()["label"]["font_size"],
+            bold=super().getStyle()["label"]["font_bold"]
+        )
 
     def setText(self, text):
         """
@@ -99,12 +106,12 @@ class CheckBox(GUIElement):
         # check box
         if self.hover:
             pygame.draw.rect(screen, colorChange(super().getStyle()[
-                "b_color"], -0.6), super().getViewRect(), border_radius=6)
+                "background_color"], -0.6), super().getViewRect(), border_radius=6)
         else:
             pygame.draw.rect(screen, super().getStyle()[
-                "b_color"], super().getViewRect(), border_radius=5)
+                "background_color"], super().getViewRect(), border_radius=5)
         pygame.draw.rect(screen, super().getStyle()[
-            "f_color"], super().getViewRect(), 2, border_radius=5)
+            "outline_color"], super().getViewRect(), 2, border_radius=5)
         # check
         if self.checked:
             pts = [
@@ -116,7 +123,7 @@ class CheckBox(GUIElement):
                  super().getY() + super().getWidth() * 0.2)
             ]
             pygame.draw.lines(screen, super().getStyle()
-                              ["f_color"], False, pts, round(4 * super().getWidth() / 40))
+                              ["foreground_color"], False, pts, round(4 * super().getWidth() / 40))
 
     def processEvent(self, view, event):
         if event.type == pygame.MOUSEBUTTONDOWN:

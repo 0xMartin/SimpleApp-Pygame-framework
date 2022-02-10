@@ -1,54 +1,32 @@
 import random
 from SimpleApp import *
-from SimpleApp.gui import vertical_scroll
 
-# style
-style = {
-    "f_color":      WHITE,
-    "b_color":      GRAY,
-    "font_name":    "Verdena",
-    "font_size":    32,
-    "font_bold":    False,
-    "size": 25
+
+VIEW1_ID = 1
+VIEW2_ID = 2
+
+custom_btn_style = {
+    "foreground_color": (255, 255, 255),
+    "background_color": (255, 120, 120),
+    "font_name": "Verdena",
+    "font_size": 32,
+    "font_bold": False
 }
 
-# table style
-h_style = {
-    "f_color":      WHITE,
-    "b_color":      BLACK,
-    "font_name":    "Verdena",
-    "font_size":    32,
-    "font_bold":    True
-}
-b_style = {
-    "f_color":      BLACK,
-    "b_color":      WHITE,
-    "s_color":      GRAY,
-    "font_name":    "Verdena",
-    "font_size":    22,
-    "font_bold":    False
-}
 
-RED_VIEW_ID = 1
-GREEN_VIEW_ID = 2
-
-# red view
-
-
-class RedView(View):
+class View1(View):
     def __init__(self):
-        super().__init__("Red", RED_VIEW_ID)
-        super().setFillColor(RED)
+        super().__init__("Red", VIEW1_ID)
 
     def createEvt(self):
-        rl = RelativeLayout(self)
+        al = AbsoluteLayout(self)
         # label
-        label = Label(self, style, "RED VIEW", True)
-        rl.addElement(label, ['50%', '5%'])
+        label = Label(self, None, "VIEW 1", True)
+        al.addElement(label, ['50%', '5%'])
 
         # canvas
-        canvas = Canvas(self, style)
-        rl.addElement(canvas, ['3%', '15%', '45%', '40%'])
+        canvas = Canvas(self, None)
+        al.addElement(canvas, ['3%', '15%', '45%', '40%'])
         canvas.setPaintEvt(self.paint)
 
         # table
@@ -69,19 +47,19 @@ class RedView(View):
                 ["A4", "B4", "C4", "D4"]
             ]
         }
-        table = Table(self, h_style, b_style, data)
-        rl.addElement(table, ['52%', '15%', '45%', '40%'])
+        table = Table(self, None, data)
+        al.addElement(table, ['52%', '15%', '45%', '40%'])
 
         # btn
-        btn = Button(self, style, "Go to green")
-        rl.addElement(btn, ['25%', '60%', '50%', '40'])
-        btn.setClickEvt(lambda btn: self.app.showViewWithID(GREEN_VIEW_ID))
+        btn = Button(self, custom_btn_style, "Go to green")
+        al.addElement(btn, ['25%', '60%', '50%', '40'])
+        btn.setClickEvt(lambda btn: self.app.showViewWithID(VIEW2_ID))
 
         # checkbox
-        checkbox1 = CheckBox(self, style, "Check box 1", True)
-        rl.addElement(checkbox1, ['20%', '75%'])
-        checkbox2 = CheckBox(self, style, "Check box 2", True)
-        rl.addElement(checkbox2, ['55%', '75%'])
+        checkbox1 = CheckBox(self, None, "Check box 1", True, 20)
+        al.addElement(checkbox1, ['20%', '75%'])
+        checkbox2 = CheckBox(self, None, "Check box 2", True, 20)
+        al.addElement(checkbox2, ['55%', '75%'])
 
         self.addGUIElements([btn, canvas, table, label, checkbox1, checkbox2])
 
@@ -109,38 +87,35 @@ class RedView(View):
                 2
             )
 
-# green view
 
-
-class GreenView(View):
+class View2(View):
     def __init__(self):
-        super().__init__("Green", GREEN_VIEW_ID)
-        super().setFillColor(GREEN)
+        super().__init__("Green", VIEW2_ID)
 
     def createEvt(self):
-        rl = RelativeLayout(self)
+        al = AbsoluteLayout(self)
 
         # button
-        btn = Button(self, style, "Go to red")
-        rl.addElement(btn, ['25%', '85%', '50%', '40'])
-        btn.setClickEvt(lambda btn: self.app.showViewWithID(RED_VIEW_ID))
+        btn = Button(self, None, "Go to red")
+        al.addElement(btn, ['25%', '85%', '50%', '40'])
+        btn.setClickEvt(lambda btn: self.app.showViewWithID(VIEW1_ID))
 
         # text input
-        txt = TextInput(self, style, "Text")
-        rl.addElement(txt, ['25%', '5%', '50%', '40'])
+        txt = TextInput(self, None, "Text")
+        al.addElement(txt, ['25%', '5%', '50%', '40'])
 
         # combo box
         group = RadioButtonGroup([])
-        combobox1 = RadioButton(self, style, "Option 1", group)
-        rl.addElement(combobox1, ['20%', '20%'])
-        combobox2 = RadioButton(self, style, "Option 2", group)
-        rl.addElement(combobox2, ['40%', '20%'])
-        combobox3 = RadioButton(self, style, "Option 3", group)
-        rl.addElement(combobox3, ['60%', '20%'])
+        combobox1 = RadioButton(self, None, "Option 1", group, 20)
+        al.addElement(combobox1, ['20%', '20%'])
+        combobox2 = RadioButton(self, None, "Option 2", group, 20)
+        al.addElement(combobox2, ['40%', '20%'])
+        combobox3 = RadioButton(self, None, "Option 3", group, 20)
+        al.addElement(combobox3, ['60%', '20%'])
 
         # image
         img = Image(self, "src/img1.jpg")
-        rl.addElement(img, ['10%', '30%', '200', '200'])
+        al.addElement(img, ['10%', '30%', '200', '200'])
 
         # graph
         data = buildGraphData([
@@ -148,8 +123,8 @@ class GreenView(View):
             [3, 3, 4, 3],
             [6, 6, 5, 4]
         ])
-        graph = Graph(self, data, 0, 0, 300, 240)
-        rl.addElement(graph, ['40%', '23%'])
+        graph = Graph(self, data, 300, 240)
+        al.addElement(graph, ['40%', '23%'])
 
         self.addGUIElements(
             [btn, txt, combobox1, combobox2, combobox3, img, graph])
@@ -165,8 +140,8 @@ class GreenView(View):
 
 
 def main():
-    view1 = RedView()
-    view2 = GreenView()
+    view1 = View1()
+    view2 = View2()
     app = Application([view1, view2], 60)
     app.init(640, 400, "Application", "")
     app.showView(view1)

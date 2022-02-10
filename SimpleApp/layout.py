@@ -31,15 +31,15 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 
-from ..utils import *
-from ..colors import *
-from ..guielement import *
-from ..application import *
+from .utils import *
+from .colors import *
+from .guielement import *
+from .application import *
 
-class RelativeLayout(Layout):
+class AbsoluteLayout(Layout):
     def __init__(self, view):
         """
-        Create RelativeLayout
+        Create AbsoluteLayout
         addElement(el, propt) -> propt : {x, y, width, height}
         (x, y, ...) value type: number in px ('50', '4', ...) or % ('20%', '5%', ...)
         """

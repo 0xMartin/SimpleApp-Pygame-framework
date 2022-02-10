@@ -39,14 +39,16 @@ from ..application import *
 
 
 class Image(GUIElement):
-    def __init__(self, view, image_path, x=0, y=0, width=0, height=0):
+    def __init__(self, view, image_path, width=0, height=0, x=0, y=0):
         """
         Create Image element 
         Parameters:
-            x -> X position
-            y -> Y position
+            view -> View where is element
+            image_path -> Image path
             width -> Width of image
             height -> Height of image
+            x -> X position
+            y -> Y position
         """
         super().__init__(view, x, y, width, height, None)
         self.image = loadImage(image_path)
