@@ -32,6 +32,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 """
 
 import pygame
+import re
 from ..utils import *
 from ..colors import *
 from ..guielement import *
@@ -53,6 +54,7 @@ class TextInput(GUIElement):
         """
         super().__init__(view, x, y, width, height, style)
         self.callback = None
+        self.filter_pattern = None
         self.text = text
         self.font = pygame.font.SysFont(
             super().getStyle()["font_name"], super().getStyle()["font_size"], bold=super().getStyle()["font_bold"])
@@ -72,6 +74,15 @@ class TextInput(GUIElement):
             callback -> Event callback    
         """
         self.callback = callback
+
+    def setFilterPattern(self, pattern):
+        """
+        Set filter pattern
+        Parameters:
+            pattern -> pattern for text in this text input
+        """
+        # "^([A-Z][0-9]+)+$"
+        self.filter_pattern = re.compile(pattern)
 
     def draw(self, view, screen):
         # background
@@ -107,20 +118,29 @@ class TextInput(GUIElement):
 
     def processEvent(self, view, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
+            # select textinput
             if inRect(event.pos[0], event.pos[1], super().getViewRect()):
                 super().select()
             else:
                 super().unSelect()
+                # text filter
+                if self.filter_pattern is not None:
+                    if not self.filter_pattern.match(self.text):
+                        # delate text
+                        self.text = ""  
         elif event.type == pygame.KEYDOWN:
+            # text writing
             if super().isSelected():
                 if self.callback is not None:
                     self.callback(self)
                 if event.key == pygame.K_BACKSPACE:
+                    # delate last char
                     if(len(self.text) <= 1):
                         self.text = ""
                     else:
                         self.text = self.text[0: -1]
                 else:
+                    # new char
                     if event.key >= 0 and event.key <= 127:
                         if event.mod & pygame.KMOD_SHIFT:
                             self.text += chr(event.key).upper()

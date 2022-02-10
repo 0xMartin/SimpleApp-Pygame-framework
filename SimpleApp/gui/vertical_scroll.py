@@ -66,7 +66,7 @@ class VerticalScroll(GUIElement):
 
     def setOnScrollEvt(self, callback):
         """
-        Set setOnScrollEvt event
+        Set on scroll event callback
         Parameters:
             callback -> callback function
         """

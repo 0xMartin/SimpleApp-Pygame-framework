@@ -101,7 +101,8 @@ class View2(View):
         btn.setClickEvt(lambda btn: self.app.showViewWithID(VIEW1_ID))
 
         # text input
-        txt = TextInput(self, None, "Text")
+        txt = TextInput(self, None, "A1B2")
+        txt.setFilterPattern("^([A-Z][0-9]+)+$")
         al.addElement(txt, ['25%', '5%', '50%', '40'])
 
         # combo box
@@ -123,8 +124,8 @@ class View2(View):
             [3, 3, 4, 3],
             [6, 6, 5, 4]
         ])
-        graph = Graph(self, data, 300, 240)
-        al.addElement(graph, ['40%', '23%'])
+        graph = Graph(self, data)
+        al.addElement(graph, ['40%', '23%', '300', '240'])
 
         self.addGUIElements(
             [btn, txt, combobox1, combobox2, combobox3, img, graph])
@@ -142,7 +143,7 @@ class View2(View):
 def main():
     view1 = View1()
     view2 = View2()
-    app = Application([view1, view2], 60)
+    app = Application([view1, view2], 30, 30)
     app.init(640, 400, "Application", "")
     app.showView(view1)
     app.run()

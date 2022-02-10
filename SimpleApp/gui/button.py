@@ -61,7 +61,7 @@ class Button(GUIElement):
 
     def setClickEvt(self, callback):
         """
-        Set button click event
+        Set button click event callback
         Parameters:
             callback -> callback function
         """

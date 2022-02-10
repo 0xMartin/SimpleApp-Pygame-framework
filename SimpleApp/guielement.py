@@ -35,6 +35,7 @@ import pygame
 from typing import final
 import abc
 
+
 class GUIElement(metaclass=abc.ABCMeta):
     def __init__(self, view, x, y, width, height, style):
         """
@@ -100,7 +101,6 @@ class GUIElement(metaclass=abc.ABCMeta):
         """
         return self.style
 
-    @final
     def setX(self, x):
         """
         Set x position of this element
@@ -110,7 +110,6 @@ class GUIElement(metaclass=abc.ABCMeta):
         self.x = x
         self.updateViewRect()
 
-    @final
     def setY(self, y):
         """
         Set y position of this element
@@ -120,7 +119,6 @@ class GUIElement(metaclass=abc.ABCMeta):
         self.y = y
         self.updateViewRect()
 
-    @final
     def setWidth(self, width):
         """
         Set width of this element
@@ -130,7 +128,6 @@ class GUIElement(metaclass=abc.ABCMeta):
         self.width = width
         self.updateViewRect()
 
-    @final
     def setHeight(self, height):
         """
         Set height of this element

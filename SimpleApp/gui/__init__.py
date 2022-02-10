@@ -31,13 +31,13 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 
-from SimpleApp.gui.textinput import *
-from SimpleApp.gui.canvas import *
-from SimpleApp.gui.button import *
-from SimpleApp.gui.label import *
-from SimpleApp.gui.checkbox import *
-from SimpleApp.gui.radiobutton import *
-from SimpleApp.gui.image import *
-from SimpleApp.gui.graph import *
-from SimpleApp.gui.table import *
 from SimpleApp.gui.vertical_scroll import *
+from SimpleApp.gui.table import *
+from SimpleApp.gui.graph import *
+from SimpleApp.gui.image import *
+from SimpleApp.gui.radiobutton import *
+from SimpleApp.gui.checkbox import *
+from SimpleApp.gui.label import *
+from SimpleApp.gui.button import *
+from SimpleApp.gui.canvas import *
+from SimpleApp.gui.textinput import *

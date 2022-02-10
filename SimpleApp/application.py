@@ -44,13 +44,16 @@ from .stylemanager import *
 
 # Application class, provides work with views
 class Application:
-    def __init__(self, views, fps):
+    def __init__(self, views, fps, ups):
         """
         Create Application
         Parameters:
             views -> List with views
+            fps -> Frame per second
+            ups -> Update per second
         """
         self.fps = fps
+        self.ups = ups
         self.views = []
         self.visible_view = None
         self.inited = False
@@ -157,7 +160,7 @@ class Application:
         while self.running:
             if self.visible_view is not None:
                 self.visible_view.update(self)
-            clock.tick(self.fps)
+            clock.tick(self.ups)
 
     def run(self):
         """

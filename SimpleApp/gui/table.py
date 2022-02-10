@@ -110,6 +110,7 @@ class Table(GUIElement):
         self.scroll.setScrollerSize((1.0 - max(0, total_body_data_height - super(
         ).getHeight()) / total_body_data_height) * self.scroll.getHeight())
 
+    #override
     def updateViewRect(self):
         super().updateViewRect()
         # scroller

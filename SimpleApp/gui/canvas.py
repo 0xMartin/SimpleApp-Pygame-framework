@@ -41,7 +41,7 @@ from ..application import *
 class Canvas(GUIElement):
     def __init__(self, view, style, width=0, height=0, x=0, y=0):
         """
-        Create button
+        Create Canvas
         Parameters:
             view -> View where is element
             style -> More about style for this element in config/styles.json
@@ -55,7 +55,7 @@ class Canvas(GUIElement):
 
     def setPaintEvt(self, callback):
         """
-        Set paint event
+        Set paint event callback
         Parameters:
             callback -> callback function
         """
