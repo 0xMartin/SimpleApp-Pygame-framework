@@ -19,6 +19,7 @@ class View1(View):
     def __init__(self):
         super().__init__("View 1", VIEW1_ID)
 
+    @overrides(View)
     def createEvt(self):
         al = AbsoluteLayout(self)
         # label
@@ -51,7 +52,7 @@ class View1(View):
         table = Table(self, None, data)
         al.addElement(table, ['52%', '15%', '45%', '40%'])
 
-        # btn 
+        # btn
         btn = Button(self, custom_btn_style, "Go to view 2")
         al.addElement(btn, ['25%', '60%', '50%', '40'])
         btn.setClickEvt(lambda btn: self.app.showViewWithID(VIEW2_ID))
@@ -72,14 +73,18 @@ class View1(View):
         slider.setLabelFormat("@ (#%)")
         al.addElement(slider, ['25%', '85%', '50%', '15'])
 
-        self.addGUIElements([btn, canvas, table, label, checkbox1, checkbox2, checkbox3, slider])
+        self.addGUIElements(
+            [btn, canvas, table, label, checkbox1, checkbox2, checkbox3, slider])
 
+    @overrides(View)
     def closeEvt(self):
         pass
 
+    @overrides(View)
     def openEvt(self):
         pass
 
+    @overrides(View)
     def hideEvt(self):
         pass
 
@@ -103,6 +108,7 @@ class View2(View):
     def __init__(self):
         super().__init__("View 2", VIEW2_ID)
 
+    @overrides(View)
     def createEvt(self):
         al = AbsoluteLayout(self)
 
@@ -146,12 +152,15 @@ class View2(View):
         self.addGUIElements(
             [btn, txt, panel])
 
+    @overrides(View)
     def closeEvt(self):
         pass
 
+    @overrides(View)
     def openEvt(self):
         pass
 
+    @overrides(View)
     def hideEvt(self):
         pass
 
