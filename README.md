@@ -11,10 +11,8 @@
 > Dark theme
 <img src="./doc/img3.png" width="48%">
 
-## GUI elements
-...
 ## How to use
-Implementing your own view
+Implement your own view
 ```python
 class View2(View):
     def __init__(self):
@@ -57,3 +55,17 @@ app.init(640, 400, "Application", "")
 app.showView(view1)
 app.run()
 ```
+
+## GUI elements
+### Button
+### Canvas
+### Checkbox
+### Graph
+### Image
+### Label
+### Panel
+### Radiobutton
+### Slider
+### Table
+### Textinput
+### Vertical scrollbar
