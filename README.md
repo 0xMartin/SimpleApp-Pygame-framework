@@ -1,4 +1,4 @@
-# SimpleApp Pygame framework
+# SimpleApp framework
 ## About
 ...
 ### Preview
