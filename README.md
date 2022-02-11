@@ -14,4 +14,41 @@
 ## GUI elements
 ...
 ## How to use
-...
+Implementing your own view
+```python
+class View2(View):
+    def __init__(self):
+        # base contructor (set name and ID of view)
+        super().__init__("View 2", VIEW2_ID)
+
+    def createEvt(self):
+        # layout manager
+        al = AbsoluteLayout(self)
+
+        # button
+        btn = Button(self, None, "Go to view 1")
+        al.addElement(btn, ['25%', '85%', '50%', '40'])
+        # on button click navigate to view with ID {VIEW1_ID}
+        btn.setClickEvt(lambda btn: self.app.showViewWithID(VIEW1_ID))
+
+        # add button to view element list
+        self.addGUIElements([btn])
+
+    def closeEvt(self):
+        pass
+
+    def openEvt(self):
+        pass
+
+    def hideEvt(self):
+        pass
+```
+In entry point of program create instance of Application, add your view, show some view and run app
+```python
+view1 = View1()
+view2 = View2()
+app = Application([view1, view2], 30, 1, True)
+app.init(640, 400, "Application", "")
+app.showView(view1)
+app.run()
+```
