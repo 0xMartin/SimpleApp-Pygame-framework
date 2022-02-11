@@ -21,6 +21,7 @@ class View2(View):
         # base contructor (set name and ID of view)
         super().__init__("View 2", VIEW2_ID)
 
+    @overrides(View)
     def createEvt(self):
         # layout manager
         al = AbsoluteLayout(self)
@@ -34,12 +35,15 @@ class View2(View):
         # add button to view element list
         self.addGUIElements([btn])
 
+    @overrides(View)
     def closeEvt(self):
         pass
 
+    @overrides(View)
     def openEvt(self):
         pass
 
+    @overrides(View)
     def hideEvt(self):
         pass
 ```
