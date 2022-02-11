@@ -159,7 +159,7 @@ class View2(View):
 def main():
     view1 = View1()
     view2 = View2()
-    app = Application([view1, view2], 30, 1, False)
+    app = Application([view1, view2], 30, 1, True)
     app.init(640, 400, "Application", "")
     app.showView(view1)
     app.run()
