@@ -28,6 +28,7 @@ class View2(View):
 
         # button
         btn = Button(self, None, "Go to view 1")
+        # assigns button to layout manager and set properties [x_position, y_position, width, height]
         al.addElement(btn, ['25%', '85%', '50%', '40'])
         # on button click navigate to view with ID {VIEW1_ID}
         btn.setClickEvt(lambda btn: self.app.showViewWithID(VIEW1_ID))
