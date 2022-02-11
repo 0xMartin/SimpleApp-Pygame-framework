@@ -1,8 +1,8 @@
 """
 Simple library for multiple views game aplication with pygame
 
-File:       __init__.py
-Date:       08.02.2022
+File:       sound.py
+Date:       11.02.2022
 
 Github:     https://github.com/0xMartin
 Email:      martin.krcma1@gmail.com
@@ -30,17 +30,3 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
-
-from SimpleApp.gui.button import *
-from SimpleApp.gui.canvas import *
-from SimpleApp.gui.checkbox import *
-from SimpleApp.gui.graph import *
-from SimpleApp.gui.image import *
-from SimpleApp.gui.label import *
-from SimpleApp.gui.panel import *
-from SimpleApp.gui.radiobutton import *
-from SimpleApp.gui.slider import *
-from SimpleApp.gui.table import *
-from SimpleApp.gui.textinput import *
-from SimpleApp.gui.vertical_scroll import *
-

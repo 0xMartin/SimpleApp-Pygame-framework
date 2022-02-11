@@ -6,6 +6,7 @@ VIEW1_ID = 1
 VIEW2_ID = 2
 
 custom_btn_style = {
+    "outline_color": (235, 100, 100),
     "foreground_color": (255, 255, 255),
     "background_color": (255, 120, 120),
     "font_name": "Verdena",
@@ -16,7 +17,7 @@ custom_btn_style = {
 
 class View1(View):
     def __init__(self):
-        super().__init__("Red", VIEW1_ID)
+        super().__init__("View 1", VIEW1_ID)
 
     def createEvt(self):
         al = AbsoluteLayout(self)
@@ -50,18 +51,29 @@ class View1(View):
         table = Table(self, None, data)
         al.addElement(table, ['52%', '15%', '45%', '40%'])
 
-        # btn
-        btn = Button(self, custom_btn_style, "Go to green")
+        # btn 
+        # custom_btn_style
+        btn = Button(self, None, "Go to view 2")
         al.addElement(btn, ['25%', '60%', '50%', '40'])
         btn.setClickEvt(lambda btn: self.app.showViewWithID(VIEW2_ID))
 
         # checkbox
+        rl = RelativeLayout(self, True)
         checkbox1 = CheckBox(self, None, "Check box 1", True, 20)
-        al.addElement(checkbox1, ['20%', '75%'])
+        al.addElement(checkbox1, ['10%', '75%'])
+        rl.addElement(checkbox1, "parent")
         checkbox2 = CheckBox(self, None, "Check box 2", True, 20)
-        al.addElement(checkbox2, ['55%', '75%'])
+        rl.addElement(checkbox2, "child")
+        checkbox3 = CheckBox(self, None, "Check box 3", True, 20)
+        rl.addElement(checkbox3, "child")
 
-        self.addGUIElements([btn, canvas, table, label, checkbox1, checkbox2])
+        # slider
+        slider = Slider(self, None, 40, 10, 50)
+        slider.setNumber(33.33)
+        slider.setLabelFormat("@ (#%)")
+        al.addElement(slider, ['25%', '85%', '50%', '15'])
+
+        self.addGUIElements([btn, canvas, table, label, checkbox1, checkbox2, checkbox3, slider])
 
     def closeEvt(self):
         pass
@@ -90,13 +102,13 @@ class View1(View):
 
 class View2(View):
     def __init__(self):
-        super().__init__("Green", VIEW2_ID)
+        super().__init__("View 2", VIEW2_ID)
 
     def createEvt(self):
         al = AbsoluteLayout(self)
 
         # button
-        btn = Button(self, None, "Go to red")
+        btn = Button(self, None, "Go to view 1")
         al.addElement(btn, ['25%', '85%', '50%', '40'])
         btn.setClickEvt(lambda btn: self.app.showViewWithID(VIEW1_ID))
 
@@ -105,18 +117,23 @@ class View2(View):
         txt.setFilterPattern("^([A-Z][0-9]+)+$")
         al.addElement(txt, ['25%', '5%', '50%', '40'])
 
+        # panel
+        panel = Panel(self, None)
+        panel.setLayoutManager(AbsoluteLayout(self))
+        al.addElement(panel, ['5%', '20%', '90%', '60%'])
+
         # combo box
         group = RadioButtonGroup([])
         combobox1 = RadioButton(self, None, "Option 1", group, 20)
-        al.addElement(combobox1, ['20%', '20%'])
+        panel.addElement(combobox1, ['15%', '5%'])
         combobox2 = RadioButton(self, None, "Option 2", group, 20)
-        al.addElement(combobox2, ['40%', '20%'])
+        panel.addElement(combobox2, ['40%', '5%'])
         combobox3 = RadioButton(self, None, "Option 3", group, 20)
-        al.addElement(combobox3, ['60%', '20%'])
+        panel.addElement(combobox3, ['65%', '5%'])
 
         # image
         img = Image(self, "src/img1.jpg")
-        al.addElement(img, ['10%', '30%', '200', '200'])
+        panel.addElement(img, ['10%', '20%', '35%', '75%'])
 
         # graph
         data = buildGraphData([
@@ -125,10 +142,10 @@ class View2(View):
             [6, 6, 5, 4]
         ])
         graph = Graph(self, data)
-        al.addElement(graph, ['40%', '23%', '300', '240'])
+        panel.addElement(graph, ['45%', '8%', '45%', '90%'])
 
         self.addGUIElements(
-            [btn, txt, combobox1, combobox2, combobox3, img, graph])
+            [btn, txt, panel])
 
     def closeEvt(self):
         pass
@@ -143,7 +160,7 @@ class View2(View):
 def main():
     view1 = View1()
     view2 = View2()
-    app = Application([view1, view2], 30, 30)
+    app = Application([view1, view2], 30, 1, False)
     app.init(640, 400, "Application", "")
     app.showView(view1)
     app.run()

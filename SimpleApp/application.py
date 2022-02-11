@@ -44,7 +44,7 @@ from .stylemanager import *
 
 # Application class, provides work with views
 class Application:
-    def __init__(self, views, fps, ups):
+    def __init__(self, views, fps=60, ups=60, dark=False):
         """
         Create Application
         Parameters:
@@ -57,7 +57,10 @@ class Application:
         self.views = []
         self.visible_view = None
         self.inited = False
-        self.stylemanager = StyleManager("SimpleApp/config/styles.json")
+        if dark: 
+            self.stylemanager = StyleManager("SimpleApp/config/styles_dark.json")
+        else:
+            self.stylemanager = StyleManager("SimpleApp/config/styles_light.json")
         self.setFillColor(WHITE)
         for v in views:
             if isinstance(v, View):
@@ -223,10 +226,10 @@ class Application:
                 self.visible_view.setVisibility(False)
                 view.hideEvt()
             # show new view
-            self.visible_view = view
             view.setVisibility(True)
             view.openEvt_base(self.screen.get_width(),
                               self.screen.get_height())
+            self.visible_view = view
             # change window title
             if len(view.name) == 0:
                 pygame.display.set_caption(self.name)
@@ -380,7 +383,7 @@ class View(metaclass=abc.ABCMeta):
             ).getStyleWithName("default")["fill_color"]
         # update layout managers
         for lm in self.layout_manager_list:
-            lm.update(width, height)
+            lm.updateLayout(width, height)
 
     @abc.abstractmethod
     def createEvt(self):
@@ -401,11 +404,14 @@ class View(metaclass=abc.ABCMeta):
     @final
     def openEvt_base(self, width, height):
         """
-        Open event + layout update
+        Open event + layout update + unselect all
         """
         # update layout managers
         for lm in self.layout_manager_list:
-            lm.update(width, height)
+            lm.updateLayout(width, height)
+        # unselect all elements
+        for el in self.GUIElements:
+            el.unSelect()
         # call abstract def
         self.openEvt()
 
@@ -459,18 +465,20 @@ class View(metaclass=abc.ABCMeta):
 
 
 class Layout(metaclass=abc.ABCMeta):
-    def __init__(self, view):
+    def __init__(self, view, register=True):
         """
         Base layout class, automatically register layout manager to view
         Parameters:
             screen -> Pygame screen
             view -> Application view
+            register -> True: automatically register this layout manager to view
         """
         if isinstance(view, View):
             self.view = view
         self.layoutElements = []
         # register
-        view.registerLayoutManager(self)
+        if register:
+            view.registerLayoutManager(self)
 
     @final
     def getLayoutElements(self):
@@ -480,7 +488,16 @@ class Layout(metaclass=abc.ABCMeta):
         return self.layoutElements
 
     @final
-    def addElement(self, element, propt):
+    def setElements(self, layoutElements):
+        """
+        Set layout element list
+        Parameters:
+            layoutElements -> element list
+        """
+        self.layoutElements = layoutElements
+
+    @final
+    def addElement(self, element, propt = None):
         """
         Add new element to layout
         Parameters:
@@ -491,7 +508,7 @@ class Layout(metaclass=abc.ABCMeta):
             self.layoutElements.append({"element": element, "propt": propt})
 
     @abc.abstractmethod
-    def update(self, width, height):
+    def updateLayout(self, width, height):
         """
         Update layout
         Parameters:

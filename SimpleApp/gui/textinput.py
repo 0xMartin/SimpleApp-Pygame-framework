@@ -36,7 +36,6 @@ import re
 from ..utils import *
 from ..colors import *
 from ..guielement import *
-from ..application import *
 
 
 class TextInput(GUIElement):
@@ -84,11 +83,12 @@ class TextInput(GUIElement):
         # "^([A-Z][0-9]+)+$"
         self.filter_pattern = re.compile(pattern)
 
+    @overrides(GUIElement)
     def draw(self, view, screen):
         # background
         if super().isSelected():
-            pygame.draw.rect(screen, colorChange(super().getStyle()[
-                             "background_color"], 0.4), super().getViewRect(), border_radius=5)
+            c = super().getStyle()["background_color"]
+            pygame.draw.rect(screen, colorChange(c, 0.4 if c[0] > 128 else 0.7), super().getViewRect(), border_radius=5)
         else:
             pygame.draw.rect(screen, super().getStyle()[
                              "background_color"], super().getViewRect(), border_radius=5)
@@ -116,6 +116,7 @@ class TextInput(GUIElement):
         pygame.draw.rect(screen, super().getStyle()[
                          "outline_color"], super().getViewRect(), 2, border_radius=5)
 
+    @overrides(GUIElement)
     def processEvent(self, view, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             # select textinput
@@ -147,5 +148,6 @@ class TextInput(GUIElement):
                         else:
                             self.text += chr(event.key)
 
+    @overrides(GUIElement)
     def update(self, view):
         pass

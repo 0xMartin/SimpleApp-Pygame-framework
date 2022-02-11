@@ -32,7 +32,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 """
 
 from .utils import *
-from .gui import *
 
 
 class StyleManager:
@@ -48,7 +47,15 @@ class StyleManager:
         """
         Init style manager
         """
-        self.styles = loadConfig(self.styles_path)
+        self.loadStyleSheet(self.styles_path)
+
+    def loadStyleSheet(self, styles_path):
+        """
+        Load styleSheet
+        Parameters:
+            styles_path -> Path where is file with styles for all guil elements   
+        """
+        self.styles = loadConfig(styles_path)
 
     def getStyleWithName(self, name):
         """
@@ -61,7 +68,7 @@ class StyleManager:
         else:
             return self.processStyle(self.styles[name])
 
-    def getStyle(self, quielemnet):
+    def getStyle(self, element_name):
         """
         Get style for specific gui element
         Parameters:
@@ -69,27 +76,30 @@ class StyleManager:
         """
         if self.styles is None:
             return None
-
-        if isinstance(quielemnet, Button):
+        if element_name == "Button":
             return self.processStyle(self.styles["Button"])
-        elif isinstance(quielemnet, Canvas):
+        elif element_name == "Canvas":
             return self.processStyle(self.styles["Canvas"])
-        elif isinstance(quielemnet, CheckBox):
+        elif element_name == "CheckBox":
             return self.processStyle(self.styles["CheckBox"])
-        elif isinstance(quielemnet, Graph):
+        elif element_name == "Graph":
             return self.processStyle(self.styles["Graph"])
-        elif isinstance(quielemnet, Image):
+        elif element_name == "Image":
             return self.processStyle(self.styles["Image"])
-        elif isinstance(quielemnet, Label):
+        elif element_name == "Label":
             return self.processStyle(self.styles["Label"])
-        elif isinstance(quielemnet, RadioButton):
+        elif element_name == "RadioButton":
             return self.processStyle(self.styles["RadioButton"])
-        elif isinstance(quielemnet, Table):
+        elif element_name == "Table":
             return self.processStyle(self.styles["Table"])
-        elif isinstance(quielemnet, TextInput):
+        elif element_name == "TextInput":
             return self.processStyle(self.styles["TextInput"])
-        elif isinstance(quielemnet, VerticalScroll):
+        elif element_name == "VerticalScroll":
             return self.processStyle(self.styles["VerticalScroll"])
+        elif element_name == "Slider":
+            return self.processStyle(self.styles["Slider"])
+        elif element_name == "Panel":
+            return self.processStyle(self.styles["Panel"])
 
     def processStyle(self, style):
         # colors
@@ -99,5 +109,5 @@ class StyleManager:
                 rgb = new_style[tag].split(",")
                 new_style[tag] = tuple([int(rgb[0]), int(rgb[1]), int(rgb[2])])
             elif isinstance(new_style[tag], dict):
-                new_style[tag] = self.processStyle(new_style[tag])   
+                new_style[tag] = self.processStyle(new_style[tag])
         return new_style

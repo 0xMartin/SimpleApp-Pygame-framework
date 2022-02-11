@@ -55,7 +55,7 @@ class GUIElement(metaclass=abc.ABCMeta):
 
         sm = view.getApp().getStyleManager()
         if style is None:
-            self.style = sm.getStyle(self)
+            self.style = sm.getStyle(self.__class__.__name__)
         else:
             self.style = style
 

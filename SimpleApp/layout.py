@@ -36,39 +36,78 @@ from .colors import *
 from .guielement import *
 from .application import *
 
+
 class AbsoluteLayout(Layout):
     def __init__(self, view):
         """
-        Create AbsoluteLayout
+        Create Absolute Layout
         addElement(el, propt) -> propt : {x, y, width, height}
         (x, y, ...) value type: number in px ('50', '4', ...) or % ('20%', '5%', ...)
         """
         super().__init__(view)
 
-    def update(self, width, height):
-        #print("> ", width, height, len(super().getLayoutElements()))
+    @overrides(Layout)
+    def updateLayout(self, width, height):
         for el in super().getLayoutElements():
             gui_el = el["element"]
             propts = el["propt"]
-            #print(">> ", gui_el, propts)
-            for i, propt in enumerate(propts):
-                if propt[-1] == '%':
-                    val = float(propt[0:-1])
-                    if i % 2 == 0:
-                        val = val / 100.0 * width
+            if propts is not None:
+                for i, propt in enumerate(propts):
+                    if propt[-1] == '%':
+                        val = float(propt[0:-1])
+                        if i % 2 == 0:
+                            val = val / 100.0 * width
+                        else:
+                            val = val / 100.0 * height
                     else:
-                        val = val / 100.0 * height
-                else:
-                    val = float(propt)
-                if i == 0:
-                    gui_el.setX(val)
-                    #print("X:", val)
-                elif i == 1:
-                    gui_el.setY(val)
-                    #print("Y:", val)
-                elif i == 2:
-                    gui_el.setWidth(val)
-                    #print("W:", val)
-                else:
-                    gui_el.setHeight(val)
-                    #print("H:", val)
+                        val = float(propt)
+                    if i == 0:
+                        gui_el.setX(val)
+                    elif i == 1:
+                        gui_el.setY(val)
+                    elif i == 2:
+                        gui_el.setWidth(val)
+                    else:
+                        gui_el.setHeight(val)
+
+
+class RelativeLayout(Layout):
+    def __init__(self, view, horizontal):
+        """
+        Create Relative Layout
+        addElement(el, propt) -> "parent" (his position does not change), "child" (his position depends on the parent)
+        """
+        super().__init__(view)
+        self.horizontal = horizontal
+
+    @overrides(Layout)
+    def updateLayout(self, width, height):
+        cnt = len(super().getLayoutElements())
+        if cnt == 0:
+            return
+
+        parent = next(el for el in super().getLayoutElements()
+                      if el["propt"] == "parent")["element"]
+
+        if self.horizontal:
+            w_step = (width - parent.getX()) / (cnt)
+            h_step = height / (cnt)
+        else:
+            w_step = width / (cnt)
+            h_step = (height - parent.getY()) / (cnt)
+
+        i = 1
+        for el in super().getLayoutElements():
+            if el["propt"] is not None:
+                if el["propt"] == "child":
+                    gui_el = el["element"]
+                    if self.horizontal:
+                        gui_el.setX(parent.getX() + i * w_step)
+                        if gui_el != parent:
+                            i = i + 1
+                            gui_el.setY(parent.getY())
+                    else:
+                        if gui_el != parent:
+                            i = i + 1
+                            gui_el.setX(parent.getX())
+                        gui_el.setY(parent.getY() + i * h_step)

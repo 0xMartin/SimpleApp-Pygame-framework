@@ -35,7 +35,6 @@ import pygame
 from ..utils import *
 from ..colors import *
 from ..guielement import *
-from ..application import *
 
 
 class VerticalScroll(GUIElement):
@@ -46,8 +45,8 @@ class VerticalScroll(GUIElement):
             view -> View where is element
             style -> more about style for this element in config/styles.json
             scroller_size -> Scroller height
-            width -> Width of button
-            height -> Height of button
+            width -> Width of VerticalScroll
+            height -> Height of VerticalScroll
             x -> X position
             y -> Y position
         """
@@ -72,6 +71,7 @@ class VerticalScroll(GUIElement):
         """
         self.callback = callback
 
+    @overrides(GUIElement)
     def draw(self, view, screen):
         # background
         pygame.draw.rect(screen, super().getStyle()[
@@ -92,6 +92,7 @@ class VerticalScroll(GUIElement):
         pygame.draw.rect(screen, super().getStyle()[
                          "outline_color"], super().getViewRect(), 2)
 
+    @overrides(GUIElement)
     def processEvent(self, view, event):
         if self.scroller_size >= super().getHeight():
             return
@@ -112,5 +113,6 @@ class VerticalScroll(GUIElement):
                     self.callback(self.scroller_pos /
                                   (super().getHeight() - self.scroller_size))
 
+    @overrides(GUIElement)
     def update(self, view):
         pass

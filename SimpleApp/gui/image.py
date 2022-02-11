@@ -35,7 +35,6 @@ import pygame
 from ..utils import *
 from ..colors import *
 from ..guielement import *
-from ..application import *
 
 
 class Image(GUIElement):
@@ -45,21 +44,24 @@ class Image(GUIElement):
         Parameters:
             view -> View where is element
             image_path -> Image path
-            width -> Width of image
-            height -> Height of image
+            width -> Width of Image
+            height -> Height of Image
             x -> X position
             y -> Y position
         """
         super().__init__(view, x, y, width, height, None)
         self.image = loadImage(image_path)
 
+    @overrides(GUIElement)
     def draw(self, view, screen):
         if self.image is not None:
             screen.blit(pygame.transform.scale(self.image, (super().getWidth(
             ), super().getHeight())), (super().getX(), super().getY()))
 
+    @overrides(GUIElement)
     def processEvent(self, view, event):
         pass
 
+    @overrides(GUIElement)
     def update(self, view):
         pass

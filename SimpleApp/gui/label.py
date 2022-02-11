@@ -35,23 +35,23 @@ import pygame
 from ..utils import *
 from ..colors import *
 from ..guielement import *
-from ..application import *
 
 
 class Label(GUIElement):
-    def __init__(self, view, style, text, centered=False, x=0, y=0):
+    def __init__(self, view, style, text, h_centered=False, v_centered=False, x=0, y=0):
         """
         Create Label element 
         Parameters:
             view -> View where is element
             style -> More about style for this element in config/styles.json
-            text -> Text of TextInput
+            text -> Text of Label
             x -> X position
             y -> Y position
         """
         super().__init__(view, x, y, 0, 0, style)
         self.text = text
-        self.centered = centered
+        self.h_centered = h_centered
+        self.v_centered = v_centered
         self.font = pygame.font.SysFont(
             super().getStyle()["font_name"], super().getStyle()["font_size"], bold=super().getStyle()["font_bold"])
 
@@ -71,17 +71,23 @@ class Label(GUIElement):
         """
         self.text = text
 
+    @overrides(GUIElement)
     def draw(self, view, screen):
         if len(self.text) != 0:
             text = self.font.render(
                 self.text, 1, super().getStyle()["foreground_color"])
-            if self.centered:
-                screen.blit(text, (super().getX() - text.get_width()/2, super().getY()))
-            else:
-                screen.blit(text, (super().getX(), super().getY()))    
+            x = super().getX()
+            if self.h_centered:
+                x -= text.get_width()/2
+            y = super().getY()
+            if self.v_centered:
+                y -= text.get_height()/2
+            screen.blit(text, (x, y))   
 
+    @overrides(GUIElement)
     def processEvent(self, view, event):
         pass
 
+    @overrides(GUIElement)
     def update(self, view):
         pass

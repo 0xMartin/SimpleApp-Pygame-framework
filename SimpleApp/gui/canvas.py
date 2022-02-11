@@ -35,7 +35,6 @@ import pygame
 from ..utils import *
 from ..colors import *
 from ..guielement import *
-from ..application import *
 
 
 class Canvas(GUIElement):
@@ -45,8 +44,8 @@ class Canvas(GUIElement):
         Parameters:
             view -> View where is element
             style -> More about style for this element in config/styles.json
-            width -> Width of button
-            height -> Height of button
+            width -> Width of Canvas
+            height -> Height of Canvas
             x -> X position
             y -> Y position
         """
@@ -61,6 +60,7 @@ class Canvas(GUIElement):
         """
         self.callback = callback
 
+    @overrides(GUIElement)
     def draw(self, view, screen):
         # background
         pygame.draw.rect(screen, super().getStyle()[
@@ -74,10 +74,12 @@ class Canvas(GUIElement):
 
         # outline
         pygame.draw.rect(screen, super().getStyle()[
-                         "foreground_color"], super().getViewRect(), 2)
+                         "outline_color"], super().getViewRect(), 2)
 
+    @overrides(GUIElement)
     def processEvent(self, view, event):
         pass
 
+    @overrides(GUIElement)
     def update(self, view):
         pass

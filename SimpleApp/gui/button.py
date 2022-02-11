@@ -35,7 +35,6 @@ import pygame
 from ..utils import *
 from ..colors import *
 from ..guielement import *
-from ..application import *
 
 
 class Button(GUIElement):
@@ -45,12 +44,12 @@ class Button(GUIElement):
         Create button
         Parameters:
             view -> View where is element
+            style -> More about style for this element in config/styles.json
+            text - Text of Button
+            width -> Width of Button
+            height -> Height of Button
             x -> X position
             y -> Y position
-            width -> Width of button
-            height -> Height of button
-            style -> More about style for this element in config/styles.json
-            text - Text of button
         """
         super().__init__(view, x, y, width, height, style)
         self.text = text
@@ -67,11 +66,12 @@ class Button(GUIElement):
         """
         self.callback = callback
 
+    @overrides(GUIElement)
     def draw(self, view, screen):
         # background
-        if self.hover:
-            pygame.draw.rect(screen, colorChange(
-                super().getStyle()["background_color"], -0.6), super().getViewRect(), border_radius=10)
+        if self.isSelected():
+            c = super().getStyle()["background_color"]
+            pygame.draw.rect(screen, colorChange(c, -0.2 if c[0] > 128 else 0.6), super().getViewRect(), border_radius=10)
         else:
             pygame.draw.rect(screen, super().getStyle()[
                              "background_color"], super().getViewRect(), border_radius=10)
@@ -81,7 +81,11 @@ class Button(GUIElement):
                 self.text, 1, super().getStyle()["foreground_color"])
             screen.blit(text, (super().getX() + (super().getWidth() - text.get_width())/2,
                                super().getY() + (super().getHeight() - text.get_height())/2))
+        # outline
+        pygame.draw.rect(screen, super().getStyle()[
+            "outline_color"], super().getViewRect(), 2, border_radius=10)
 
+    @overrides(GUIElement)
     def processEvent(self, view, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if inRect(event.pos[0], event.pos[1], super().getViewRect()):
@@ -89,9 +93,10 @@ class Button(GUIElement):
                     self.callback(self)
         elif event.type == pygame.MOUSEMOTION:
             if inRect(event.pos[0], event.pos[1], super().getViewRect()):
-                self.hover = True
+                self.select()
             else:
-                self.hover = False
+                self.unSelect()
 
+    @overrides(GUIElement)
     def update(self, view):
         pass

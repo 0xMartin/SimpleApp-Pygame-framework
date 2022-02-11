@@ -31,12 +31,10 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 
-from functools import cache
 import pygame
 from ..utils import *
 from ..colors import *
 from ..guielement import *
-from ..application import *
 from SimpleApp.gui.vertical_scroll import VerticalScroll
 
 
@@ -47,17 +45,20 @@ class Table(GUIElement):
         Parameters:
             view -> View where is element
             style -> more about style for this element in config/styles.json
-            data -> Data of table
-            width -> Width of image
-            height -> Height of image
+            data -> Data of Table
+            width -> Width of Table
+            height -> Height of Table
             x -> X position
             y -> Y position
         """
         self.last_data = None
         self.body_offset = 0
         super().__init__(view, x, y, width, height, style)
-        self.scroll = VerticalScroll(view, super().getStyle()[
-                                     "scroller"], 40, 0, 0, 20, height)
+        self.scroll = VerticalScroll(
+            view,
+            super().getStyle()["scroller"],
+            super().getStyle()["body"]["scroller_width"]
+        )
         self.scroll.setOnScrollEvt(self.tableScroll)
         self.refreshTable(data)
 
@@ -100,9 +101,10 @@ class Table(GUIElement):
         # build table body
         self.body = data["body"]
         # scroller
-        self.scroll.setX(super().getX() + super().getWidth() - 21)
+        self.scroll.setX(super().getX() + super().getWidth() -
+                         1 - super().getStyle()["body"]["scroller_width"])
         self.scroll.setY(super().getY())
-        self.scroll.setWidth(20)
+        self.scroll.setWidth(super().getStyle()["body"]["scroller_width"])
         self.scroll.setHeight(super().getHeight())
         header_height = self.header_font.get_height() * 1.8
         total_body_data_height = header_height + self.body_font.get_height() * 1.2 * \
@@ -110,16 +112,17 @@ class Table(GUIElement):
         self.scroll.setScrollerSize((1.0 - max(0, total_body_data_height - super(
         ).getHeight()) / total_body_data_height) * self.scroll.getHeight())
 
-    #override
+    @overrides(GUIElement)
     def updateViewRect(self):
         super().updateViewRect()
         # scroller
         self.refreshTable()
 
+    @overrides(GUIElement)
     def draw(self, view, screen):
         screen.set_clip(super().getViewRect())
         # draw table body background
-        w = super().getWidth() - 20
+        w = super().getWidth() - super().getStyle()["body"]["scroller_width"]
         rect = pygame.Rect(
             super().getX(),
             super().getY(),
@@ -193,9 +196,11 @@ class Table(GUIElement):
         # reset clip
         screen.set_clip(None)
 
+    @overrides(GUIElement)
     def processEvent(self, view, event):
         self.scroll.processEvent(view, event)
 
+    @overrides(GUIElement)
     def update(self, view):
         pass
 

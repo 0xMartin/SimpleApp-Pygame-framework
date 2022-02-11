@@ -35,23 +35,46 @@ import pygame
 from ..utils import *
 from ..colors import *
 from ..guielement import *
-from ..application import *
+from SimpleApp.gui import Label
 
 
 class Slider(GUIElement):
-    def __init__(self, view, style, width=0, height=0, x=0, y=0):
+    def __init__(self, view, style, value, min, max, width=0, height=0, x=0, y=0):
         """
         Create Slider
         Parameters:
             view -> View where is element
             style -> More about style for this element in config/styles.json
-            width -> Width of button
-            height -> Height of button
+            value -> Value of Slider 0 - 100
+            width -> Width of Slider
+            height -> Height of Slider
             x -> X position
             y -> Y position
         """
+        self.label = None
         super().__init__(view, x, y, width, height, style)
+        self.label = Label(view, super().getStyle()["label"], " ", False, True)
         self.callback = None
+        self.format = "@"
+        self.min = min
+        self.max = max
+        self.setValue(value)
+
+    def setMin(self, val):
+        """
+        Set minimum value of slider
+        Parameters:
+            val -> new value
+        """
+        self.min = val
+
+    def setMax(self, val):
+        """
+        Set maximum value of slider
+        Parameters:
+            val -> new value
+        """
+        self.max = val
 
     def setOnValueChange(self, callback):
         """
@@ -61,11 +84,140 @@ class Slider(GUIElement):
         """
         self.callback = callback
 
+    def getValue(self):
+        """
+        Get % value of slider
+        """
+        dot_radius = super().getHeight() / 2
+        return (self.position - dot_radius) / (super().getWidth() - dot_radius * 2) * 100
+
+    def getNumber(self):
+        """
+        Get current number (min <-> max) of slider 
+        """
+        return self.getValue() / 100.0 * (self.max - self.min) + self.min
+
+    def setValue(self, value):
+        """
+        Set % value 
+        Parameters:
+            value -> Value of slider 0 - 100    
+        """
+        if value is None:
+            value = self.last_set_value
+        if value is None:
+            return
+        if value < 0 or value > 100:
+            return
+        self.last_set_value = value
+        dot_radius = super().getHeight() / 2
+        # set position
+        self.position = dot_radius + value / 100.0 * \
+            (super().getWidth() - dot_radius * 2)
+
+    def setNumber(self, value):
+        """
+        Set number value
+        Parameters:
+            value -> from range min<->max 
+        """
+        if value <= self.max and value >= self.min:
+            value = (value - self.min) / (self.max - self.min) * 100
+            self.setValue(value)
+
+    def setLabelFormat(self, format):
+        """
+        Set label format
+        Parameters:
+            format -> string, symbol '#' replace by % value and '@' replace by numerical value (min <-> max)
+        """
+        self.format = format
+
+    def refreshLabel(self):
+        """
+        Refresh slider value label
+        """
+        if len(self.format) != 0:
+            txt = self.format
+            txt = txt.replace("#", '%.2f' % self.getValue())
+            txt = txt.replace("@", '%.2f' % self.getNumber())
+            self.label.setText(txt)
+
+    @overrides(GUIElement)
+    def updateViewRect(self):
+        super().updateViewRect()
+        if self.label is not None:
+            self.label.setX(super().getX() + super().getWidth() + 20)
+            self.label.setY(super().getY() + super().getHeight() / 2)
+
+    @overrides(GUIElement)
+    def setWidth(self, width):
+        super().setWidth(width)
+        self.setValue(None)
+        self.refreshLabel()
+
+    @overrides(GUIElement)
+    def setHeight(self, height):
+        super().setHeight(height)
+        self.setValue(None)
+        self.refreshLabel()
+
+    @overrides(GUIElement)
     def draw(self, view, screen):
-        pass
+        # background
+        pygame.draw.rect(screen, super().getStyle()[
+                         "background_color"], super().getViewRect(), border_radius=10)
+        # slider bar
+        pygame.draw.rect(
+            screen,
+            colorChange(super().getStyle()["foreground_color"], 0.8),
+            pygame.Rect(
+                super().getX(),
+                super().getY(),
+                self.position,
+                super().getHeight()
+            ),
+            border_radius=10
+        )
+        # outline
+        pygame.draw.rect(screen, super().getStyle()[
+                         "outline_color"], super().getViewRect(), 2, border_radius=10)
+        # slider
+        pygame.draw.circle(
+            screen,
+            super().getStyle()["foreground_color"],
+            (super().getX() + self.position,
+             super().getY() + super().getHeight() / 2),
+            super().getHeight() * 0.8
+        )
+        # label with current value
+        self.label.draw(view, screen)
 
+    @overrides(GUIElement)
     def processEvent(self, view, event):
-        pass
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if math.dist(
+                (event.pos[0], event.pos[1]),
+                (super().getX() + self.position,
+                 super().getY() + super().getHeight() / 2)
+            ) <= super().getHeight() * 0.8:
+                super().select()
+                self.def_position = self.position
+                self.drag_start = event.pos[0]
+        elif event.type == pygame.MOUSEBUTTONUP:
+            super().unSelect()
+            self.setValue(self.getValue())
+        elif event.type == pygame.MOUSEMOTION:
+            if super().isSelected():
+                self.position = self.def_position + \
+                    (event.pos[0] - self.drag_start)
+                dot_radius = super().getHeight() / 2
+                self.position = min(
+                    max(dot_radius, self.position), super().getWidth() - dot_radius)
+                self.refreshLabel()
+                if self.callback is not None:
+                    self.callback(self.getValue())
 
+    @overrides(GUIElement)
     def update(self, view):
         pass

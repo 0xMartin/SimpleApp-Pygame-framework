@@ -35,7 +35,6 @@ import pygame
 from ..utils import *
 from ..colors import *
 from ..guielement import *
-from ..application import *
 
 
 class Graph(GUIElement):
@@ -45,20 +44,21 @@ class Graph(GUIElement):
         Parameters:
             view -> View where is element
             data -> Data of graph
-            width -> Width of image
-            height -> Height of image
+            width -> Width of Graph
+            height -> Height of Graph
             x -> X position
             y -> Y position
         """
-        self.data = data
         super().__init__(view, x, y, width, height, None)
+        self.graph = None
+        self.data = data
 
-    # overrides
+    @overrides(GUIElement)
     def setWidth(self, width):
         super().setWidth(width)
         self.refreshGraph(self.data)
 
-    # override
+    @overrides(GUIElement)
     def setHeight(self, height):
         super().setHeight(height)
         self.refreshGraph(self.data)
@@ -68,27 +68,16 @@ class Graph(GUIElement):
             self.graph = drawGraph(
                 super().getWidth(), super().getHeight(), data)
 
+    @overrides(GUIElement)
     def draw(self, view, screen):
         if self.graph is not None:
             screen.blit(pygame.transform.scale(self.graph, (super().getWidth(
             ), super().getHeight())), (super().getX(), super().getY()))
 
+    @overrides(GUIElement)
     def processEvent(self, view, event):
         pass
 
+    @overrides(GUIElement)
     def update(self, view):
         pass
-
-
-def buildGraphData(dataset_list):
-    data = []
-    l = len(dataset_list[0])
-    for i in range(l):
-        i_data = []
-        for ds in dataset_list:
-            if i < len(ds):
-                i_data.append(ds[i])
-            else:
-                i_data.append(0)
-        data.append(tuple(i_data))
-    return data

@@ -35,11 +35,20 @@ import pygame
 from time import time
 import os.path
 import json
+import math
+import copy
 
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.backends.backend_agg as agg
 import pylab
+
+
+def overrides(interface_class):
+    def overrider(method):
+        assert(method.__name__ in dir(interface_class))
+        return method
+    return overrider
 
 
 def inRect(x, y, rect):
@@ -77,6 +86,20 @@ def loadImage(img_path):
         return None
 
 
+def buildGraphData(dataset_list):
+    data = []
+    l = len(dataset_list[0])
+    for i in range(l):
+        i_data = []
+        for ds in dataset_list:
+            if i < len(ds):
+                i_data.append(ds[i])
+            else:
+                i_data.append(0)
+        data.append(tuple(i_data))
+    return data
+
+
 def drawGraph(width, height, data):
     """
     Draw graph and print it to the image
@@ -88,7 +111,7 @@ def drawGraph(width, height, data):
     matplotlib.use("Agg")
 
     fig = pylab.figure(figsize=[width/100, height/100], dpi=100)
-    fig.patch.set_alpha(0.1)
+    fig.patch.set_alpha(0.0)
 
     ax = fig.gca()
     ax.plot(data)
@@ -100,12 +123,13 @@ def drawGraph(width, height, data):
 
     return pygame.image.frombuffer(raw_data, canvas.get_width_height(), "RGBA")
 
+
 def loadConfig(path):
     """
     Load config
     Parameters:
         path -> path to the file
-    """    
+    """
     if not os.path.isfile(path):
         return None
     f = open(path)
