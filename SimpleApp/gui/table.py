@@ -35,7 +35,7 @@ import pygame
 from ..utils import *
 from ..colors import *
 from ..guielement import *
-from SimpleApp.gui.vertical_scroll import VerticalScroll
+from SimpleApp.gui.vertical_scrollbar import VerticalScrollbar
 
 
 class Table(GUIElement):
@@ -54,10 +54,10 @@ class Table(GUIElement):
         self.last_data = None
         self.body_offset = 0
         super().__init__(view, x, y, width, height, style)
-        self.scroll = VerticalScroll(
+        self.scroll = VerticalScrollbar(
             view,
-            super().getStyle()["scroller"],
-            super().getStyle()["body"]["scroller_width"]
+            super().getStyle()["scrollbar"],
+            super().getStyle()["body"]["scrollbar_width"]
         )
         self.scroll.setOnScrollEvt(self.tableScroll)
         self.refreshTable(data)
@@ -102,9 +102,9 @@ class Table(GUIElement):
         self.body = data["body"]
         # scroller
         self.scroll.setX(super().getX() + super().getWidth() -
-                         1 - super().getStyle()["body"]["scroller_width"])
+                         1 - super().getStyle()["body"]["scrollbar_width"])
         self.scroll.setY(super().getY())
-        self.scroll.setWidth(super().getStyle()["body"]["scroller_width"])
+        self.scroll.setWidth(super().getStyle()["body"]["scrollbar_width"])
         self.scroll.setHeight(super().getHeight())
         header_height = self.header_font.get_height() * 1.8
         total_body_data_height = header_height + self.body_font.get_height() * 1.2 * \
@@ -122,7 +122,7 @@ class Table(GUIElement):
     def draw(self, view, screen):
         screen.set_clip(super().getViewRect())
         # draw table body background
-        w = super().getWidth() - super().getStyle()["body"]["scroller_width"]
+        w = super().getWidth() - super().getStyle()["body"]["scrollbar_width"]
         rect = pygame.Rect(
             super().getX(),
             super().getY(),

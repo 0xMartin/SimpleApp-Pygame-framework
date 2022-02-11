@@ -86,9 +86,9 @@
             "font_name": "Helvetica",
             "font_size": 14,
             "font_bold": "False",
-            "scroller_width": 16
+            "scrollbar_width": 16
         },
-        "scroller": {
+        "scrollbar": {
             "outline_color": "195, 195, 195",
             "background_color": "220, 220, 220",
             "foreground_color": "170, 170, 170"
@@ -102,7 +102,7 @@
         "font_size": 18,
         "font_bold": "False"
     },
-    "VerticalScroll": {
+    "VerticalScrollbar": {
         "outline_color": "30, 30, 30",
         "background_color": "200, 200, 200",
         "foreground_color": "120, 120, 120"

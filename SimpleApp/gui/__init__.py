@@ -42,5 +42,5 @@ from SimpleApp.gui.radiobutton import *
 from SimpleApp.gui.slider import *
 from SimpleApp.gui.table import *
 from SimpleApp.gui.textinput import *
-from SimpleApp.gui.vertical_scroll import *
+from SimpleApp.gui.vertical_scrollbar import *
 

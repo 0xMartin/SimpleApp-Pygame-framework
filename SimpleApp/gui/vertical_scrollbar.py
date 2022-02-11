@@ -1,7 +1,7 @@
 """
 Simple library for multiple views game aplication with pygame
 
-File:       vertical_scroll.py
+File:       vertical_scrollbar.py
 Date:       09.02.2022
 
 Github:     https://github.com/0xMartin
@@ -37,16 +37,16 @@ from ..colors import *
 from ..guielement import *
 
 
-class VerticalScroll(GUIElement):
+class VerticalScrollbar(GUIElement):
     def __init__(self, view, style, scroller_size, width=0, height=0, x=0, y=0):
         """
-        Create VerticalScroll
+        Create VerticalScrollbar
         Parameters:
             view -> View where is element
             style -> more about style for this element in config/styles.json
             scroller_size -> Scroller height
-            width -> Width of VerticalScroll
-            height -> Height of VerticalScroll
+            width -> Width of VerticalScrollbar
+            height -> Height of VerticalScrollbar
             x -> X position
             y -> Y position
         """

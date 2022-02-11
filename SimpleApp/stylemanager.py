@@ -94,8 +94,8 @@ class StyleManager:
             return self.processStyle(self.styles["Table"])
         elif element_name == "TextInput":
             return self.processStyle(self.styles["TextInput"])
-        elif element_name == "VerticalScroll":
-            return self.processStyle(self.styles["VerticalScroll"])
+        elif element_name == "VerticalScrollbar":
+            return self.processStyle(self.styles["VerticalScrollbar"])
         elif element_name == "Slider":
             return self.processStyle(self.styles["Slider"])
         elif element_name == "Panel":
