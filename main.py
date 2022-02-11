@@ -52,8 +52,7 @@ class View1(View):
         al.addElement(table, ['52%', '15%', '45%', '40%'])
 
         # btn 
-        # custom_btn_style
-        btn = Button(self, None, "Go to view 2")
+        btn = Button(self, custom_btn_style, "Go to view 2")
         al.addElement(btn, ['25%', '60%', '50%', '40'])
         btn.setClickEvt(lambda btn: self.app.showViewWithID(VIEW2_ID))
 
