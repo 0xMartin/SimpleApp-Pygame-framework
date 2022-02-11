@@ -9,7 +9,7 @@
 </div>
 
 > Dark theme
-<img src="./doc/img3.png" width="96%">
+<img src="./doc/img3.png" width="48%">
 
 ## GUI elements
 ...
