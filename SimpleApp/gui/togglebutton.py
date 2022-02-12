@@ -1,8 +1,8 @@
 """
 Simple library for multiple views game aplication with pygame
 
-File:       checkbox.py
-Date:       08.02.2022
+File:       togglebutton.py
+Date:       12.02.2022
 
 Github:     https://github.com/0xMartin
 Email:      martin.krcma1@gmail.com
@@ -31,32 +31,34 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 
-from SimpleApp.gui.label import Label
 import pygame
 from ..utils import *
 from ..colors import *
 from ..guielement import *
+from SimpleApp.gui.label import Label
 
 
-class CheckBox(GUIElement):
-    def __init__(self, view, style, text, checked, size=20, x=0, y=0):
+class ToggleButton(GUIElement):
+
+    def __init__(self, view, style, text, status=False, width=0, height=0, x=0, y=0):
         """
-        Create CheckBox element 
+        Create ToggleButton
         Parameters:
             view -> View where is element
             style -> More about style for this element in config/styles.json
-            text -> Text of TextInput
-            checked -> Is checked?
-            width -> Width of CheckBox
-            height -> Height of CheckBox
+            text -> Text of ToggleButton
+            status -> True/False
+            width -> Width of ToggleButton
+            height -> Height of ToggleButton
             x -> X position
             y -> Y position
         """
-        super().__init__(view, x, y, size, size, style)
+        super().__init__(view, x, y, width, height, style)
         self.label = Label(view, super().getStyle()[
-                           "label"], text, False, True, x, y)
-        self.checked = checked
+                           "label"], text, False, True)
         self.callback = None
+        self.hover = False
+        self.status = status
 
     def setText(self, text):
         """
@@ -67,76 +69,88 @@ class CheckBox(GUIElement):
         if self.label is not None:
             self.label.setText(text)
 
+    def getStatus(self):
+        """
+        Get status of toggle button (True/False)
+        """
+        return self.status
+
     def getLabel(self):
         """
         Get label
         """
         return self.label
 
-    def setCheckedEvt(self, callback):
+    def setValueChangedEvt(self, callback):
         """
-        Set checkbox Checked event
+        Set value changed event callback
         Parameters:
             callback -> callback function
         """
         self.callback = callback
 
-    def setChecked(self, checked):
-        """
-        Set checked state of this check box
-        Parameters:
-            checked -> True = Is checked    
-        """
-        self.checked = checked
-
-    def isChecked(self):
-        """
-        Return if this check box is checked
-        """
-        return self.checked
-
     @overrides(GUIElement)
     def draw(self, view, screen):
+        # bg and outline
+        pygame.draw.rect(
+            screen,
+            super().getStyle()["background_color"],
+            super().getViewRect(),
+            border_radius=int(super().getHeight() / 2)
+        )
+        pygame.draw.rect(
+            screen,
+            super().getStyle()["outline_color"],
+            super().getViewRect(),
+            2,
+            border_radius=int(super().getHeight() / 2)
+        )
+        # toggle switch
+        if self.status:
+            pos = super().getWidth() - super().getHeight() / 2
+            pygame.draw.rect(
+                screen,
+                colorChange(super().getStyle()["foreground_color"], 0.8),
+                pygame.Rect(
+                    super().getX(),
+                    super().getY(),
+                    pos,
+                    super().getHeight()
+                ),
+                border_radius=int(super().getHeight() / 2)
+            )
+            pygame.draw.circle(
+                screen,
+                super().getStyle()["foreground_color"],
+                (super().getX() + pos, super().getY() + super().getHeight() / 2),
+                super().getHeight() / 2
+            )
+        else:
+            pygame.draw.circle(
+                screen,
+                super().getStyle()["foreground_color"],
+                (super().getX() + super().getHeight() / 2,
+                 super().getY() + super().getHeight() / 2),
+                super().getHeight() / 2
+            )
         # lable
         if self.label is not None:
             self.label.setX(super().getX() + super().getWidth() + 5)
             self.label.setY(super().getY() + super().getHeight() / 2)
             self.label.draw(view, screen)
-        # check box
-        if super().isSelected():
-            c = super().getStyle()["background_color"]
-            pygame.draw.rect(screen, colorChange(
-                c, -0.2 if c[0] > 128 else 0.6), super().getViewRect(), border_radius=6)
-        else:
-            pygame.draw.rect(screen, super().getStyle()[
-                "background_color"], super().getViewRect(), border_radius=5)
-        pygame.draw.rect(screen, super().getStyle()[
-            "outline_color"], super().getViewRect(), 2, border_radius=5)
-        # check
-        if self.checked:
-            pts = [
-                (super().getX() + super().getWidth() * 0.2,
-                 super().getY() + super().getWidth() * 0.5),
-                (super().getX() + super().getWidth() * 0.4,
-                 super().getY() + super().getWidth() * 0.75),
-                (super().getX() + super().getWidth() * 0.8,
-                 super().getY() + super().getWidth() * 0.2)
-            ]
-            pygame.draw.lines(screen, super().getStyle()
-                              ["foreground_color"], False, pts, round(7 * super().getWidth() / 40))
 
     @overrides(GUIElement)
     def processEvent(self, view, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if inRect(event.pos[0], event.pos[1], super().getViewRect()):
+                self.status = not self.status
                 if self.callback is not None:
-                    self.callback(self)
-                self.checked = not self.checked
+                    self.callback(self.status)
         elif event.type == pygame.MOUSEMOTION:
             if inRect(event.pos[0], event.pos[1], super().getViewRect()):
-                super().select()
+                self.select()
             else:
-                super().unSelect()
+                self.unSelect()
 
     @overrides(GUIElement)
     def update(self, view):

@@ -38,7 +38,7 @@ from ..guielement import *
 from SimpleApp.gui.vertical_scrollbar import VerticalScrollbar
 
 
-class Table(GUIElement):
+class Table(GUIElement, Container):
     def __init__(self, view, style, data, width=0, height=0, x=0, y=0):
         """
         Create Table element
@@ -66,7 +66,7 @@ class Table(GUIElement):
         """
         Event for table body scroll
         Parameters:
-            position -> position of table body (0.0 - 1.0)     
+            position -> position of table body (0.0 - 1.0)
         """
         header_height = self.header_font.get_height() * 1.8
         total_body_data_height = header_height + self.body_font.get_height() * 1.2 * \
@@ -204,16 +204,7 @@ class Table(GUIElement):
     def update(self, view):
         pass
 
-
-def buildGraphData(dataset_list):
-    data = []
-    l = len(dataset_list[0])
-    for i in range(l):
-        i_data = []
-        for ds in dataset_list:
-            if i < len(ds):
-                i_data.append(ds[i])
-            else:
-                i_data.append(0)
-        data.append(tuple(i_data))
-    return data
+    @overrides(Container)
+    def getChilds(self):
+        elements = [self.scroll]
+        return elements 

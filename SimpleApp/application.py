@@ -57,10 +57,12 @@ class Application:
         self.views = []
         self.visible_view = None
         self.inited = False
-        if dark: 
-            self.stylemanager = StyleManager("SimpleApp/config/styles_dark.json")
+        if dark:
+            self.stylemanager = StyleManager(
+                "SimpleApp/config/styles_dark.json")
         else:
-            self.stylemanager = StyleManager("SimpleApp/config/styles_light.json")
+            self.stylemanager = StyleManager(
+                "SimpleApp/config/styles_light.json")
         self.setFillColor(WHITE)
         for v in views:
             if isinstance(v, View):
@@ -93,6 +95,24 @@ class Application:
         Return style manager
         """
         return self.stylemanager
+
+    def reloadStyleSheet(self, styles_path):
+        """
+        Reload style sheet
+        Parameters:
+            styles_path -> Path where is file with styles for all guil elements  
+        """
+        self.stylemanager.loadStyleSheet(styles_path)
+
+    def reloadElementStyles(self):
+        """
+        Reload style of all elements (from all views)
+        """
+        fill_color = self.stylemanager.getStyleWithName("default")[
+            "fill_color"]
+        for view in self.views:
+            view.setFillColor(fill_color)
+            view.reloadElementStyle()
 
     def removeView(self, view):
         """
@@ -276,6 +296,7 @@ class View(metaclass=abc.ABCMeta):
         self.fill_color = None
         self.GUIElements = []
         self.layout_manager_list = []
+        self.setDefaultCursor()
 
     def setID(self, id):
         self.ID = id
@@ -305,7 +326,6 @@ class View(metaclass=abc.ABCMeta):
         """
         return self.app
 
-    @final
     def registerLayoutManager(self, layoutManager):
         """
         Register new layout manager
@@ -318,7 +338,6 @@ class View(metaclass=abc.ABCMeta):
         else:
             return False
 
-    @final
     def unregisterLayoutManager(self, layoutManager):
         """
         Unregister layout manager
@@ -333,6 +352,14 @@ class View(metaclass=abc.ABCMeta):
         Get list of GUIElements
         """
         return self.GUIElements
+
+    def setDefaultCursor(self, cursor=pygame.SYSTEM_CURSOR_ARROW):
+        """
+        Set default cursor for view
+        Parameters:
+            cursor -> default cursor
+        """
+        self.cursor = cursor
 
     def setFillColor(self, color):
         """
@@ -349,7 +376,6 @@ class View(metaclass=abc.ABCMeta):
         """
         return self.fill_color
 
-    @final
     def setVisibility(self, visible):
         """
         Set visibility of view
@@ -369,6 +395,19 @@ class View(metaclass=abc.ABCMeta):
             return True
         else:
             return False
+
+    def reloadElementStyle(self, list=None):
+        """
+        Reload style of all GUI elements from view
+        """
+        if list is None:
+            list = self.GUIElements    
+        for el in list:
+            style = self.app.getStyleManager().getStyle(el.__class__.__name__)
+            if style is not None:
+                el.setStyle(style)
+            if isinstance(el, Container):
+                self.reloadElementStyle(el.getChilds())
 
     @final
     def createEvt_base(self, width, height):
@@ -442,6 +481,38 @@ class View(metaclass=abc.ABCMeta):
         if self.app is not None:
             for el in self.GUIElements:
                 el.processEvent(self, event)
+        # change cursor
+        selected = self.findElement(
+            self.GUIElements, lambda el: el.isSelected())
+        if selected is not None:
+            pygame.mouse.set_cursor(selected.getSelectCursor())
+        else:
+            pygame.mouse.set_cursor(self.cursor)
+
+    def findElement(self, list, procces_function=None):
+        """
+        Find element in "list of GUI elements" for which procces function return True
+        Parameters:
+            list -> List with GUI elements
+            procces_function -> True/False function, return first element for which return True
+        """
+        if procces_function is None:
+            return None
+        ret = None
+        for el in list:
+            if isinstance(el, Container):
+                # container object (panel, table, ...) -> complex objects
+                ret_container = self.findElement(
+                    el.getChilds(), procces_function)
+                if ret_container is not None:
+                    ret = ret_container
+                    break
+            else:
+                # simple object
+                if procces_function(el):
+                    ret = el
+                    break
+        return ret
 
     @final
     def render(self, screen):
@@ -497,7 +568,7 @@ class Layout(metaclass=abc.ABCMeta):
         self.layoutElements = layoutElements
 
     @final
-    def addElement(self, element, propt = None):
+    def addElement(self, element, propt=None):
         """
         Add new element to layout
         Parameters:

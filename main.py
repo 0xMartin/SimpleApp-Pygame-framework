@@ -1,4 +1,6 @@
 import random
+
+from numpy import TooHardError
 from SimpleApp import *
 
 
@@ -25,6 +27,11 @@ class View1(View):
         # label
         label = Label(self, None, "VIEW 1", True)
         al.addElement(label, ['50%', '5%'])
+
+        # toggle button
+        tb = ToggleButton(self, None, "Theme", False, 40, 20)
+        tb.setValueChangedEvt(self.changeTheme)
+        al.addElement(tb, ['5%', '5%'])
 
         # canvas
         canvas = Canvas(self, None)
@@ -74,7 +81,7 @@ class View1(View):
         al.addElement(slider, ['25%', '85%', '50%', '15'])
 
         self.addGUIElements(
-            [btn, canvas, table, label, checkbox1, checkbox2, checkbox3, slider])
+            [btn, canvas, table, label, tb, checkbox1, checkbox2, checkbox3, slider])
 
     @overrides(View)
     def closeEvt(self):
@@ -102,6 +109,13 @@ class View1(View):
                 ),
                 2
             )
+    
+    def changeTheme(self, dark):
+        if dark:
+            self.getApp().reloadStyleSheet("SimpleApp/config/styles_dark.json")
+        else:
+            self.getApp().reloadStyleSheet("SimpleApp/config/styles_light.json")
+        self.getApp().reloadElementStyles()
 
 
 class View2(View):
@@ -115,12 +129,12 @@ class View2(View):
         # button
         btn = Button(self, None, "Go to view 1")
         al.addElement(btn, ['25%', '85%', '50%', '40'])
-        btn.setClickEvt(lambda btn: self.app.showViewWithID(VIEW1_ID))
+        btn.setClickEvt(lambda btn: self.getApp().showViewWithID(VIEW1_ID))
 
         # text input
         txt = TextInput(self, None, "A1B2")
         txt.setFilterPattern("^([A-Z][0-9]+)+$")
-        al.addElement(txt, ['25%', '5%', '50%', '40'])
+        al.addElement(txt, ['45%', '5%', '50%', '40'])
 
         # panel
         panel = Panel(self, None)

@@ -104,11 +104,22 @@
     },
     "VerticalScrollbar": {
         "outline_color": "45, 45, 45",
-        "background_color": "200, 200, 200",
-        "foreground_color": "120, 120, 120"
+        "background_color": "55, 55, 55",
+        "foreground_color": "75, 75, 75"
     },
     "Panel": {
         "outline_color": "45, 45, 45",
         "background_color": "31, 31, 31"
+    },
+    "ToggleButton": {
+        "outline_color": "45, 45, 45",
+        "foreground_color": "102, 75, 134",
+        "background_color": "31, 31, 31",
+        "label": {
+            "foreground_color": "150, 150, 150",
+            "font_name": "Verdena",
+            "font_size": 28,
+            "font_bold": "False"
+        }
     }
 }

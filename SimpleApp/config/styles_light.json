@@ -103,12 +103,23 @@
         "font_bold": "False"
     },
     "VerticalScrollbar": {
-        "outline_color": "30, 30, 30",
-        "background_color": "200, 200, 200",
-        "foreground_color": "120, 120, 120"
+        "outline_color": "195, 195, 195",
+        "background_color": "220, 220, 220",
+        "foreground_color": "170, 170, 170"
     },
     "Panel": {
         "outline_color": "190, 190, 190",
         "background_color": "247, 247, 247"
+    },
+    "ToggleButton": {
+        "outline_color": "200, 200, 200",
+        "foreground_color": "127, 103, 221",
+        "background_color": "230, 230, 230",
+        "label": {
+            "foreground_color": "80, 80, 80",
+            "font_name": "Verdena",
+            "font_size": 28,
+            "font_bold": "False"
+        } 
     }
 }

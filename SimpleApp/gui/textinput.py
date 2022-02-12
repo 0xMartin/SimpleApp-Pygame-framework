@@ -51,7 +51,7 @@ class TextInput(GUIElement):
             x -> X position
             y -> Y position
         """
-        super().__init__(view, x, y, width, height, style)
+        super().__init__(view, x, y, width, height, style, pygame.SYSTEM_CURSOR_IBEAM)
         self.callback = None
         self.filter_pattern = None
         self.text = text

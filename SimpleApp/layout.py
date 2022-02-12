@@ -86,8 +86,11 @@ class RelativeLayout(Layout):
         if cnt == 0:
             return
 
-        parent = next(el for el in super().getLayoutElements()
-                      if el["propt"] == "parent")["element"]
+        parent = next((el for el in super().getLayoutElements()
+                      if el["propt"] == "parent"), None)
+        if parent is None:
+            return
+        parent = parent["element"]
 
         if self.horizontal:
             w_step = (width - parent.getX()) / (cnt)

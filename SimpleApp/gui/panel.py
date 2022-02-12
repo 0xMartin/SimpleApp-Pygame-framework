@@ -38,7 +38,7 @@ from ..guielement import *
 from ..application import *
 
 
-class Panel(GUIElement, Layout):
+class Panel(GUIElement, Layout, Container):
     def __init__(self, view, style, x=0, y=0, width=0, height=0):
         """
         Create Panel element 
@@ -124,3 +124,10 @@ class Panel(GUIElement, Layout):
             self.layoutmanager.setElements(self.getLayoutElements())
             self.layoutmanager.updateLayout(
                 self.getWidth() - 10, self.getHeight() - 10)
+
+    @overrides(Container)
+    def getChilds(self):
+        elements = []
+        for le in self.getLayoutElements():
+            elements.append(le["element"])    
+        return elements

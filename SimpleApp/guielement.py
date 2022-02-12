@@ -37,7 +37,7 @@ import abc
 
 
 class GUIElement(metaclass=abc.ABCMeta):
-    def __init__(self, view, x, y, width, height, style):
+    def __init__(self, view, x, y, width, height, style, selected_cursor=pygame.SYSTEM_CURSOR_HAND):
         """
         Create GUIElement
         Parameters:
@@ -45,13 +45,15 @@ class GUIElement(metaclass=abc.ABCMeta):
             y -> Y position
             width -> Width of Element
             height -> Height of Element
-            style -> Style of Element
+            style -> Style of 
+            selected_cursor -> The type of cursor that appears when this element is selected
         """
         self.view = view
         self.x = x
         self.y = y
         self.width = width
         self.height = height
+        self.selected_cursor = selected_cursor
 
         sm = view.getApp().getStyleManager()
         if style is None:
@@ -62,8 +64,26 @@ class GUIElement(metaclass=abc.ABCMeta):
         self.selected = False
         self.updateViewRect()
 
+    def setSelectCursor(self, cursor):
+        """
+        Set cursor type when this element is selected
+        Parameters:
+            cursor -> The type of cursor that appears when this element is selected
+        """
+        self.selected_cursor = cursor
+
+    @final
+    def getSelectCursor(self):
+        """
+        Return cursor type when this element is selected
+        """
+        return self.selected_cursor
+
     @final
     def getView(self):
+        """
+        Get view of this element
+        """
         return self.view
 
     @final
@@ -100,6 +120,14 @@ class GUIElement(metaclass=abc.ABCMeta):
         Get style of this element
         """
         return self.style
+        
+    def setStyle(self, style):
+        """
+        Set style of this element
+        Parameters:
+            style -> new style of element
+        """
+        self.style = style
 
     def setX(self, x):
         """
@@ -137,7 +165,6 @@ class GUIElement(metaclass=abc.ABCMeta):
         self.height = height
         self.updateViewRect()
 
-    @final
     def setStyle(self, style):
         """
         Set style of this element
@@ -161,10 +188,16 @@ class GUIElement(metaclass=abc.ABCMeta):
 
     @final
     def select(self):
+        """
+        Select element
+        """
         self.selected = True
 
     @final
     def unSelect(self):
+        """
+        Unselect element
+        """
         self.selected = False
 
     @final
@@ -190,4 +223,9 @@ class GUIElement(metaclass=abc.ABCMeta):
         """
         Update element
         """
+        pass
+
+class Container(metaclass=abc.ABCMeta):
+    @abc.abstractmethod
+    def getChilds(self):
         pass

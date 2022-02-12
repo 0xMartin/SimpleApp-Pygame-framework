@@ -50,7 +50,7 @@ class VerticalScrollbar(GUIElement):
             x -> X position
             y -> Y position
         """
-        super().__init__(view, x, y, width, height, style)
+        super().__init__(view, x, y, width, height, style, pygame.SYSTEM_CURSOR_SIZENS)
         self.callback = None
         self.scroller_pos = 0
         self.scroller_size = scroller_size

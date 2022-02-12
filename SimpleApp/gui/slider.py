@@ -52,7 +52,7 @@ class Slider(GUIElement):
             y -> Y position
         """
         self.label = None
-        super().__init__(view, x, y, width, height, style)
+        super().__init__(view, x, y, width, height, style, pygame.SYSTEM_CURSOR_SIZEWE)
         self.label = Label(view, super().getStyle()["label"], " ", False, True)
         self.callback = None
         self.format = "@"

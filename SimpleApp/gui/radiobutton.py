@@ -56,16 +56,21 @@ class RadioButton(GUIElement):
         group.addRadioButton(self)
         self.checked = False
         self.callback = None
-        self.hover = False
 
     def setText(self, text):
         """
-        Set text of TextInput
+        Set text of label
         Parameters:
             text -> New text
         """
         if self.label is not None:
             self.label.setText(text)
+
+    def getLabel(self):
+        """
+        Get label
+        """
+        return self.label
 
     def setCheckedEvt(self, callback):
         """
@@ -77,7 +82,7 @@ class RadioButton(GUIElement):
 
     def setChecked(self, checked):
         """
-        Set checked state of this check box
+        Set checked state of this radio button
         Parameters:
             checked -> True = Is checked    
         """
@@ -85,7 +90,7 @@ class RadioButton(GUIElement):
 
     def isChecked(self):
         """
-        Return if this check box is checked
+        Return if is checked
         """
         return self.checked
 
@@ -101,7 +106,7 @@ class RadioButton(GUIElement):
             super().getX() + super().getWidth()/2,
             super().getY() + super().getWidth()/2
         )
-        if self.hover:
+        if super().isSelected():
             c = super().getStyle()["background_color"]
             pygame.draw.circle(screen, colorChange(c, -0.2 if c[0] > 128 else 0.6), center, super().getWidth() / 2)
         else:
@@ -123,9 +128,9 @@ class RadioButton(GUIElement):
                 self.group.checkRadioButton(self)
         elif event.type == pygame.MOUSEMOTION:
             if inRect(event.pos[0], event.pos[1], super().getViewRect()):
-                self.hover = True
+                super().select()
             else:
-                self.hover = False
+                super().unSelect()
 
     @overrides(GUIElement)
     def update(self, view):

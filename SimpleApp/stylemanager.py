@@ -51,7 +51,7 @@ class StyleManager:
 
     def loadStyleSheet(self, styles_path):
         """
-        Load styleSheet
+        Load style sheet
         Parameters:
             styles_path -> Path where is file with styles for all guil elements   
         """
@@ -100,6 +100,8 @@ class StyleManager:
             return self.processStyle(self.styles["Slider"])
         elif element_name == "Panel":
             return self.processStyle(self.styles["Panel"])
+        elif element_name == "ToggleButton":
+            return self.processStyle(self.styles["ToggleButton"])
 
     def processStyle(self, style):
         # colors
