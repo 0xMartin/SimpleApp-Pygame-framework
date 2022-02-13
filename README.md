@@ -45,6 +45,10 @@ class View2(View):
     @overrides(View)
     def hideEvt(self):
         pass
+        
+    @overrides(View)
+    def reloadStyleEvt(self):
+        pass
 ```
 In entry point of program create instance of Application, add your view, show some view and run app
 ```python
