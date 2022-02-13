@@ -342,6 +342,21 @@ def findElement(self, list, procces_function=None)
     * __procces_function__: True/False function, return first element for which return True
 
 ## GUI elements
+Base class for GUI elements
+
+---
+```python
+def __init__(self, view, x, y, width, height, style, selected_cursor=pygame.SYSTEM_CURSOR_HAND)
+```
+  * Create GUIElement
+  * __Parameters__
+    * __x__: X position of Element (type: ```int```)
+    * __y__: Y position of Element (type: ```int```)
+    * __width__: Width position of Element (type: ```int```)
+    * __height__: Height position of Element (type: ```int```)
+    * __style__: Style of Element (type: ```dict```)
+    * __selected_cursor__: The type of cursor that appears when this element is selected
+
 ### Base class
 ### Label
 ### Image
