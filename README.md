@@ -64,6 +64,8 @@ app.run()
 
 ## Application
 The main component of the framework. Provides switched view work with them (rendering, events, updates, ...). Here I set the styles, icon, application name, window size, ...
+
+---
 ```python
 def __init__(self, views, fps=60, ups=60, dark=False)
 ```
@@ -73,42 +75,58 @@ def __init__(self, views, fps=60, ups=60, dark=False)
     * __fps__: Rendering - Frame per second (type: ```int```)
     * __ups__: Updating - Updates per second (for example physics) (type: ```int```)
     * __dark__: If is "True" than load dark theme stylesheet (type: ```boolean```)
+---
+
 ```python
 def setFillColor(self, color)
 ```
   * Set default fill color for views of application
   * __Parameters__
     * __color__: Fill color (type: ```tuple```)
+
+---
 ```python
 def addView(self, view)
 ```
   * Add new view to application
   * __Parameters__
     * __view__: New view (type: ```SimpleApp.application.View```)
+
+---
 ```python
 def getStyleManager(self)
 ```
   * Get application style manager (type: ```SimpleApp.stylemanager.StyleManager ```)
+
+---
 ```python
 def reloadStyleSheet(self, styles_path)
 ```
   * Reload stylesheet
   * __Parameters__
     * __styles_path__: Path where is file with styles for all GUI elements  
+
+---
 ```python
 def reloadElementStyles(self)
 ```
   * Reload style of all elements (from all views of application)
+
+---
 ```python
 def removeView(self, view)
 ```
   * Remove view from application
   * __Parameters__
     * __view__: View to be removed (type: ```SimpleApp.application.View```)
+
+---
 ```python
 def getScreen(self)
 ```
   * Get screen of application (type: ```pygame.Surface```)
+
+---
 ```python
 def init(self, width, height, name, icon)
 ```
@@ -118,14 +136,20 @@ def init(self, width, height, name, icon)
     * __height__: Height of application window (type: ```int```)
     * __name__: Name of application (window title) (type: ```int```)
     * __icon__: Icon of application (type: ```int```)
+
+---
 ```python
 def run(self)
 ```
   * Run application loop (Returns False in case of fail) (type: ```boolean```)
+
+---
 ```python
 def close(self)
 ```
   * Close application
+
+---
 ```python
 def showView(self, view)
 ```
@@ -133,12 +157,16 @@ def showView(self, view)
   * __Parameters__
     * __view__: View to be displayed in application
   * Return True in success (type: ```boolean```)
+
+---
 ```python
 def showViewWithName(self, name)
 ```
   * Show view with specific name
   * __Parameters__
     * __name__: Name of view (type: ```string```)
+
+---
 ```python
 def showViewWithID(self, id)
 ```
@@ -155,98 +183,136 @@ def __init__(self, name, id)
   * __Parameters__
     * __name__: Name of view (the name will be visible in the window title) (list element type: ```string```)
     * __id__: ID of view (can be used for navigation) (type: ```int```)
+
+---
 ```python
 def setID(self, id)
 ```
   * Set view ID
   * __Parameters__
     * __id__: New ID for view (type: ```int```)
+
+---
 ```python
 def addGUIElements(self, elements)
 ```
   * Add GUI elements to this view
   * __Parameters__
     * __elements__: List with GUI elements (list element type: ```SimpleApp.guielement.GUIElement```)
+
+---
 ```python
 def removeGUIElement(self, element)
 ```
   * Remove GUI element from view
   * __Parameters__
     * __element__: GUI element to be removed (type: ```SimpleApp.guielement.GUIElement```)
+
+---
 ```python
 @final def getApp(self)
 ```
   * Get reference on app (type: ```SimpleApp.application.Application```)
+
+---
 ```python
 def registerLayoutManager(self, layoutManager)
 ```
   * Register new layout manager
   * __Parameters__
     * __layoutManager__: New layout manager (type: ```SimpleApp.application.Layout```)
+
+---
 ```python
 def unregisterLayoutManager(self, layoutManager)
 ```
   * Unregister layout manager
   * __Parameters__
     * __layoutManager__: Layout manager (type: ```SimpleApp.application.Layout```)
+
+---
 ```python
 @final def getGUIElement(self)
 ```
   * Get list of GUIElements (list element type: ```SimpleApp.guielement.GUIElement```)
+
+---
 ```python
 def setDefaultCursor(self, cursor=pygame.SYSTEM_CURSOR_ARROW)
 ```
   * Set default cursor for view
   * __Parameters__
     * __cursor__: Default cursor (type: ```pygame.cursor constant```)
+
+---
 ```python
 def setFillColor(self, color)
 ```
   * Set view fill color
   * __Parameters__
     * __color__: View fill color (type: ```tuple```)
+
+---
 ```python
 @final def getFillColor(self)
 ```
   * Get view fill color (type: ```tuple```)
+
+---
 ```python
 def setVisibility(self, visible)
 ```
   * Set visibility of view
   * __Parameters__
     * __visible__: True=view is visible (type: ```boolean```)
+
+---
 ```python
 def setApplication(self, app)
 ```
   * Assigns application to this view
   * __Parameters__
     * __app__: Application (type: ```SimpleApp.application.Application```)
+
+---
 ```python
 @final def reloadElementStyle(self, list=None)
 ```
   * Reload style of all GUI elements from list (do not set "list" if you want all view elements)
   * __Parameters__
     * __list__: List with GUI elements (list element type: ```SimpleApp.guielement.GUIElement```)
+
+---
 ```python
 @abc.abstractmethod def createEvt(self)
 ```
   * Create event - when the application starting
+
+---
 ```python
 @abc.abstractmethod def closeEvt(self)
 ```
   * Close event - when the application closing
+
+---
 ```python
 @abc.abstractmethod def openEvt(self)
 ```
   * Open event - when the application show this view
+
+---
 ```python
 @abc.abstractmethod def hideEvt(self)
 ```
   * Hide event - when the application hide this view
+
+---
 ```python
 @abc.abstractmethod def reloadStyleEvt(self)
 ```
   * Reload style event - when the application reloading styles of view
+
+---
 ```python
 @abc.abstractmethod def findElement(self, list, procces_function=None)
 ```
@@ -254,6 +320,8 @@ def setApplication(self, app)
   * __Parameters__
     * __list__: List with GUI elements (list element type: ```SimpleApp.guielement.GUIElement```)
     * __procces_function__: True/False function, return first element for which return True
+
+---
 ```python
 @abc.abstractmethod def findElement(self, list, procces_function=None)
 ```
