@@ -79,6 +79,10 @@ class Button(GUIElement):
         if len(self.text) != 0:
             text = self.font.render(
                 self.text, 1, super().getStyle()["foreground_color"])
+            if text.get_height() + 4 > super().getHeight():
+                super().setHeight(text.get_height() + 4)
+            if text.get_width() + 4 > super().getWidth():
+                super().setWidth(text.get_width() + 4)
             screen.blit(text, (super().getX() + (super().getWidth() - text.get_width())/2,
                                super().getY() + (super().getHeight() - text.get_height())/2))
         # outline
