@@ -607,6 +607,9 @@ def update(self, view)
 ### Panel
 
 ### Tab Panel
+
+&nbsp;
+&nbsp;
 ## Layout managers
 ### Base class
 Base layout class mainly consists from list of layout elements and an abstract ```updateLayout``` function. The layout element consists of a reference to the GUI element and properies for a specific layout manager.
