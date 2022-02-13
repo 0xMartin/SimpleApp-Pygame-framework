@@ -65,15 +65,86 @@ app.run()
 ## Application
 The main component of the framework. Provides switched view work with them (rendering, events, updates, ...). Here I set the styles, icon, application name, window size, ...
 ```python
-class Application:
-    def __init__(self, views, fps=60, ups=60, dark=False):
+def __init__(self, views, fps=60, ups=60, dark=False)
 ```
   * Create instance of Application
   * __Parameters__
-    * __views__: List with views (Element type: ```class View```)
+    * __views__: List with views (list element type: ```class View```)
     * __fps__: Rendering - Frame per second (type: ```int```)
     * __ups__: Updating - Updates per second (for example physics) (type: ```int```)
     * __dark__: If is "True" than load dark theme stylesheet (type: ```boolean```)
+```python
+def setFillColor(self, color)
+```
+  * Set default fill color for views of application
+  * __Parameters__
+    * __color__: Fill color (type: ```tuple```)
+```python
+def addView(self, view)
+```
+  * Add new view to application
+  * __Parameters__
+    * __view__: New view (type: ```SimpleApp.application.View```)
+```python
+def getStyleManager(self)
+```
+  * Get application style manager (type: ```SimpleApp.stylemanager.StyleManager ```)
+```python
+def reloadStyleSheet(self, styles_path)
+```
+  * Reload stylesheet
+  * __Parameters__
+    * __styles_path__: Path where is file with styles for all GUI elements  
+```python
+def reloadElementStyles(self)
+```
+  * Reload style of all elements (from all views of application)
+```python
+def removeView(self, view)
+```
+  * Remove view from application
+  * __Parameters__
+    * __view__: View to be removed (type: ```SimpleApp.application.View```)
+```python
+def getScreen(self)
+```
+  * Get screen of application (type: ```pygame.Surface```)
+```python
+def init(self, width, height, name, icon)
+```
+  * Init application
+  * __Parameters__
+    * __width__: Width of application window (type: ```int```)
+    * __height__: Height of application window (type: ```int```)
+    * __name__: Name of application (window title) (type: ```int```)
+    * __icon__: Icon of application (type: ```int```)
+```python
+def run(self)
+```
+  * Run application loop (Returns False in case of fail) (type: ```boolean```)
+```python
+def close(self)
+```
+  * Close application
+```python
+def showView(self, view)
+```
+  * Close application
+  * __Parameters__
+    * __view__: View to be displayed in application
+  * Return True in success (type: ```boolean```)
+```python
+def showViewWithName(self, name)
+```
+  * Show view with specific name
+  * __Parameters__
+    * __name__: Name of view (type: ```string```)
+```python
+def showViewWithID(self, id)
+```
+  * Show view with specif ID
+  * __Parameters__
+    * __id__: ID of view (type: ```int```)
 
 ## View
 
