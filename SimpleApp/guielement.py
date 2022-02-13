@@ -65,7 +65,7 @@ class GUIElement(metaclass=abc.ABCMeta):
         self.selected = False
         self.updateViewRect()
 
-    def setVisible(self, visible):
+    def setVisibility(self, visible):
         """
         Set visibility of element
         Parameters:
@@ -83,7 +83,7 @@ class GUIElement(metaclass=abc.ABCMeta):
         """
         Set cursor type when this element is selected
         Parameters:
-            cursor -> The type of cursor that appears when this element is selected
+            cursor -> Type of cursor that appears when this element is selected
         """
         self.selected_cursor = cursor
 
@@ -97,7 +97,7 @@ class GUIElement(metaclass=abc.ABCMeta):
     @final
     def getView(self):
         """
-        Get view of this element
+        Get view to which the element belongs
         """
         return self.view
 
@@ -135,14 +135,6 @@ class GUIElement(metaclass=abc.ABCMeta):
         Get style of this element
         """
         return self.style
-
-    def setStyle(self, style):
-        """
-        Set style of this element
-        Parameters:
-            style -> new style of element
-        """
-        self.style = style
 
     def setX(self, x):
         """
@@ -186,7 +178,7 @@ class GUIElement(metaclass=abc.ABCMeta):
         """
         Set style of this element
         Parameters:
-            style -> New style
+            style -> New style of element
         """
         self.style = style
 
@@ -206,25 +198,31 @@ class GUIElement(metaclass=abc.ABCMeta):
     @final
     def select(self):
         """
-        Select element
+        Select this element
         """
         self.selected = True
 
     @final
     def unSelect(self):
         """
-        Unselect element
+        Unselect this element
         """
         self.selected = False
 
     @final
     def isSelected(self):
+        """
+        Check if element is selected
+        """
         return self.selected
 
     @abc.abstractmethod
     def draw(self, view, screen):
         """
         Draw element on screen
+        Parameters:
+            view -> View which is rendering this element
+            screen -> Screen where element is rendered 
         """
         pass
 
@@ -232,6 +230,9 @@ class GUIElement(metaclass=abc.ABCMeta):
     def processEvent(self, view, event):
         """
         Process event from view
+        Parameters:
+            view -> View which is sending event
+            event -> Pygame event
         """
         pass
 
@@ -239,6 +240,8 @@ class GUIElement(metaclass=abc.ABCMeta):
     def update(self, view):
         """
         Update element
+        Parameters:
+            view -> View which is updating this element
         """
         pass
 
@@ -246,4 +249,7 @@ class GUIElement(metaclass=abc.ABCMeta):
 class Container(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def getChilds(self):
+        """
+        Get child elements of Container object
+        """
         pass
