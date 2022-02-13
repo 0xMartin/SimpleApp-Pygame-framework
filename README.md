@@ -613,7 +613,7 @@ def update(self, view)
 ## Layout managers
 ### Base class
 Base layout class mainly consists from list of layout elements and an abstract ```updateLayout``` function. The layout element consists of a reference to the GUI element and properies for a specific layout manager.
-__Layout element structure:__ ```{"element": value1, "propt": value2}```
+* __Layout element structure:__ ```{"element": value1, "propt": value2}```
 
 ---
 ```python
@@ -690,7 +690,8 @@ __Examples:__
 al = AbsoluteLayout(self)
 rl = RelativeLayout(self, True)
 checkbox1 = CheckBox(self, None, "Check box 1", True, 20)
-# absolut layout can set positon of parent (this work only if instance of AbsoluteLayout is created before RelativeLayout!!!!!!)
+# absolut layout can set positon of parent 
+# (this work only if instance of AbsoluteLayout is created before RelativeLayout!!!!!!)
 al.addElement(checkbox1, ['10%', '75%'])
 # checkbox1 defined as parent
 rl.addElement(checkbox1, "parent")
