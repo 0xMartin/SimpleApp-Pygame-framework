@@ -44,6 +44,12 @@ from .stylemanager import *
 
 # Application class, provides work with views
 class Application:
+    """
+    The main component of the framework. Provides switched view work
+    with them (rendering, events, updates, ...). Here I set the 
+    styles, icon, application name, window size, ...
+    """
+
     def __init__(self, views, fps=60, ups=60, dark=False):
         """
         Create Application
@@ -291,6 +297,11 @@ class Application:
 
 # View class
 class View(metaclass=abc.ABCMeta):
+    """
+    View represents the content/page of the application window 
+    that the user sees and with which he can interact.
+    """
+
     def __init__(self, name, id):
         """
         Create view
@@ -421,7 +432,7 @@ class View(metaclass=abc.ABCMeta):
         for el in list:
             if el is None:
                 continue
-            style = self.app.getStyleManager().getStyle(el.__class__.__name__)
+            style = self.app.getStyleManager().getStyleWithName(el.__class__.__name__)
             if style is not None:
                 el.setStyle(style)
             if isinstance(el, Container):

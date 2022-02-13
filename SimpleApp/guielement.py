@@ -37,6 +37,10 @@ import abc
 
 
 class GUIElement(metaclass=abc.ABCMeta):
+    """
+    Base class for GUI elements
+    """
+
     def __init__(self, view, x, y, width, height, style, selected_cursor=pygame.SYSTEM_CURSOR_HAND):
         """
         Create GUIElement
@@ -58,7 +62,7 @@ class GUIElement(metaclass=abc.ABCMeta):
 
         sm = view.getApp().getStyleManager()
         if style is None:
-            self.style = sm.getStyle(self.__class__.__name__)
+            self.style = sm.getStyleWithName(self.__class__.__name__)
         else:
             self.style = style
 

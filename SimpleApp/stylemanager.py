@@ -35,6 +35,10 @@ from .utils import *
 
 
 class StyleManager:
+    """
+    Provides style for each GUI element. Loading and preserves all application styles.
+    """
+
     def __init__(self, styles_path):
         """
         Create style manager
@@ -51,7 +55,7 @@ class StyleManager:
 
     def loadStyleSheet(self, styles_path):
         """
-        Load style sheet
+        Load stylesheet from file
         Parameters:
             styles_path -> Path where is file with styles for all guil elements   
         """
@@ -59,7 +63,7 @@ class StyleManager:
 
     def getStyleWithName(self, name):
         """
-        Get all styles
+        Get style with specific name from stylsheet 
         Parameters:
             name -> Name of style
         """
@@ -68,44 +72,12 @@ class StyleManager:
         else:
             return self.processStyle(self.styles[name])
 
-    def getStyle(self, element_name):
-        """
-        Get style for specific gui element
-        Parameters:
-            quielemnet -> gui element
-        """
-        if self.styles is None:
-            return None
-        if element_name == "Button":
-            return self.processStyle(self.styles["Button"])
-        elif element_name == "Canvas":
-            return self.processStyle(self.styles["Canvas"])
-        elif element_name == "CheckBox":
-            return self.processStyle(self.styles["CheckBox"])
-        elif element_name == "Graph":
-            return self.processStyle(self.styles["Graph"])
-        elif element_name == "Image":
-            return self.processStyle(self.styles["Image"])
-        elif element_name == "Label":
-            return self.processStyle(self.styles["Label"])
-        elif element_name == "RadioButton":
-            return self.processStyle(self.styles["RadioButton"])
-        elif element_name == "Table":
-            return self.processStyle(self.styles["Table"])
-        elif element_name == "TextInput":
-            return self.processStyle(self.styles["TextInput"])
-        elif element_name == "VerticalScrollbar":
-            return self.processStyle(self.styles["VerticalScrollbar"])
-        elif element_name == "Slider":
-            return self.processStyle(self.styles["Slider"])
-        elif element_name == "Panel":
-            return self.processStyle(self.styles["Panel"])
-        elif element_name == "ToggleButton":
-            return self.processStyle(self.styles["ToggleButton"])
-        elif element_name == "TabPanel":
-            return self.processStyle(self.styles["TabPanel"])
-
     def processStyle(self, style):
+        """
+        Some string values are replaced by an object if necessary
+        Parameters:
+            style -> Some style    
+        """
         # colors
         new_style = style.copy()
         for tag in new_style.keys():
