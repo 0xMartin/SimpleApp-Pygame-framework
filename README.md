@@ -53,7 +53,7 @@ class View2(View):
     def reloadStyleEvt(self):
         pass
 ```
-In entry point of program create instance of Application, add your view, show some view and run app
+In entry point of program create instance of Application, add your view, show some view and run app. For more detail usage of framework check main.py.
 ```python
 view1 = View1()
 view2 = View2()
