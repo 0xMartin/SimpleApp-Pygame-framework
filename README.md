@@ -661,6 +661,15 @@ def updateLayout(self, width, height)
 
 ### Absolute Layout
 It is possible to set absolute position or size of each GUI element. Values can be set in % or px. If the value is set in %, it is then recalculated to px (in overrided method ```Layout.updateLayout```). So it is possible to set the element to be constantly in a certain position or to have a certain size.
+
+---
+```python
+def __init__(self, view)
+```
+  * Create Absolute Layout, addElement(el, propt) -> propt : {x, y, width, height} (x, y, ...) value type: number in px ('50', '4', ...) or % ('20%', '5%', ...)
+  * __Parameters__
+    * __view__: View for which the layout manager will register
+
 __Examples:__
 Position only:
 ```python
@@ -685,6 +694,16 @@ al.addElement(btn, ['25%', '60%', '50%', '40'])
 
 ### Relative Layout
 For this layout manager are there two types of elements (parent and child). The layout manager does not affect the element that is defined as the "parent". All elements defined as "child" start stacking behind the parent element in a defined axis (horizontal or vertical).
+
+---
+```python
+def __init__(self, view, horizontal)
+```
+  * Create Relative Layout, addElement(el, propt) -> "parent" (his position does not change), "child" (his position depends on the parent)
+  * __Parameters__
+    * __view__: View for which the layout manager will register
+    * __horizontal__: True=elements will stacking in horizontal axis 
+
 __Examples:__
 ```python
 al = AbsoluteLayout(self)
