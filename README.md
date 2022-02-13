@@ -671,6 +671,7 @@ def __init__(self, view)
     * __view__: View for which the layout manager will register
 
 __Examples:__
+
 Position only:
 ```python
 al = AbsoluteLayout(self)
