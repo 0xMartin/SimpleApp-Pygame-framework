@@ -43,6 +43,17 @@ class AbsoluteLayout(Layout):
     set in % or px. If the value is set in %, it is then recalculated to px (in overrided
     method Layout.updateLayout). So it is possible to set the element to be constantly 
     in a certain position or to have a certain size.
+    Examples:
+        Position only:
+            al = AbsoluteLayout(self)
+            label = Label(self, None, "Label 1", True)
+            al.addElement(label, ['50%', '5%'])
+        All attributes:
+            canvas = Canvas(self, None)
+            al.addElement(canvas, ['3%', '15%', '45%', '40%'])
+        Pixel value:
+            btn = Button(self, custom_btn_style, "Go to view 2")
+            al.addElement(btn, ['25%', '60%', '50%', '40'])
     """
 
     def __init__(self, view):
@@ -50,17 +61,8 @@ class AbsoluteLayout(Layout):
         Create Absolute Layout
         addElement(el, propt) -> propt : {x, y, width, height}
         (x, y, ...) value type: number in px ('50', '4', ...) or % ('20%', '5%', ...)
-        Examples:
-            Position only:
-                al = AbsoluteLayout(self)
-                label = Label(self, None, "Label 1", True)
-                al.addElement(label, ['50%', '5%'])
-            All attributes:
-                canvas = Canvas(self, None)
-                al.addElement(canvas, ['3%', '15%', '45%', '40%'])
-            Pixel value:
-                btn = Button(self, custom_btn_style, "Go to view 2")
-                al.addElement(btn, ['25%', '60%', '50%', '40'])
+        Parameters:
+            view -> View for which the layout manager will register
         """
         super().__init__(view)
 
@@ -111,6 +113,9 @@ class RelativeLayout(Layout):
         """
         Create Relative Layout
         addElement(el, propt) -> "parent" (his position does not change), "child" (his position depends on the parent)
+        Parameters:
+            view -> View for which the layout manager will register
+            horizontal -> True=elements will stacking in horizontal axis   
         """
         super().__init__(view)
         self.horizontal = horizontal
