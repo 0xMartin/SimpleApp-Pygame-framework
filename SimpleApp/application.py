@@ -569,13 +569,20 @@ class View(metaclass=abc.ABCMeta):
 
 
 class Layout(metaclass=abc.ABCMeta):
+    """
+    Base layout class mainly consists from list of layout elements and an abstract
+    updateLayout function. The layout element consists of a reference to the 
+    GUI element and properies for a specific layout manager.
+    Layout element structure: {"element": value1, "propt": value2}
+    """
+
     def __init__(self, view, register=True):
         """
         Base layout class, automatically register layout manager to view
         Parameters:
-            screen -> Pygame screen
-            view -> Application view
-            register -> True: automatically register this layout manager to view
+            screen -> Pygame surface
+            view -> View for which the layout manager will register
+            register -> False: disable registration of this layout manager
         """
         if isinstance(view, View):
             self.view = view
@@ -587,26 +594,24 @@ class Layout(metaclass=abc.ABCMeta):
     @final
     def getLayoutElements(self):
         """
-        Return all elements in layout
+        Return all elements from layout
         """
         return self.layoutElements
 
-    @final
     def setElements(self, layoutElements):
         """
-        Set layout element list
+        Set new layout element list
         Parameters:
-            layoutElements -> element list
+            layoutElements -> Layout element list
         """
         self.layoutElements = layoutElements
 
-    @final
     def addElement(self, element, propt=None):
         """
-        Add new element to layout
+        Add new layout element to layout manager
         Parameters:
             element -> GUIElement
-            propt -> Property of element for layout manager (LEFT, RIGHT, CENTER, ...) denpends on manager
+            propt -> Property of element for layout manager (LEFT, RIGHT, CENTER, ...) values denpends on manager
         """
         if isinstance(element, GUIElement):
             self.layoutElements.append({"element": element, "propt": propt})
@@ -614,7 +619,7 @@ class Layout(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def updateLayout(self, width, height):
         """
-        Update layout
+        Update layout of all GUI elements
         Parameters:
             width -> Width of view screen  
             height -> Height of view screen   

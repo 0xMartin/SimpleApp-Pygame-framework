@@ -38,11 +38,29 @@ from .application import *
 
 
 class AbsoluteLayout(Layout):
+    """
+    It is possible to set absolute position or size of each GUI element. Values can be
+    set in % or px. If the value is set in %, it is then recalculated to px (in overrided
+    method Layout.updateLayout). So it is possible to set the element to be constantly 
+    in a certain position or to have a certain size.
+    """
+
     def __init__(self, view):
         """
         Create Absolute Layout
         addElement(el, propt) -> propt : {x, y, width, height}
         (x, y, ...) value type: number in px ('50', '4', ...) or % ('20%', '5%', ...)
+        Examples:
+            Position only:
+                al = AbsoluteLayout(self)
+                label = Label(self, None, "Label 1", True)
+                al.addElement(label, ['50%', '5%'])
+            All attributes:
+                canvas = Canvas(self, None)
+                al.addElement(canvas, ['3%', '15%', '45%', '40%'])
+            Pixel value:
+                btn = Button(self, custom_btn_style, "Go to view 2")
+                al.addElement(btn, ['25%', '60%', '50%', '40'])
         """
         super().__init__(view)
 
@@ -72,6 +90,23 @@ class AbsoluteLayout(Layout):
 
 
 class RelativeLayout(Layout):
+    """
+    For this layout manager are there two types of elements (parent and child).
+    The layout manager does not affect the element that is defined as the "parent".
+    All elements defined as "child" start stacking behind the parent element in
+    a defined axis (horizontal or vertical).
+    Examples:
+        al = AbsoluteLayout(self)
+        rl = RelativeLayout(self, True)
+        checkbox1 = CheckBox(self, None, "Check box 1", True, 20)
+        al.addElement(checkbox1, ['10%', '75%'])
+        rl.addElement(checkbox1, "parent")
+        checkbox2 = CheckBox(self, None, "Check box 2", True, 20)
+        rl.addElement(checkbox2, "child")
+        checkbox3 = CheckBox(self, None, "Check box 3", True, 20)
+        rl.addElement(checkbox3, "child")
+    """
+
     def __init__(self, view, horizontal):
         """
         Create Relative Layout
