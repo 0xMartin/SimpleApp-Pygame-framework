@@ -14,7 +14,7 @@ Almost everything is stylizable and can by stored to .json stylesheet file and l
 <img src="./doc/img3.png" width="48%">
 
 ## How to use
-Implement your own view
+Implement your own view:
 ```python
 class View2(View):
     def __init__(self):
@@ -608,5 +608,91 @@ def update(self, view)
 
 ### Tab Panel
 ## Layout managers
+### Base class
+Base layout class mainly consists from list of layout elements and an abstract ```updateLayout``` function. The layout element consists of a reference to the GUI element and properies for a specific layout manager.
+__Layout element structure:__ ```{"element": value1, "propt": value2}```
+
+---
+```python
+def __init__(self, view, register=True)
+```
+  * Base layout class, automatically register layout manager to view
+  * __Parameters__
+    * __screen__: Pygame surface
+    * __view__: View for which the layout manager will register
+    * __register__: False: disable registration of this layout manager
+
+---
+```python
+@final
+def getLayoutElements(self)
+```
+  * Return all elements from layout
+
+---
+```python
+def setElements(self, layoutElements)
+```
+  * Set new layout element list
+  * __Parameters__
+    * __layoutElements__: Layout element list
+
+---
+```python
+def addElement(self, element, propt=None)
+```
+  * Add new layout element to layout manager
+  * __Parameters__
+    * __element__: GUIElement (type: ```SimpleApp.guielement.GUIElement```)
+    * __propt__: Property of element for layout manager (LEFT, RIGHT, CENTER, ...) values denpends on manager
+
+---
+```python
+@abc.abstractmethod
+def updateLayout(self, width, height)
+```
+  * Update layout of all GUI elements
+  * __Parameters__
+    * __width__: Width of view screen   (type: ```int```)
+    * __height__: Height of view screen   (type: ```int```)
+
 ### Absolute Layout
+It is possible to set absolute position or size of each GUI element. Values can be set in % or px. If the value is set in %, it is then recalculated to px (in overrided method ```Layout.updateLayout```). So it is possible to set the element to be constantly in a certain position or to have a certain size.
+__Examples:__
+Position only:
+```python
+al = AbsoluteLayout(self)
+label = Label(self, None, "Label 1", True)
+# set position of labe on 50% in X axis of view screen
+# and 5% in Y axis of view screen
+al.addElement(label, ['50%', '5%'])
+```
+All attributes:
+```python
+canvas = Canvas(self, None)
+# set positon on [3%, 15%] and width on 45% and height on 40% of view screen size
+al.addElement(canvas, ['3%', '15%', '45%', '40%'])
+```
+Pixel value:
+```python
+btn = Button(self, custom_btn_style, "Go to view 2")
+# height of button set on 40px
+al.addElement(btn, ['25%', '60%', '50%', '40'])
+```
+
 ### Relative Layout
+For this layout manager are there two types of elements (parent and child). The layout manager does not affect the element that is defined as the "parent". All elements defined as "child" start stacking behind the parent element in a defined axis (horizontal or vertical).
+__Examples:__
+```python
+al = AbsoluteLayout(self)
+rl = RelativeLayout(self, True)
+checkbox1 = CheckBox(self, None, "Check box 1", True, 20)
+# absolut layout can set positon of parent (this work only if instance of AbsoluteLayout is created before RelativeLayout!!!!!!)
+al.addElement(checkbox1, ['10%', '75%'])
+# checkbox1 defined as parent
+rl.addElement(checkbox1, "parent")
+checkbox2 = CheckBox(self, None, "Check box 2", True, 20)
+rl.addElement(checkbox2, "child")
+checkbox3 = CheckBox(self, None, "Check box 3", True, 20)
+rl.addElement(checkbox3, "child")
+```
