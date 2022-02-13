@@ -341,7 +341,10 @@ def findElement(self, list, procces_function=None)
     * __list__: List with GUI elements (list element type: ```SimpleApp.guielement.GUIElement```)
     * __procces_function__: True/False function, return first element for which return True
 
+## Style Manager
+
 ## GUI elements
+### Base class
 Base class for GUI elements
 
 ---
@@ -357,7 +360,6 @@ def __init__(self, view, x, y, width, height, style, selected_cursor=pygame.SYST
     * __style__: Style of Element (type: ```dict```)
     * __selected_cursor__: The type of cursor that appears when this element is selected
 
-### Base class
 ### Label
 ### Image
 ### Button
