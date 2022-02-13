@@ -63,6 +63,18 @@ app.run()
 ```
 
 ## Application
+The main component of the framework. Provides switched view work with them (rendering, events, updates, ...). Here I set the styles, icon, application name, window size, ...
+```python
+class Application:
+    def __init__(self, views, fps=60, ups=60, dark=False):
+```
+  * Create instance of Application
+  * __Parameters__
+    * __views__: List with views (Element type: ```class View```)
+    * __fps__: Rendering - Frame per second (type: ```int```)
+    * __ups__: Updating - Updates per second (for example physics) (type: ```int```)
+    * __dark__: If is "True" than load dark theme stylesheet (type: ```boolean```)
+
 ## View
 
 ## GUI elements
