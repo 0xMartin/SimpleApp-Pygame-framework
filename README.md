@@ -343,6 +343,53 @@ def findElement(self, list, procces_function=None)
 
 ## Style Manager
 
+---
+```python
+def __init__(self, styles_path)
+```
+  * Create style manager
+  * __Parameters__
+    * __styles_path__: Path where is file with styles for all guil elements (type: ```string```)
+
+---
+```python
+def init(self)
+```
+  * Init style manager
+
+---
+```python
+def loadStyleSheet(self, styles_path)
+```
+  * Load stylesheet from file
+  * __Parameters__
+    * __styles_path__: Path where is file with styles for all guil elements (type: ```string```)
+
+---
+```python
+def getStyleWithName(self, name)
+```
+  * Get style with specific name from stylsheet
+  * __Parameters__
+    * __name__: Name of style (type: ```string```)
+
+---
+```python
+def getStyleWithName(self, name)
+```
+  * Get style with specific name from stylsheet
+  * __Parameters__
+    * __name__: Name of style (type: ```string```)
+
+---
+```python
+def processStyle(self, name)
+```
+  * Some string values are replaced by an object if necessary
+  * __Parameters__
+    * __style__: Some style (type: ```dict```)
+
+
 ## GUI elements
 ### Base class
 Base class for GUI elements
