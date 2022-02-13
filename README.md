@@ -210,7 +210,8 @@ def removeGUIElement(self, element)
 
 ---
 ```python
-@final def getApp(self)
+@final 
+def getApp(self)
 ```
   * Get reference on app (type: ```SimpleApp.application.Application```)
 
@@ -232,7 +233,8 @@ def unregisterLayoutManager(self, layoutManager)
 
 ---
 ```python
-@final def getGUIElement(self)
+@final 
+def getGUIElement(self)
 ```
   * Get list of GUIElements (list element type: ```SimpleApp.guielement.GUIElement```)
 
@@ -254,7 +256,8 @@ def setFillColor(self, color)
 
 ---
 ```python
-@final def getFillColor(self)
+@final 
+def getFillColor(self)
 ```
   * Get view fill color (type: ```tuple```)
 
@@ -276,7 +279,8 @@ def setApplication(self, app)
 
 ---
 ```python
-@final def reloadElementStyle(self, list=None)
+@final 
+def reloadElementStyle(self, list=None)
 ```
   * Reload style of all GUI elements from list (do not set "list" if you want all view elements)
   * __Parameters__
@@ -284,37 +288,43 @@ def setApplication(self, app)
 
 ---
 ```python
-@abc.abstractmethod def createEvt(self)
+@abc.abstractmethod 
+def createEvt(self)
 ```
   * Create event - when the application starting
 
 ---
 ```python
-@abc.abstractmethod def closeEvt(self)
+@abc.abstractmethod 
+def closeEvt(self)
 ```
   * Close event - when the application closing
 
 ---
 ```python
-@abc.abstractmethod def openEvt(self)
+@abc.abstractmethod 
+def openEvt(self)
 ```
   * Open event - when the application show this view
 
 ---
 ```python
-@abc.abstractmethod def hideEvt(self)
+@abc.abstractmethod 
+def hideEvt(self)
 ```
   * Hide event - when the application hide this view
 
 ---
 ```python
-@abc.abstractmethod def reloadStyleEvt(self)
+@abc.abstractmethod 
+def reloadStyleEvt(self)
 ```
   * Reload style event - when the application reloading styles of view
 
 ---
 ```python
-@abc.abstractmethod def findElement(self, list, procces_function=None)
+@abc.abstractmethod 
+def findElement(self, list, procces_function=None)
 ```
   * Find element in "list of GUI elements" for which procces function return True
   * __Parameters__
@@ -323,7 +333,8 @@ def setApplication(self, app)
 
 ---
 ```python
-@abc.abstractmethod def findElement(self, list, procces_function=None)
+@abc.abstractmethod 
+def findElement(self, list, procces_function=None)
 ```
   * Find element in "list of GUI elements" for which procces function return True
   * __Parameters__
