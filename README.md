@@ -348,6 +348,7 @@ def findElement(self, list, procces_function=None)
 &nbsp;
 &nbsp;
 ## Style Manager
+Provides style for each GUI element. Loading and preserves all application styles.
 
 ---
 ```python
