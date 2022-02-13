@@ -1,3 +1,4 @@
+from cProfile import label
 import random
 
 from SimpleApp import *
@@ -142,12 +143,13 @@ class View2(View):
         img = Image(self, "src/img1.jpg")
         panel1.addElement(img, ['10%', '20%', '35%', '75%'])
         # graph
-        data = buildGraphData([
-            [1, 2, 4, 6],
-            [3, 3, 4, 3],
-            [6, 6, 5, 4]
-        ])
-        graph = Graph(self, data)
+        graph = Graph(self)
+        graph.setFigureBuilderFunc(lambda f: Graph.builderFunc_pieGraph(
+            f,
+            ['A', 'B', 'C', 'D'],
+            [1, 2, 3, 5],
+            (0, 0.2, 0, 0)
+        ))
         panel1.addElement(graph, ['45%', '8%', '45%', '90%'])
 
         # panel for tab 2

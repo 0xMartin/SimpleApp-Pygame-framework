@@ -30,11 +30,7 @@
         }
     },
     "Graph": {
-        "foreground_color": "255, 255, 255",
-        "background_color": "50, 50, 50",
-        "font_name": "Verdena",
-        "font_size": 32,
-        "font_bold": "False"
+        "theme": "dark"
     },
     "Image": {
         "foreground_color": "255, 255, 255",

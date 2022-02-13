@@ -37,6 +37,7 @@ import os.path
 import json
 import math
 import copy
+import numpy as np
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -85,41 +86,25 @@ def loadImage(img_path):
     else:
         return None
 
-
-def buildGraphData(dataset_list):
-    data = []
-    l = len(dataset_list[0])
-    for i in range(l):
-        i_data = []
-        for ds in dataset_list:
-            if i < len(ds):
-                i_data.append(ds[i])
-            else:
-                i_data.append(0)
-        data.append(tuple(i_data))
-    return data
-
-
-def drawGraph(width, height, data):
+def drawGraph(fig, dark=False):
     """
     Draw graph and print it to the image
     Parameters:
         width -> Width of graph
         height -> Height of graph
-        data -> Data of graph
+        fig -> Data of graph
+        dark -> True = dark mode
     """
+
     matplotlib.use("Agg")
-
-    fig = pylab.figure(figsize=[width/100, height/100], dpi=100)
-    fig.patch.set_alpha(0.0)
-
-    ax = fig.gca()
-    ax.plot(data)
+    if dark == "dark":
+        plt.style.use('dark_background')
 
     canvas = agg.FigureCanvasAgg(fig)
     canvas.draw()
     renderer = canvas.get_renderer()
     raw_data = renderer.buffer_rgba()
+    plt.close()
 
     return pygame.image.frombuffer(raw_data, canvas.get_width_height(), "RGBA")
 
