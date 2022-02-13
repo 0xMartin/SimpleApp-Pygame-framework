@@ -360,6 +360,181 @@ def __init__(self, view, x, y, width, height, style, selected_cursor=pygame.SYST
     * __style__: Style of Element (type: ```dict```)
     * __selected_cursor__: The type of cursor that appears when this element is selected
 
+---
+```python
+def setVisibility(self, visible)
+```
+  * Set visibility of element
+  * __Parameters__
+    * __visible__: True/False (type: ```boolean```)
+
+---
+```python
+def isVisible(self)
+```
+  * Check if element is visible (type: ```boolean```)
+
+---
+```python
+def setSelectCursor(self, cursor)
+```
+  * Set cursor type when this element is selected
+  * __Parameters__
+    * __cursor__: Type of cursor that appears when this element is selected (type: ```pygame cursor constant```)
+
+---
+```python
+@final
+def getSelectCursor(self)
+```
+  * Return cursor type when this element is selected (type: ```pygame cursor constant```)
+
+---
+```python
+@final
+def getView(self)
+```
+  * Get view to which the element belongs
+
+---
+```python
+@final
+def getX(self)
+```
+  * Get x position of this element (type: ```int```)
+
+---
+```python
+@final
+def getY(self)
+```
+  * Get y position of this element (type: ```int```)
+
+---
+```python
+@final
+def getWidth(self)
+```
+  * Get width of this element (type: ```int```)
+
+---
+```python
+@final
+def getHeight(self)
+```
+  * Get height of this element (type: ```int```)
+
+---
+```python
+@final
+def getStyle(self)
+```
+  * Get style of this element (type: ```dict```)
+
+---
+```python
+def setX(self, x)
+```
+  * Set x position of this element
+  * __Parameters__
+    * __x__: New X position
+
+---
+```python
+def setY(self, y)
+```
+  * Set y position of this element
+  * __Parameters__
+    * __y__: New Y position
+
+---
+```python
+def setWidth(self, width)
+```
+  * Set width of this element
+  * __Parameters__
+    * __width__: New width of element
+
+---
+```python
+def setHeight(self, height)
+```
+  * Set height of this element
+  * __Parameters__
+    * __height__: New height of element
+
+---
+```python
+def setStyle(self, style)
+```
+  * Set style of this element
+  * __Parameters__
+    * __style__: New style of element
+
+---
+```python
+def updateViewRect(self)
+```
+  * Update view rect of this element
+
+---
+```python
+@final
+def getViewRect(self)
+```
+  * Get view rect of this element (type: ```pygame.Rect```)
+
+---
+```python
+@final
+def select(self)
+```
+  * Select this element
+
+---
+```python
+@final
+def unSelect(self)
+```
+  * Unselect this element
+
+---
+```python
+@final
+def isSelected(self)
+```
+  * Check if element is selected (type: ```boolean```)
+
+---
+```python
+@abc.abstractmethod
+def draw(self, view, screen)
+```
+  * Draw element on screen
+  * __Parameters__
+    * __view__: View which is rendering this element
+    * __scree__: Screen where element is rendered 
+
+---
+```python
+@abc.abstractmethod
+def processEvent(self, view, event)
+```
+  * Process event from view
+  * __Parameters__
+    * __view__: View which is sending event
+    * __event__: Pygame event
+
+---
+```python
+@abc.abstractmethod
+def update(self, view)
+```
+  * Update element
+  * __Parameters__
+    * __view__: View which is updating this element
+
+
 ### Label
 ### Image
 ### Button
