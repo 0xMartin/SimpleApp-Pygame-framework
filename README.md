@@ -60,16 +60,26 @@ app.showView(view1)
 app.run()
 ```
 
+## Application
+## View
+
 ## GUI elements
+### Base class
+### Label
+### Image
 ### Button
 ### Canvas
 ### Checkbox
-### Graph
-### Image
-### Label
-### Panel
 ### Radiobutton
 ### Slider
-### Table
+### Togglebutton
 ### Textinput
+### Graph
 ### Vertical scrollbar
+### Table
+### Panel
+
+### Tab Panel
+## Layout managers
+### Absolute Layout
+### Relative Layout
