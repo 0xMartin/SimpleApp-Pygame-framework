@@ -70,6 +70,11 @@ class Application:
                 self.views.append(v)
 
     def setFillColor(self, color):
+        """
+        Set default fill color for views of application
+        Parameters:
+            color -> Fill color
+        """
         self.fill_color = color
 
     def addView(self, view):
@@ -92,21 +97,21 @@ class Application:
 
     def getStyleManager(self):
         """
-        Return style manager
+        Get application style manager
         """
         return self.stylemanager
 
     def reloadStyleSheet(self, styles_path):
         """
-        Reload style sheet
+        Reload stylesheet
         Parameters:
-            styles_path -> Path where is file with styles for all guil elements  
+            styles_path -> Path where is file with styles for all GUI elements  
         """
         self.stylemanager.loadStyleSheet(styles_path)
 
     def reloadElementStyles(self):
         """
-        Reload style of all elements (from all views)
+        Reload style of all elements (from all views of application)
         """
         fill_color = self.stylemanager.getStyleWithName("default")[
             "fill_color"]
@@ -135,8 +140,10 @@ class Application:
 
     def init(self, width, height, name, icon):
         """
-        Init window
+        Init application
         Parameters:
+            width -> Width of application window
+            height -> Height of application window
             name -> Name of application (window title)
             icon -> Icon of application 
         """
@@ -237,7 +244,7 @@ class Application:
         """
         Show view of aplication
         Parameters:
-            view -> view to be displayed
+            view -> View to be displayed in application
         Return True in success
         """
         if view in self.views:
@@ -261,7 +268,7 @@ class Application:
 
     def showViewWithName(self, name):
         """
-        Show view with specif name from list
+        Show view with specific name
         Parameters:
             name -> Name of view
         """
@@ -272,7 +279,7 @@ class Application:
 
     def showViewWithID(self, id):
         """
-        Show view with specif ID from list
+        Show view with specif ID
         Parameters:
             id -> ID of view
         """
@@ -288,7 +295,8 @@ class View(metaclass=abc.ABCMeta):
         """
         Create view
         Parameters:
-            name -> name of view (the name will be visible in the window title)
+            name -> Name of view (the name will be visible in the window title)
+            id -> ID of view (can be used for navigation)
         """
         self.name = name
         self.ID = id
@@ -299,13 +307,18 @@ class View(metaclass=abc.ABCMeta):
         self.setDefaultCursor()
 
     def setID(self, id):
+        """
+        Set view ID
+        Parameters:
+            id -> New ID for view
+        """
         self.ID = id
 
     def addGUIElements(self, elements):
         """
-        Add gui elements to this view
+        Add GUI elements to this view
         Parameters:
-            elements -> List of GUIElement
+            elements -> List with GUI elements
         """
         for el in elements:
             if isinstance(el, GUIElement):
@@ -313,16 +326,16 @@ class View(metaclass=abc.ABCMeta):
 
     def removeGUIElement(self, element):
         """
-        Remove GUI element from this view
+        Remove GUI element from view
         Parameters:
-            element -> Element to be removed
+            element -> GUI element to be removed
         """
         self.GUIElements.remove(element)
 
     @final
     def getApp(self):
         """
-        Return app
+        Get reference on app
         """
         return self.app
 
@@ -342,7 +355,7 @@ class View(metaclass=abc.ABCMeta):
         """
         Unregister layout manager
         Parameters:
-            layoutManager -> layout manager    
+            layoutManager -> Layout manager    
         """
         self.layout_manager_list.remove(layoutManager)
 
@@ -357,13 +370,13 @@ class View(metaclass=abc.ABCMeta):
         """
         Set default cursor for view
         Parameters:
-            cursor -> default cursor
+            cursor -> Default cursor
         """
         self.cursor = cursor
 
     def setFillColor(self, color):
         """
-        Set fill color
+        Set view fill color
         Parameters:
             color -> View fill color
         """
@@ -372,7 +385,7 @@ class View(metaclass=abc.ABCMeta):
     @final
     def getFillColor(self):
         """
-        Get fill color
+        Get view fill color
         """
         return self.fill_color
 
@@ -380,7 +393,7 @@ class View(metaclass=abc.ABCMeta):
         """
         Set visibility of view
         Parameters:
-            visible -> visibility
+            visible -> True=view is visible
         """
         self.visible = visible
 
@@ -399,7 +412,9 @@ class View(metaclass=abc.ABCMeta):
     @final
     def reloadElementStyle(self, list=None):
         """
-        Reload style of all GUI elements from view
+        Reload style of all GUI elements from list (do not set "list" if you want all view elements)
+        Parameters:
+            list -> List with GUI elements
         """
         if list is None:
             list = self.GUIElements    
@@ -431,16 +446,14 @@ class View(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def createEvt(self):
         """
-        Create event
-        Called when the application starting
+        Create event - when the application starting
         """
         pass
 
     @abc.abstractmethod
     def closeEvt(self):
         """
-        Close event
-        Called when the application closing
+        Close event - when the application closing
         """
         pass
 
@@ -461,24 +474,21 @@ class View(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def openEvt(self):
         """
-        Open event
-        Called when the application show this view
+        Open event - when the application show this view
         """
         pass
 
     @abc.abstractmethod
     def hideEvt(self):
         """
-        Hide event
-        Called when the application hide this view
+        Hide event - when the application hide this view
         """
         pass
 
     @abc.abstractmethod
     def reloadStyleEvt(self):
         """
-        Reload style event
-        Called when the application reloading styles of view
+        Reload style event - when the application reloading styles of view
         """
         pass
 

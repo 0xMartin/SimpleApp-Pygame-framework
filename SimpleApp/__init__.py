@@ -31,6 +31,10 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 
+"""
+https://github.com/0xMartin/SimpleApp-Pygame-framework
+"""
+
 from SimpleApp.application import *
 from SimpleApp.guielement import *
 from SimpleApp.colors import *

@@ -41,11 +41,11 @@ class GUIElement(metaclass=abc.ABCMeta):
         """
         Create GUIElement
         Parameters:
-            x -> X position
-            y -> Y position
+            x -> X position of Element
+            y -> Y position of Element
             width -> Width of Element
             height -> Height of Element
-            style -> Style of 
+            style -> Style of Element
             selected_cursor -> The type of cursor that appears when this element is selected
         """
         self.view = view
