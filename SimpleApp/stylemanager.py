@@ -102,6 +102,8 @@ class StyleManager:
             return self.processStyle(self.styles["Panel"])
         elif element_name == "ToggleButton":
             return self.processStyle(self.styles["ToggleButton"])
+        elif element_name == "TabPanel":
+            return self.processStyle(self.styles["TabPanel"])
 
     def processStyle(self, style):
         # colors

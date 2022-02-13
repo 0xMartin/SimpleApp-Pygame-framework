@@ -92,9 +92,13 @@ class ToggleButton(GUIElement):
     @overrides(GUIElement)
     def draw(self, view, screen):
         # bg and outline
+        if self.status:
+            bg_color = colorChange(super().getStyle()["foreground_color"], 0.8)
+        else:
+            bg_color = super().getStyle()["background_color"]
         pygame.draw.rect(
             screen,
-            super().getStyle()["background_color"],
+            bg_color,
             super().getViewRect(),
             border_radius=int(super().getHeight() / 2)
         )
@@ -108,17 +112,6 @@ class ToggleButton(GUIElement):
         # toggle switch
         if self.status:
             pos = super().getWidth() - super().getHeight() / 2
-            pygame.draw.rect(
-                screen,
-                colorChange(super().getStyle()["foreground_color"], 0.8),
-                pygame.Rect(
-                    super().getX(),
-                    super().getY(),
-                    pos,
-                    super().getHeight()
-                ),
-                border_radius=int(super().getHeight() / 2)
-            )
             pygame.draw.circle(
                 screen,
                 super().getStyle()["foreground_color"],

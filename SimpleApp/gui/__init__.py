@@ -38,6 +38,7 @@ from SimpleApp.gui.graph import *
 from SimpleApp.gui.image import *
 from SimpleApp.gui.label import *
 from SimpleApp.gui.panel import *
+from SimpleApp.gui.tabpanel import *
 from SimpleApp.gui.radiobutton import *
 from SimpleApp.gui.slider import *
 from SimpleApp.gui.table import *

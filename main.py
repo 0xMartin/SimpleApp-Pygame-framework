@@ -1,6 +1,5 @@
 import random
 
-from numpy import TooHardError
 from SimpleApp import *
 
 
@@ -95,6 +94,10 @@ class View1(View):
     def hideEvt(self):
         pass
 
+    @overrides(View)
+    def reloadStyleEvt(self):
+        pass
+
     def paint(self, surface):
         for i in range(1, 100):
             pygame.draw.rect(
@@ -109,7 +112,7 @@ class View1(View):
                 ),
                 2
             )
-    
+
     def changeTheme(self, dark):
         if dark:
             self.getApp().reloadStyleSheet("SimpleApp/config/styles_dark.json")
@@ -124,36 +127,20 @@ class View2(View):
 
     @overrides(View)
     def createEvt(self):
-        al = AbsoluteLayout(self)
-
-        # button
-        btn = Button(self, None, "Go to view 1")
-        al.addElement(btn, ['25%', '85%', '50%', '40'])
-        btn.setClickEvt(lambda btn: self.getApp().showViewWithID(VIEW1_ID))
-
-        # text input
-        txt = TextInput(self, None, "A1B2")
-        txt.setFilterPattern("^([A-Z][0-9]+)+$")
-        al.addElement(txt, ['45%', '5%', '50%', '40'])
-
-        # panel
-        panel = Panel(self, None)
-        panel.setLayoutManager(AbsoluteLayout(self))
-        al.addElement(panel, ['5%', '20%', '90%', '60%'])
-
+        # panel for tab 1
+        panel1 = Panel(self, None)
+        panel1.setLayoutManager(AbsoluteLayout(self))
         # combo box
         group = RadioButtonGroup([])
         combobox1 = RadioButton(self, None, "Option 1", group, 20)
-        panel.addElement(combobox1, ['15%', '5%'])
+        panel1.addElement(combobox1, ['15%', '5%'])
         combobox2 = RadioButton(self, None, "Option 2", group, 20)
-        panel.addElement(combobox2, ['40%', '5%'])
+        panel1.addElement(combobox2, ['40%', '5%'])
         combobox3 = RadioButton(self, None, "Option 3", group, 20)
-        panel.addElement(combobox3, ['65%', '5%'])
-
+        panel1.addElement(combobox3, ['65%', '5%'])
         # image
         img = Image(self, "src/img1.jpg")
-        panel.addElement(img, ['10%', '20%', '35%', '75%'])
-
+        panel1.addElement(img, ['10%', '20%', '35%', '75%'])
         # graph
         data = buildGraphData([
             [1, 2, 4, 6],
@@ -161,10 +148,34 @@ class View2(View):
             [6, 6, 5, 4]
         ])
         graph = Graph(self, data)
-        panel.addElement(graph, ['45%', '8%', '45%', '90%'])
+        panel1.addElement(graph, ['45%', '8%', '45%', '90%'])
 
-        self.addGUIElements(
-            [btn, txt, panel])
+        # panel for tab 2
+        panel2 = Panel(self, None)
+        panel2.setLayoutManager(AbsoluteLayout(self))
+        # button
+        btn = Button(self, None, "Go to view 1")
+        panel2.addElement(btn, ['25%', '85%', '50%', '40'])
+        btn.setClickEvt(lambda btn: self.getApp().showViewWithID(VIEW1_ID))
+        # text input
+        txt = TextInput(self, None, "A1B2")
+        txt.setFilterPattern("^([A-Z][0-9]+)+$")
+        panel2.addElement(txt, ['25%', '5%', '50%', '40'])
+
+        # tab panel
+        tab = TabPanel(
+            self,
+            None,
+            [
+                Tab("Tab 1", panel1),
+                Tab("Tab 2", panel2),
+                Tab("Empty Tab", None)
+            ]
+        )
+        al = AbsoluteLayout(self)
+        al.addElement(tab, ['5%', '5%', '90%', '90%'])
+
+        self.addGUIElements([tab])
 
     @overrides(View)
     def closeEvt(self):
@@ -176,6 +187,10 @@ class View2(View):
 
     @overrides(View)
     def hideEvt(self):
+        pass
+
+    @overrides(View)
+    def reloadStyleEvt(self):
         pass
 
 

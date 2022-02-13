@@ -396,6 +396,7 @@ class View(metaclass=abc.ABCMeta):
         else:
             return False
 
+    @final
     def reloadElementStyle(self, list=None):
         """
         Reload style of all GUI elements from view
@@ -403,11 +404,14 @@ class View(metaclass=abc.ABCMeta):
         if list is None:
             list = self.GUIElements    
         for el in list:
+            if el is None:
+                continue
             style = self.app.getStyleManager().getStyle(el.__class__.__name__)
             if style is not None:
                 el.setStyle(style)
             if isinstance(el, Container):
                 self.reloadElementStyle(el.getChilds())
+        self.reloadStyleEvt()
 
     @final
     def createEvt_base(self, width, height):
@@ -470,6 +474,14 @@ class View(metaclass=abc.ABCMeta):
         """
         pass
 
+    @abc.abstractmethod
+    def reloadStyleEvt(self):
+        """
+        Reload style event
+        Called when the application reloading styles of view
+        """
+        pass
+
     @final
     def processEvt(self, event):
         """
@@ -496,7 +508,7 @@ class View(metaclass=abc.ABCMeta):
             list -> List with GUI elements
             procces_function -> True/False function, return first element for which return True
         """
-        if procces_function is None:
+        if procces_function is None or list is None:
             return None
         ret = None
         for el in list:

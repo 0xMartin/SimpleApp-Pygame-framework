@@ -121,5 +121,13 @@
             "font_size": 28,
             "font_bold": "False"
         }
+    },
+    "TabPanel": {
+        "outline_color": "45, 45, 45",
+        "background_color": "31, 31, 31",
+        "foreground_color": "150, 150, 150",
+        "font_name": "Verdena",
+        "font_size": 22,
+        "font_bold": "False"
     }
 }

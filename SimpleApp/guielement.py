@@ -54,6 +54,7 @@ class GUIElement(metaclass=abc.ABCMeta):
         self.width = width
         self.height = height
         self.selected_cursor = selected_cursor
+        self.visible = True
 
         sm = view.getApp().getStyleManager()
         if style is None:
@@ -63,6 +64,20 @@ class GUIElement(metaclass=abc.ABCMeta):
 
         self.selected = False
         self.updateViewRect()
+
+    def setVisible(self, visible):
+        """
+        Set visibility of element
+        Parameters:
+            visible -> True/False
+        """
+        self.visible = visible
+
+    def isVisible(self):
+        """
+        Check if element is visible
+        """
+        return self.visible
 
     def setSelectCursor(self, cursor):
         """
@@ -120,7 +135,7 @@ class GUIElement(metaclass=abc.ABCMeta):
         Get style of this element
         """
         return self.style
-        
+
     def setStyle(self, style):
         """
         Set style of this element
@@ -153,8 +168,9 @@ class GUIElement(metaclass=abc.ABCMeta):
         Parameters:
             width -> New width
         """
-        self.width = width
-        self.updateViewRect()
+        if width >= 0:
+            self.width = width
+            self.updateViewRect()
 
     def setHeight(self, height):
         """
@@ -162,8 +178,9 @@ class GUIElement(metaclass=abc.ABCMeta):
         Parameters:
             height -> New height
         """
-        self.height = height
-        self.updateViewRect()
+        if height >= 0:
+            self.height = height
+            self.updateViewRect()
 
     def setStyle(self, style):
         """
@@ -224,6 +241,7 @@ class GUIElement(metaclass=abc.ABCMeta):
         Update element
         """
         pass
+
 
 class Container(metaclass=abc.ABCMeta):
     @abc.abstractmethod
