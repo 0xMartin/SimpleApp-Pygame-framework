@@ -99,6 +99,8 @@ def drawGraph(fig, dark=False):
     matplotlib.use("Agg")
     if dark == "dark":
         plt.style.use('dark_background')
+    else:
+        plt.style.use('default')
 
     canvas = agg.FigureCanvasAgg(fig)
     canvas.draw()

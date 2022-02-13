@@ -141,7 +141,7 @@ class View2(View):
         panel1.addElement(combobox3, ['65%', '5%'])
         # image
         img = Image(self, "src/img1.jpg")
-        panel1.addElement(img, ['10%', '20%', '35%', '75%'])
+        panel1.addElement(img, ['5%', '20%', '45%', '75%'])
         # graph
         graph = Graph(self)
         graph.setFigureBuilderFunc(lambda f: Graph.builderFunc_pieGraph(
@@ -150,7 +150,7 @@ class View2(View):
             [1, 2, 3, 5],
             (0, 0.2, 0, 0)
         ))
-        panel1.addElement(graph, ['45%', '8%', '45%', '90%'])
+        panel1.addElement(graph, ['50%', '8%', '45%', '90%'])
 
         # panel for tab 2
         panel2 = Panel(self, None)
