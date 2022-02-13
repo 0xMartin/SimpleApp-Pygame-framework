@@ -58,6 +58,20 @@ class Button(GUIElement):
         self.font = pygame.font.SysFont(
             super().getStyle()["font_name"], super().getStyle()["font_size"], bold=super().getStyle()["font_bold"])
 
+    def setText(self, text):
+        """
+        Set text of Button
+        Parameters:
+            text -> New text of Button 
+        """
+        self.text = text
+
+    def getText(self):
+        """
+        Get text of Button
+        """
+        return self.text
+
     def setClickEvt(self, callback):
         """
         Set button click event callback

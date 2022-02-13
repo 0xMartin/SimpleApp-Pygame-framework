@@ -74,7 +74,7 @@ class RadioButton(GUIElement):
 
     def setCheckedEvt(self, callback):
         """
-        Set checkbox Checked event
+        Set radiobutton Checked event
         Parameters:
             callback -> callback function
         """

@@ -65,11 +65,17 @@ class Label(GUIElement):
 
     def setText(self, text):
         """
-        Set text of TextInput
+        Set text of Label
         Parameters:
             text -> New text
         """
         self.text = text
+
+    def getText(self):
+        """
+        Get text of Label
+        """
+        return self.text
 
     @overrides(GUIElement)
     def draw(self, view, screen):

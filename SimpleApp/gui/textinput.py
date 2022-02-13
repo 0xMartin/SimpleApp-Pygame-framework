@@ -66,6 +66,12 @@ class TextInput(GUIElement):
         """
         self.text = text
 
+    def getText(self):
+        """
+        Get text of TextInput
+        """
+        return self.text
+
     def setTextChangedEvt(self, callback):
         """
         Set text changed event

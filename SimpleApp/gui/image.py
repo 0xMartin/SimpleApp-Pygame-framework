@@ -52,6 +52,20 @@ class Image(GUIElement):
         super().__init__(view, x, y, width, height, None)
         self.image = loadImage(image_path)
 
+    def setImage(self, image_path):
+        """
+        Set new image
+        Parameters:
+            image_path -> Image path
+        """
+        self.image = loadImage(image_path) 
+
+    def getImage(self):
+        """
+        Get image
+        """
+        return self.image  
+
     @overrides(GUIElement)
     def draw(self, view, screen):
         if self.image is not None:
