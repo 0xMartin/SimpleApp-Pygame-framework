@@ -61,6 +61,7 @@ app.init(640, 400, "Application", "")
 app.showView(view1)
 app.run()
 ```
+&nbsp;
 
 ## Application
 The main component of the framework. Provides switched view work with them (rendering, events, updates, ...). Here I set the styles, icon, application name, window size, ...
@@ -174,6 +175,7 @@ def showViewWithID(self, id)
   * __Parameters__
     * __id__: ID of view (type: ```int```)
 
+&nbsp;
 ## View
 View represents the content/page of the application window that the user sees and with which he can interact.
 ```python
@@ -341,6 +343,7 @@ def findElement(self, list, procces_function=None)
     * __list__: List with GUI elements (list element type: ```SimpleApp.guielement.GUIElement```)
     * __procces_function__: True/False function, return first element for which return True
 
+&nbsp;
 ## Style Manager
 
 ---
@@ -390,6 +393,7 @@ def processStyle(self, name)
     * __style__: Some style (type: ```dict```)
 
 
+&nbsp;
 ## GUI elements
 ### Base class
 Base class for GUI elements
