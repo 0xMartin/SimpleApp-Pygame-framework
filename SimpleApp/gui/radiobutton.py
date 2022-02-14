@@ -39,7 +39,7 @@ from SimpleApp.gui.label import Label
 
 
 class RadioButton(GUIElement):
-    def __init__(self, view, style, text, group, size=20, x=0, y=0):
+    def __init__(self, view, style: dict, text: str, group, size=20, x: int = 0, y: int = 0):
         """
         Create RadioButton element 
         Parameters:
@@ -57,7 +57,7 @@ class RadioButton(GUIElement):
         self.checked = False
         self.callback = None
 
-    def setText(self, text):
+    def setText(self, text: str):
         """
         Set text of label
         Parameters:
@@ -66,7 +66,7 @@ class RadioButton(GUIElement):
         if self.label is not None:
             self.label.setText(text)
 
-    def getLabel(self):
+    def getLabel(self) -> Label:
         """
         Get label
         """
@@ -80,7 +80,7 @@ class RadioButton(GUIElement):
         """
         self.callback = callback
 
-    def setChecked(self, checked):
+    def setChecked(self, checked: bool):
         """
         Set checked state of this radio button
         Parameters:
@@ -88,7 +88,7 @@ class RadioButton(GUIElement):
         """
         self.checked = checked
 
-    def isChecked(self):
+    def isChecked(self) -> bool:
         """
         Return if is checked
         """
@@ -138,7 +138,7 @@ class RadioButton(GUIElement):
 
 
 class RadioButtonGroup:
-    def __init__(self, radiobtns):
+    def __init__(self, radiobtns: list):
         """
         Create RadioButton group
         Parameters:
@@ -149,7 +149,7 @@ class RadioButtonGroup:
             if isinstance(r, RadioButton):
                 self.radiobtns.append(r)
 
-    def addRadioButton(self, radiobtn):
+    def addRadioButton(self, radiobtn: RadioButton):
         """
         Add radio button to this group
         Parameters:
@@ -158,7 +158,7 @@ class RadioButtonGroup:
         if isinstance(radiobtn, RadioButton):
             self.radiobtns.append(radiobtn)
 
-    def removeRadioButton(self, radiobtn):
+    def removeRadioButton(self, radiobtn: RadioButton):
         """
         Remove radio button from this group
         Parameters:
@@ -174,7 +174,7 @@ class RadioButtonGroup:
             if r.isChecked():
                 return r
 
-    def checkRadioButton(self, radiobtn):
+    def checkRadioButton(self, radiobtn: RadioButton):
         """
         Check one radio button from this group
         Parameters:

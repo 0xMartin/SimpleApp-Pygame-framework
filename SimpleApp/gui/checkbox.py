@@ -31,15 +31,15 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 
-from SimpleApp.gui.label import Label
 import pygame
 from ..utils import *
 from ..colors import *
 from ..guielement import *
+from SimpleApp.gui.label import Label
 
 
 class CheckBox(GUIElement):
-    def __init__(self, view, style, text, checked, size=20, x=0, y=0):
+    def __init__(self, view, style: dict, text: str, checked: bool, size: int = 20, x: int = 0, y: int = 0):
         """
         Create CheckBox element 
         Parameters:
@@ -58,7 +58,7 @@ class CheckBox(GUIElement):
         self.checked = checked
         self.callback = None
 
-    def setText(self, text):
+    def setText(self, text: str):
         """
         Set text of label
         Parameters:
@@ -67,7 +67,7 @@ class CheckBox(GUIElement):
         if self.label is not None:
             self.label.setText(text)
 
-    def getLabel(self):
+    def getLabel(self) -> Label:
         """
         Get label
         """
@@ -81,7 +81,7 @@ class CheckBox(GUIElement):
         """
         self.callback = callback
 
-    def setChecked(self, checked):
+    def setChecked(self, checked: bool):
         """
         Set checked state of this check box
         Parameters:
@@ -89,7 +89,7 @@ class CheckBox(GUIElement):
         """
         self.checked = checked
 
-    def isChecked(self):
+    def isChecked(self) -> Label:
         """
         Return if this check box is checked
         """

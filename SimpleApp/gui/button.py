@@ -39,7 +39,7 @@ from ..guielement import *
 
 class Button(GUIElement):
 
-    def __init__(self, view, style, text, width=0, height=0, x=0, y=0):
+    def __init__(self, view, style: dict, text: str, width: int = 0, height: int = 0, x: int = 0, y: int = 0):
         """
         Create button
         Parameters:
@@ -58,7 +58,7 @@ class Button(GUIElement):
         self.font = pygame.font.SysFont(
             super().getStyle()["font_name"], super().getStyle()["font_size"], bold=super().getStyle()["font_bold"])
 
-    def setText(self, text):
+    def setText(self, text: str):
         """
         Set text of Button
         Parameters:
@@ -66,7 +66,7 @@ class Button(GUIElement):
         """
         self.text = text
 
-    def getText(self):
+    def getText(self) -> str:
         """
         Get text of Button
         """
@@ -85,7 +85,8 @@ class Button(GUIElement):
         # background
         if self.isSelected():
             c = super().getStyle()["background_color"]
-            pygame.draw.rect(screen, colorChange(c, -0.2 if c[0] > 128 else 0.6), super().getViewRect(), border_radius=10)
+            pygame.draw.rect(screen, colorChange(
+                c, -0.2 if c[0] > 128 else 0.6), super().getViewRect(), border_radius=10)
         else:
             pygame.draw.rect(screen, super().getStyle()[
                              "background_color"], super().getViewRect(), border_radius=10)

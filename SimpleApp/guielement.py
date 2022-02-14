@@ -41,7 +41,15 @@ class GUIElement(metaclass=abc.ABCMeta):
     Base class for GUI elements
     """
 
-    def __init__(self, view, x, y, width, height, style, selected_cursor=pygame.SYSTEM_CURSOR_HAND):
+    def __init__(
+        self,
+        view, x: int,
+        y: int,
+        width: int,
+        height: int,
+        style: dict,
+        selected_cursor=pygame.SYSTEM_CURSOR_HAND
+    ):
         """
         Create GUIElement
         Parameters:
@@ -69,7 +77,7 @@ class GUIElement(metaclass=abc.ABCMeta):
         self.selected = False
         self.updateViewRect()
 
-    def setVisibility(self, visible):
+    def setVisibility(self, visible: bool):
         """
         Set visibility of element
         Parameters:
@@ -77,7 +85,7 @@ class GUIElement(metaclass=abc.ABCMeta):
         """
         self.visible = visible
 
-    def isVisible(self):
+    def isVisible(self) -> bool:
         """
         Check if element is visible
         """
@@ -106,41 +114,41 @@ class GUIElement(metaclass=abc.ABCMeta):
         return self.view
 
     @final
-    def getX(self):
+    def getX(self) -> int:
         """
         Get x position of this element
         """
         return self.x
 
     @final
-    def getY(self):
+    def getY(self) -> int:
         """
         Get y position of this element
         """
         return self.y
 
     @final
-    def getWidth(self):
+    def getWidth(self) -> int:
         """
         Get width of this element
         """
         return self.width
 
     @final
-    def getHeight(self):
+    def getHeight(self) -> int:
         """
         Get height of this element
         """
         return self.height
 
     @final
-    def getStyle(self):
+    def getStyle(self) -> dict:
         """
         Get style of this element
         """
         return self.style
 
-    def setX(self, x):
+    def setX(self, x: int):
         """
         Set x position of this element
         Parameters:
@@ -149,7 +157,7 @@ class GUIElement(metaclass=abc.ABCMeta):
         self.x = x
         self.updateViewRect()
 
-    def setY(self, y):
+    def setY(self, y: int):
         """
         Set y position of this element
         Parameters:
@@ -158,7 +166,7 @@ class GUIElement(metaclass=abc.ABCMeta):
         self.y = y
         self.updateViewRect()
 
-    def setWidth(self, width):
+    def setWidth(self, width: int):
         """
         Set width of this element
         Parameters:
@@ -168,7 +176,7 @@ class GUIElement(metaclass=abc.ABCMeta):
             self.width = width
             self.updateViewRect()
 
-    def setHeight(self, height):
+    def setHeight(self, height: int):
         """
         Set height of this element
         Parameters:
@@ -178,7 +186,7 @@ class GUIElement(metaclass=abc.ABCMeta):
             self.height = height
             self.updateViewRect()
 
-    def setStyle(self, style):
+    def setStyle(self, style: dict):
         """
         Set style of this element
         Parameters:
@@ -193,7 +201,7 @@ class GUIElement(metaclass=abc.ABCMeta):
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
     @final
-    def getViewRect(self):
+    def getViewRect(self) -> pygame.Rect:
         """
         Get view rect of this element
         """
@@ -214,14 +222,14 @@ class GUIElement(metaclass=abc.ABCMeta):
         self.selected = False
 
     @final
-    def isSelected(self):
+    def isSelected(self) -> bool:
         """
         Check if element is selected
         """
         return self.selected
 
     @abc.abstractmethod
-    def draw(self, view, screen):
+    def draw(self, view, screen: pygame.Surface):
         """
         Draw element on screen
         Parameters:
@@ -252,7 +260,7 @@ class GUIElement(metaclass=abc.ABCMeta):
 
 class Container(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    def getChilds(self):
+    def getChilds(self) -> list:
         """
         Get child elements of Container object
         """

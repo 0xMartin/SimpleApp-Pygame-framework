@@ -61,7 +61,7 @@ class StyleManager:
         """
         self.styles = loadConfig(styles_path)
 
-    def getStyleWithName(self, name):
+    def getStyleWithName(self, name) -> dict:
         """
         Get style with specific name from stylsheet 
         Parameters:
@@ -72,7 +72,7 @@ class StyleManager:
         else:
             return self.processStyle(self.styles[name])
 
-    def processStyle(self, style):
+    def processStyle(self, style) -> dict:
         """
         Some string values are replaced by an object if necessary
         Parameters:

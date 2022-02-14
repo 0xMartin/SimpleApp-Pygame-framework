@@ -63,6 +63,7 @@ class Application:
         self.views = []
         self.visible_view = None
         self.inited = False
+        self.running = False
         if dark:
             self.stylemanager = StyleManager(
                 "SimpleApp/config/styles_dark.json")
@@ -75,7 +76,7 @@ class Application:
                 v.setApplication(self)
                 self.views.append(v)
 
-    def setFillColor(self, color):
+    def setFillColor(self, color: tuple):
         """
         Set default fill color for views of application
         Parameters:
@@ -83,7 +84,7 @@ class Application:
         """
         self.fill_color = color
 
-    def addView(self, view):
+    def addView(self, view) -> bool:
         """
         Add new view to application
         Parameters:
@@ -101,13 +102,13 @@ class Application:
         else:
             return False
 
-    def getStyleManager(self):
+    def getStyleManager(self) -> StyleManager:
         """
         Get application style manager
         """
         return self.stylemanager
 
-    def reloadStyleSheet(self, styles_path):
+    def reloadStyleSheet(self, styles_path: str):
         """
         Reload stylesheet
         Parameters:
@@ -125,7 +126,7 @@ class Application:
             view.setFillColor(fill_color)
             view.reloadElementStyle()
 
-    def removeView(self, view):
+    def removeView(self, view) -> bool:
         """
         Remove view from application
         Parameters:
@@ -138,13 +139,13 @@ class Application:
         else:
             return False
 
-    def getScreen(self):
+    def getScreen(self) -> pygame.Surface:
         """
         Get screen of application
         """
         return self.screen
 
-    def init(self, width, height, name, icon):
+    def init(self, width: int, height: int, name: str, icon: str):
         """
         Init application
         Parameters:
@@ -195,12 +196,14 @@ class Application:
         clock = pygame.time.Clock()
         while self.running:
             if self.visible_view is not None:
-                self.visible_view.update(self)
+                self.visible_view.update()
             clock.tick(self.ups)
 
-    def run(self):
+    def run(self, start_view=None) -> bool:
         """
         Run application loop
+        Parameters:
+            start_view -> View that will open first    
         Returns False in case of fail
         """
         if not self.inited:
@@ -218,6 +221,9 @@ class Application:
         render_thread.start()
         update_thread = threading.Thread(target=self.update_loop, args=(1,))
         update_thread.start()
+
+        if start_view is not None:
+            self.showView(start_view)
 
         # event loop
         clock = pygame.time.Clock()
@@ -246,13 +252,16 @@ class Application:
             view.closeEvt()
         self.views = []
 
-    def showView(self, view):
+    def showView(self, view) -> bool:
         """
         Show view of aplication
         Parameters:
             view -> View to be displayed in application
         Return True in success
         """
+        if not self.running:
+            return False
+
         if view in self.views:
             # hide current visible view
             if self.visible_view is not None:
@@ -272,7 +281,7 @@ class Application:
         else:
             return False
 
-    def showViewWithName(self, name):
+    def showViewWithName(self, name: str) -> bool:
         """
         Show view with specific name
         Parameters:
@@ -280,10 +289,9 @@ class Application:
         """
         for view in self.views:
             if view.name == name:
-                self.showView(view)
-                break
+                return self.showView(view)
 
-    def showViewWithID(self, id):
+    def showViewWithID(self, id: int) -> bool:
         """
         Show view with specif ID
         Parameters:
@@ -291,8 +299,7 @@ class Application:
         """
         for view in self.views:
             if view.ID == id:
-                self.showView(view)
-                break
+                return self.showView(view)
 
 
 # View class
@@ -302,7 +309,7 @@ class View(metaclass=abc.ABCMeta):
     that the user sees and with which he can interact.
     """
 
-    def __init__(self, name, id):
+    def __init__(self, name: str, id: int):
         """
         Create view
         Parameters:
@@ -317,7 +324,7 @@ class View(metaclass=abc.ABCMeta):
         self.layout_manager_list = []
         self.setDefaultCursor()
 
-    def setID(self, id):
+    def setID(self, id: int):
         """
         Set view ID
         Parameters:
@@ -350,7 +357,7 @@ class View(metaclass=abc.ABCMeta):
         """
         return self.app
 
-    def registerLayoutManager(self, layoutManager):
+    def registerLayoutManager(self, layoutManager) -> bool:
         """
         Register new layout manager
         Parameters:
@@ -371,7 +378,7 @@ class View(metaclass=abc.ABCMeta):
         self.layout_manager_list.remove(layoutManager)
 
     @final
-    def getGUIElement(self):
+    def getGUIElements(self) -> list:
         """
         Get list of GUIElements
         """
@@ -385,7 +392,7 @@ class View(metaclass=abc.ABCMeta):
         """
         self.cursor = cursor
 
-    def setFillColor(self, color):
+    def setFillColor(self, color: tuple):
         """
         Set view fill color
         Parameters:
@@ -394,13 +401,13 @@ class View(metaclass=abc.ABCMeta):
         self.fill_color = color
 
     @final
-    def getFillColor(self):
+    def getFillColor(self) -> tuple:
         """
         Get view fill color
         """
         return self.fill_color
 
-    def setVisibility(self, visible):
+    def setVisibility(self, visible: bool):
         """
         Set visibility of view
         Parameters:
@@ -408,7 +415,7 @@ class View(metaclass=abc.ABCMeta):
         """
         self.visible = visible
 
-    def setApplication(self, app):
+    def setApplication(self, app: Application):
         """
         Assigns an application to this view
         Parameters:
@@ -428,7 +435,7 @@ class View(metaclass=abc.ABCMeta):
             list -> List with GUI elements
         """
         if list is None:
-            list = self.GUIElements    
+            list = self.GUIElements
         for el in list:
             if el is None:
                 continue
@@ -440,7 +447,7 @@ class View(metaclass=abc.ABCMeta):
         self.reloadStyleEvt()
 
     @final
-    def createEvt_base(self, width, height):
+    def createEvt_base(self, width: int, height: int):
         """
         Create event + layout update
         """
@@ -469,7 +476,7 @@ class View(metaclass=abc.ABCMeta):
         pass
 
     @final
-    def openEvt_base(self, width, height):
+    def openEvt_base(self, width: int, height: int):
         """
         Open event + layout update + unselect all
         """
@@ -522,7 +529,7 @@ class View(metaclass=abc.ABCMeta):
         else:
             pygame.mouse.set_cursor(self.cursor)
 
-    def findElement(self, list, procces_function=None):
+    def findElement(self, list, procces_function = None):
         """
         Find element in "list of GUI elements" for which procces function return True
         Parameters:
@@ -548,7 +555,7 @@ class View(metaclass=abc.ABCMeta):
         return ret
 
     @final
-    def render(self, screen):
+    def render(self, screen: pygame.Surface):
         """
         Render view
         """
@@ -557,7 +564,7 @@ class View(metaclass=abc.ABCMeta):
                 el.draw(self, screen)
 
     @final
-    def update(self, screen):
+    def update(self):
         """
         Update view
         """
@@ -576,7 +583,7 @@ class Layout(metaclass=abc.ABCMeta):
     Layout element structure: {"element": value1, "propt": value2}
     """
 
-    def __init__(self, view, register=True):
+    def __init__(self, view: View, register: bool = True):
         """
         Base layout class, automatically register layout manager to view
         Parameters:
@@ -592,7 +599,7 @@ class Layout(metaclass=abc.ABCMeta):
             view.registerLayoutManager(self)
 
     @final
-    def getLayoutElements(self):
+    def getLayoutElements(self) -> list:
         """
         Return all elements from layout
         """
@@ -606,7 +613,7 @@ class Layout(metaclass=abc.ABCMeta):
         """
         self.layoutElements = layoutElements
 
-    def addElement(self, element, propt=None):
+    def addElement(self, element: GUIElement, propt: bool = None):
         """
         Add new layout element to layout manager
         Parameters:
@@ -617,7 +624,7 @@ class Layout(metaclass=abc.ABCMeta):
             self.layoutElements.append({"element": element, "propt": propt})
 
     @abc.abstractmethod
-    def updateLayout(self, width, height):
+    def updateLayout(self, width: int, height: int):
         """
         Update layout of all GUI elements
         Parameters:

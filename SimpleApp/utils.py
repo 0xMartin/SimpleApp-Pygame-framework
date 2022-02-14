@@ -32,12 +32,15 @@ OTHER DEALINGS IN THE SOFTWARE.
 """
 
 import pygame
-from time import time
+
 import os.path
 import json
 import math
 import copy
+import string
+import threading
 import numpy as np
+from time import time
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -52,7 +55,7 @@ def overrides(interface_class):
     return overrider
 
 
-def inRect(x, y, rect):
+def inRect(x: int, y: int, rect: pygame.Rect) -> bool:
     """
     Check if x, y is in rect
     Parameters:
@@ -66,7 +69,7 @@ def inRect(x, y, rect):
         return False
 
 
-def generateSignal(ms_periode):
+def generateSignal(ms_periode: int) -> bool:
     """
     Genereta pariodic signal -> (ms_periode) True -> (ms_periode) False -> ...
     Parameters:
@@ -75,7 +78,7 @@ def generateSignal(ms_periode):
     return round((time() * 1000) / ms_periode) % 2 == 0
 
 
-def loadImage(img_path):
+def loadImage(img_path: str) -> pygame.Surface:
     """
     Load image from File system
     Parameters:
@@ -86,7 +89,7 @@ def loadImage(img_path):
     else:
         return None
 
-def drawGraph(fig, dark=False):
+def drawGraph(fig: matplotlib.figure, dark: bool = False):
     """
     Draw graph and print it to the image
     Parameters:
@@ -111,7 +114,7 @@ def drawGraph(fig, dark=False):
     return pygame.image.frombuffer(raw_data, canvas.get_width_height(), "RGBA")
 
 
-def loadConfig(path):
+def loadConfig(path: str) -> str:
     """
     Load config
     Parameters:
@@ -124,3 +127,19 @@ def loadConfig(path):
     f.close()
     return data
 
+
+def getDisplayWidth() -> int:
+    """
+    Get width of display
+    """
+    return pygame.display.get_surface().get_size().get_width()
+
+def getDisplayHeight() -> int:
+    """
+    Get height of display
+    """
+    return pygame.display.get_surface().get_size().get_height()
+
+def runTaskAsync(task):
+    task = threading.Thread(target=task, args=(1,))
+    task.start()

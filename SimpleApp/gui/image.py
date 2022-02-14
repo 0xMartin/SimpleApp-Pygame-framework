@@ -38,7 +38,7 @@ from ..guielement import *
 
 
 class Image(GUIElement):
-    def __init__(self, view, image_path, width=0, height=0, x=0, y=0):
+    def __init__(self, view, image_path: str, width: int = 0, height: int = 0, x: int = 0, y: int = 0):
         """
         Create Image element 
         Parameters:
@@ -52,7 +52,7 @@ class Image(GUIElement):
         super().__init__(view, x, y, width, height, None)
         self.image = loadImage(image_path)
 
-    def setImage(self, image_path):
+    def setImage(self, image_path: str):
         """
         Set new image
         Parameters:
@@ -60,7 +60,7 @@ class Image(GUIElement):
         """
         self.image = loadImage(image_path) 
 
-    def getImage(self):
+    def getImage(self) -> pygame.Surface:
         """
         Get image
         """

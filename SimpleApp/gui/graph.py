@@ -31,6 +31,7 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 
+from graphene import List
 import pygame
 from ..utils import *
 from ..colors import *
@@ -38,7 +39,7 @@ from ..guielement import *
 
 
 class Graph(GUIElement):
-    def __init__(self, view, width=0, height=0, x=0, y=0):
+    def __init__(self, view, style: dict, width: int = 0, height: int = 0, x: int = 0, y: int = 0):
         """
         Create Graph element
         Parameters:
@@ -48,7 +49,7 @@ class Graph(GUIElement):
             x -> X position
             y -> Y position
         """
-        super().__init__(view, x, y, width, height, None)
+        super().__init__(view, x, y, width, height, style)
         self.graph = None
         self.fig_builder = None
 
@@ -122,7 +123,7 @@ class Graph(GUIElement):
                 ax.legend()
 
     @staticmethod
-    def builderFunc_pieGraph(fig, labels, values, explode=None):
+    def builderFunc_pieGraph(fig: matplotlib.figure, labels: list, values: list, explode: list = None):
         """
         Builder function for Graph: Plot pie graph
         Parameters:
@@ -139,11 +140,11 @@ class Graph(GUIElement):
         """
         ax = fig.gca()
         ax.pie(values, explode=explode, labels=labels, autopct='%1.1f%%',
-                shadow=True, startangle=90)
+               shadow=True, startangle=90)
         ax.axis('equal')
 
     @staticmethod
-    def builderFunc_dotGraph(fig, x_label, y_label, values, legend=None):
+    def builderFunc_dotGraph(fig: matplotlib.figure, x_label: str, y_label: str, values: list, legend: List = None):
         """
         Builder function for Graph: Dot graph
         Parameters:
@@ -166,9 +167,9 @@ class Graph(GUIElement):
             if i < len(legend):
                 line.set_label(legend[i])
                 ax.legend()
-    
+
     @staticmethod
-    def builderFunc_barGraph(fig, labels, values):
+    def builderFunc_barGraph(fig: matplotlib.figure, labels: list, values: list):
         """
         Builder function for Graph: Bar graph
         Parameters:
@@ -185,7 +186,7 @@ class Graph(GUIElement):
         ax.bar(labels, values, width=1, edgecolor="white", linewidth=0.7)
 
     @staticmethod
-    def builderFunc_scatterGraph(fig, values, xlim, ylim):
+    def builderFunc_scatterGraph(fig: matplotlib.figure, values: list, xlim: tuple, ylim: tuple):
         """
         Builder function for Graph: Bar graph
         Parameters:

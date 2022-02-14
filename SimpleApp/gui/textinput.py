@@ -39,7 +39,7 @@ from ..guielement import *
 
 
 class TextInput(GUIElement):
-    def __init__(self, view, style, text, width=0, height=0, x=0, y=0):
+    def __init__(self, view, style: dict, text: str, width: int = 0, height: int = 0, x: int = 0, y: int = 0):
         """
         Create TextInput element 
         Parameters:
@@ -55,10 +55,11 @@ class TextInput(GUIElement):
         self.callback = None
         self.filter_pattern = None
         self.text = text
+        self.caret_position = 0
         self.font = pygame.font.SysFont(
             super().getStyle()["font_name"], super().getStyle()["font_size"], bold=super().getStyle()["font_bold"])
 
-    def setText(self, text):
+    def setText(self, text: str):
         """
         Set text of TextInput
         Parameters:
@@ -80,7 +81,7 @@ class TextInput(GUIElement):
         """
         self.callback = callback
 
-    def setFilterPattern(self, pattern):
+    def setFilterPattern(self, pattern: str):
         """
         Set filter pattern
         Parameters:
@@ -94,26 +95,36 @@ class TextInput(GUIElement):
         # background
         if super().isSelected():
             c = super().getStyle()["background_color"]
-            pygame.draw.rect(screen, colorChange(c, 0.4 if c[0] > 128 else 0.7), super().getViewRect(), border_radius=5)
+            pygame.draw.rect(screen, colorChange(
+                c, 0.4 if c[0] > 128 else 0.7), super().getViewRect(), border_radius=5)
         else:
             pygame.draw.rect(screen, super().getStyle()[
                              "background_color"], super().getViewRect(), border_radius=5)
 
         # create subsurface
         surface = screen.subsurface(super().getViewRect())
-        offset = 0
+        text_offset = 0
+        caret_offset = 0
         if len(self.text) != 0:
             text = self.font.render(
-                self.text, 1, super().getStyle()["foreground_color"])
-            offset = max(text.get_width() + 20 - super().getWidth(), 0)
+                self.text,
+                1,
+                super().getStyle()["foreground_color"]
+            )
+            # calculate carret offset
+            caret_offset = self.font.size(self.text[0: self.caret_position])[0]
+            # offset for text
+            text_offset = max(caret_offset + 20 - super().getWidth(), 0)
             if not super().isSelected():
-                offset = 0
+                text_offset = 0
+            # draw text
             surface.blit(
-                text, (5 - offset, (super().getHeight() - text.get_height())/2))
+                text, (5 - text_offset, (super().getHeight() - text.get_height())/2))
 
         # caret
         if super().isSelected() and generateSignal(400):
-            x = 8 + (0 if (len(self.text) == 0) else text.get_width()) - offset
+            # caret position
+            x = 5 - text_offset + caret_offset
             y = surface.get_height() * 0.2
             pygame.draw.line(surface, super().getStyle()[
                              "foreground_color"], (x, y), (x, surface.get_height() - y), 2)
@@ -128,31 +139,47 @@ class TextInput(GUIElement):
             # select textinput
             if inRect(event.pos[0], event.pos[1], super().getViewRect()):
                 super().select()
+                self.caret_position = len(self.text)
             else:
                 super().unSelect()
                 # text filter
                 if self.filter_pattern is not None:
                     if not self.filter_pattern.match(self.text):
                         # delate text
-                        self.text = ""  
+                        self.text = ""
+                if self.callback is not None:
+                    self.callback(self.text)
         elif event.type == pygame.KEYDOWN:
             # text writing
             if super().isSelected():
-                if self.callback is not None:
-                    self.callback(self)
                 if event.key == pygame.K_BACKSPACE:
                     # delate last char
-                    if(len(self.text) <= 1):
-                        self.text = ""
-                    else:
-                        self.text = self.text[0: -1]
+                    i = self.caret_position
+                    if i >= len(self.text):
+                        self.text = self.text[:i-1]
+                        self.caret_position = max(0, self.caret_position - 1)
+                    elif i != 0:
+                        self.text = self.text[:i-1] + self.text[i:]
+                        self.caret_position = max(0, self.caret_position - 1)
+
+                elif event.key == pygame.K_LEFT:
+                    self.caret_position = max(0, self.caret_position - 1)
+                elif event.key == pygame.K_RIGHT:
+                    self.caret_position = min(len(self.text), self.caret_position + 1)
                 else:
                     # new char
-                    if event.key >= 0 and event.key <= 127:
-                        if event.mod & pygame.KMOD_SHIFT:
-                            self.text += chr(event.key).upper()
+                    if event.unicode in string.printable and event.unicode != '':
+                        # add char to text buffer
+                        i = self.caret_position
+                        if i < len(self.text):
+                            self.text = self.text[:i] + \
+                                event.unicode + self.text[i:]
+                        elif i == 0:
+                            self.text = event.unicode + self.text
                         else:
-                            self.text += chr(event.key)
+                            self.text += event.unicode
+                        # increment caret position
+                        self.caret_position += 1
 
     @overrides(GUIElement)
     def update(self, view):

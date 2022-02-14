@@ -70,10 +70,10 @@
     },
     "Table": {
         "header": {
-            "foreground_color": "230, 230, 230",
+            "foreground_color": "190, 190, 190",
             "background_color": "45, 45, 45",
             "font_name": "Verdena",
-            "font_size": 24,
+            "font_size": 26,
             "font_bold": "False"
         },
         "body": {

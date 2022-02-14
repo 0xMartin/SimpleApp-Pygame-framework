@@ -39,7 +39,7 @@ from ..application import *
 
 
 class TabPanel(GUIElement, Container):
-    def __init__(self, view, style, tabs, x=0, y=0, width=0, height=0):
+    def __init__(self, view, style: dict, tabs: list, width: int = 0, height: int = 0, x: int = 0, y: int = 0):
         """
         Create TabPanel element
         Parameters:
@@ -61,7 +61,7 @@ class TabPanel(GUIElement, Container):
             if isinstance(t, Tab):
                 self.addTab(t)
 
-    def setTabs(self, tabs):
+    def setTabs(self, tabs: list):
         """
         Set tab names
         Parameters:
@@ -72,7 +72,7 @@ class TabPanel(GUIElement, Container):
             if isinstance(t, Tab):
                 self.addTab(t)
 
-    def setSelectedTab(self, index):
+    def setSelectedTab(self, index: int):
         """
         Set selected tab
         Parameters:
@@ -292,7 +292,7 @@ class TabPanel(GUIElement, Container):
 
 
 class Tab:
-    def __init__(self, name, content):
+    def __init__(self, name: str, content: GUIElement):
         self.name = name
         if isinstance(content, GUIElement):
             self.content = content
@@ -302,12 +302,12 @@ class Tab:
     def getName(self):
         return self.name
 
-    def setName(self, name):
+    def setName(self, name: str):
         self.name = name
 
     def getContent(self):
         return self.content
 
-    def setContent(self, content):
+    def setContent(self, content: GUIElement):
         if isinstance(content, GUIElement):
             self.content = content

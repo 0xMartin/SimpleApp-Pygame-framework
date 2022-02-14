@@ -38,7 +38,7 @@ from ..guielement import *
 
 
 class VerticalScrollbar(GUIElement):
-    def __init__(self, view, style, scroller_size, width=0, height=0, x=0, y=0):
+    def __init__(self, view, style: dict, scroller_size: int, width: int = 0, height: int = 0, x: int = 0, y: int = 0):
         """
         Create VerticalScrollbar
         Parameters:
@@ -55,13 +55,13 @@ class VerticalScrollbar(GUIElement):
         self.scroller_pos = 0
         self.scroller_size = scroller_size
 
-    def setScrollerSize(self, size):
+    def setScrollerSize(self, size: int):
         """
         Set size of scroller
         Parameters:
             size -> Height in pixels
         """
-        self.scroller_size = size
+        self.scroller_size = max(size, super().getWidth())
 
     def setOnScrollEvt(self, callback):
         """

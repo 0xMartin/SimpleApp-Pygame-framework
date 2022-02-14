@@ -35,6 +35,7 @@ from SimpleApp.gui.button import *
 from SimpleApp.gui.canvas import *
 from SimpleApp.gui.checkbox import *
 from SimpleApp.gui.graph import *
+from SimpleApp.gui.horizontal_scrollbar import *
 from SimpleApp.gui.image import *
 from SimpleApp.gui.label import *
 from SimpleApp.gui.panel import *

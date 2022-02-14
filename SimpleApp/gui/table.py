@@ -36,10 +36,11 @@ from ..utils import *
 from ..colors import *
 from ..guielement import *
 from SimpleApp.gui.vertical_scrollbar import VerticalScrollbar
+from SimpleApp.gui.horizontal_scrollbar import HorizontalScrollbar
 
 
 class Table(GUIElement, Container):
-    def __init__(self, view, style, data, width=0, height=0, x=0, y=0):
+    def __init__(self, view, style: dict, data: dict, width: int = 0, height: int = 0, x: int = 0, y: int = 0):
         """
         Create Table element
         Parameters:
@@ -52,40 +53,62 @@ class Table(GUIElement, Container):
             y -> Y position
         """
         self.last_data = None
-        self.body_offset = 0
+        self.body_offset_x = 0
+        self.body_offset_y = 0
         super().__init__(view, x, y, width, height, style)
-        self.scroll = VerticalScrollbar(
+        # vertical scrollbar
+        self.v_scroll = VerticalScrollbar(
             view,
             super().getStyle()["scrollbar"],
             super().getStyle()["body"]["scrollbar_width"]
         )
-        self.scroll.setOnScrollEvt(self.tableScroll)
+        self.v_scroll.setOnScrollEvt(self.tableScrollVertical)
+        # horizontal scrollbar
+        self.h_scroll = HorizontalScrollbar(
+            view,
+            super().getStyle()["scrollbar"],
+            super().getStyle()["body"]["scrollbar_width"]
+        )
+        self.h_scroll.setOnScrollEvt(self.tableScrollHorizontal)
+        # refresh table data
         self.refreshTable(data)
 
-    def tableScroll(self, position):
+    def tableScrollVertical(self, position: float):
         """
-        Event for table body scroll
+        Event for table body v_scroll
         Parameters:
-            position -> position of table body (0.0 - 1.0)
+            position -> Vertical position of table body (0.0 - 1.0)
         """
         header_height = self.header_font.get_height() * 1.8
         total_body_data_height = header_height + self.body_font.get_height() * 1.2 * \
             len(self.body)
-        self.body_offset = -max(
-            0, (total_body_data_height - super().getHeight())) * position
+        h = super().getHeight() - super().getStyle()["body"]["scrollbar_width"]
+        self.body_offset_y = -max(
+            0, (total_body_data_height - h)) * position
 
-    def refreshTable(self, data=None):
+    def tableScrollHorizontal(self, position: float):
+        """
+        Event for table body h_scroll
+        Parameters:
+            position -> Horizontal position of table body (0.0 - 1.0)
+        """
+        total_body_data_width = sum(self.col_width)
+        w = super().getWidth() - super().getStyle()["body"]["scrollbar_width"]
+        self.body_offset_x = -max(
+            0, (total_body_data_width - w)) * position
+
+    def refreshTable(self, data: dict = None):
+        """
+        Refresh table data
+        Parameters:
+            data -> {header: [], body: [[],[],[], ...]}
+        """
         if data is None:
             data = self.last_data
         self.last_data = data
         if data is None:
             return
 
-        """
-        Refresh table data
-        Parameters:
-            data -> {header: [], body: [[],[],[], ...]}
-        """
         self.header_font = pygame.font.SysFont(
             super().getStyle()["header"]["font_name"],
             super().getStyle()["header"]["font_size"],
@@ -100,17 +123,45 @@ class Table(GUIElement, Container):
         self.header = data["header"]
         # build table body
         self.body = data["body"]
-        # scroller
-        self.scroll.setX(super().getX() + super().getWidth() -
-                         1 - super().getStyle()["body"]["scrollbar_width"])
-        self.scroll.setY(super().getY())
-        self.scroll.setWidth(super().getStyle()["body"]["scrollbar_width"])
-        self.scroll.setHeight(super().getHeight())
+
+        scroll_size = super().getStyle()["body"]["scrollbar_width"]
+
+        # calculate max width for each col of table
+        self.col_width = [0] * len(self.header)
+        for row in self.body:
+            for i, cell in enumerate(row):
+                # (super().getWidth() - scroll_size) / len(self.header)
+                self.col_width[i] = max(self.body_font.size(
+                    cell)[0] + 10, self.col_width[i])
+        for i, cell in enumerate(self.header):
+            # (super().getWidth() - scroll_size) / len(self.header)
+            self.col_width[i] = max(self.header_font.size(
+                cell)[0] + 10, self.col_width[i])
+        if sum(self.col_width) <= super().getWidth() - scroll_size:
+            for i in range(len(self.header)):
+                self.col_width[i] = super().getWidth() / len(self.header)
+
+        # vertical scrollbar
+        self.v_scroll.setX(
+            super().getX() + super().getWidth() - 1 - scroll_size)
+        self.v_scroll.setY(super().getY())
+        self.v_scroll.setWidth(scroll_size)
+        self.v_scroll.setHeight(super().getHeight())
         header_height = self.header_font.get_height() * 1.8
         total_body_data_height = header_height + self.body_font.get_height() * 1.2 * \
             len(self.body)
-        self.scroll.setScrollerSize((1.0 - max(0, total_body_data_height - super(
-        ).getHeight()) / total_body_data_height) * self.scroll.getHeight())
+        self.v_scroll.setScrollerSize(
+            (1.0 - max(0, total_body_data_height - super().getHeight()) / total_body_data_height) * self.v_scroll.getHeight())
+
+        # horizontal scrollbar
+        self.h_scroll.setX(super().getX())
+        self.h_scroll.setY(
+            super().getY() + super().getHeight() - 1 - scroll_size)
+        self.h_scroll.setWidth(super().getWidth() - scroll_size)
+        self.h_scroll.setHeight(scroll_size)
+        total_body_data_width = sum(self.col_width)
+        self.h_scroll.setScrollerSize(
+            (1.0 - max(0, total_body_data_width - super().getWidth() + scroll_size) / total_body_data_width) * self.h_scroll.getWidth())
 
     @overrides(GUIElement)
     def updateViewRect(self):
@@ -120,33 +171,47 @@ class Table(GUIElement, Container):
 
     @overrides(GUIElement)
     def draw(self, view, screen):
-        screen.set_clip(super().getViewRect())
-        # draw table body background
+        # set clip
+        screen.set_clip(
+            pygame.Rect(
+                super().getX(),
+                super().getY(),
+                super().getWidth() - 1,
+                super().getHeight() - 1,
+            )
+        )
+
+        # size of table body + header
         w = super().getWidth() - super().getStyle()["body"]["scrollbar_width"]
+        h = super().getHeight() - super().getStyle()["body"]["scrollbar_width"]
         rect = pygame.Rect(
             super().getX(),
             super().getY(),
             w,
-            super().getHeight()
+            h
         )
+        # draw table body background
         pygame.draw.rect(
             screen,
             super().getStyle()["body"]["background_color"],
             rect
         )
-        for i in range(len(self.header) - 1):
+        # draw col lines
+        offset = self.body_offset_x
+        for i in range(len(self.header)):
             pygame.draw.line(
                 screen,
                 colorChange(super().getStyle()[
                             "body"]["background_color"], -0.5),
-                (super().getX() + w /
-                 len(self.header) * (i + 1), super().getY()),
-                (super().getX() + w /
-                 len(self.header) * (i + 1), super().getY() + super().getHeight() - 4),
+                (super().getX() + offset, super().getY()),
+                (super().getX() + offset, super().getY() + h - 4),
                 2
             )
+            offset += self.col_width[i]
+
         # draw body data
         for j, row in enumerate(self.body):
+            offset = self.body_offset_x
             for i, cell in enumerate(row):
                 if len(cell) != 0:
                     text = self.body_font.render(
@@ -155,11 +220,12 @@ class Table(GUIElement, Container):
                     screen.blit(
                         text,
                         (
-                            super().getX() + w / len(self.header) * i + 5,
+                            super().getX() + 5 + offset,
                             super().getY() + header_offset +
-                            self.body_font.get_height() * 1.2 * j + self.body_offset
+                            self.body_font.get_height() * 1.2 * j + self.body_offset_y
                         )
                     )
+                    offset += self.col_width[i]
 
         # draw table header
         if self.header is not None:
@@ -173,6 +239,7 @@ class Table(GUIElement, Container):
                     self.header_font.get_height() * 1.8
                 )
             )
+            offset = self.body_offset_x
             for i, col in enumerate(self.header):
                 if len(col) != 0:
                     text = self.header_font.render(
@@ -180,12 +247,17 @@ class Table(GUIElement, Container):
                     screen.blit(
                         text,
                         (
-                            super().getX() + w / len(self.header) * i + 5,
+                            super().getX() + 5 + offset,
                             super().getY() + self.header_font.get_height() * 0.4
                         )
                     )
-        # draw scroll bar
-        self.scroll.draw(view, screen)
+                    offset += self.col_width[i]
+
+        # draw v_scrollbar
+        self.v_scroll.draw(view, screen)
+        # draw h_scrollbar
+        self.h_scroll.draw(view, screen)
+
         # draw outline
         pygame.draw.rect(
             screen,
@@ -193,12 +265,14 @@ class Table(GUIElement, Container):
             rect,
             2
         )
+
         # reset clip
         screen.set_clip(None)
 
     @overrides(GUIElement)
     def processEvent(self, view, event):
-        self.scroll.processEvent(view, event)
+        self.v_scroll.processEvent(view, event)
+        self.h_scroll.processEvent(view, event)
 
     @overrides(GUIElement)
     def update(self, view):
@@ -206,5 +280,5 @@ class Table(GUIElement, Container):
 
     @overrides(Container)
     def getChilds(self):
-        elements = [self.scroll]
-        return elements 
+        elements = [self.v_scroll, self.h_scroll]
+        return elements

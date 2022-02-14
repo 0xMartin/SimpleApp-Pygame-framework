@@ -39,7 +39,7 @@ from ..application import *
 
 
 class Panel(GUIElement, Layout, Container):
-    def __init__(self, view, style, x=0, y=0, width=0, height=0):
+    def __init__(self, view, style: dict, width: int = 0, height: int = 0, x: int = 0, y: int = 0):
         """
         Create Panel element 
         Parameters:
@@ -54,7 +54,7 @@ class Panel(GUIElement, Layout, Container):
         Layout.__init__(self, view)
         self.layoutmanager = None
 
-    def setLayoutManager(self, layoutmanager):
+    def setLayoutManager(self, layoutmanager: Layout):
         """
         Set layout manager
         Parameters:
@@ -75,8 +75,8 @@ class Panel(GUIElement, Layout, Container):
                 pygame.Rect(
                     super().getX() + 5,
                     super().getY() + 5,
-                    super().getWidth() - 10,
-                    super().getHeight() - 10
+                    min(max(super().getWidth() - 10, 10), screen.get_width() - super().getX() - 5),
+                    min(max(super().getHeight() - 10, 10), screen.get_height() - super().getY() - 5)
                 )
             )
             for el in self.getLayoutElements():

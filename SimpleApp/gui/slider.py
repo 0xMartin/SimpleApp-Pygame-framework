@@ -39,13 +39,13 @@ from SimpleApp.gui import Label
 
 
 class Slider(GUIElement):
-    def __init__(self, view, style, value, min, max, width=0, height=0, x=0, y=0):
+    def __init__(self, view, style: dict, number: float, min: float, max: float, width: int = 0, height: int = 0, x: int = 0, y: int = 0):
         """
         Create Slider
         Parameters:
             view -> View where is element
             style -> More about style for this element in config/styles.json
-            value -> Value of Slider 0 - 100
+            number -> Number of Slider
             width -> Width of Slider
             height -> Height of Slider
             x -> X position
@@ -58,9 +58,9 @@ class Slider(GUIElement):
         self.format = "@"
         self.min = min
         self.max = max
-        self.setValue(value)
+        self.setNumber(number)
 
-    def setMin(self, val):
+    def setMin(self, val: int):
         """
         Set minimum value of slider
         Parameters:
@@ -68,7 +68,7 @@ class Slider(GUIElement):
         """
         self.min = val
 
-    def setMax(self, val):
+    def setMax(self, val: int):
         """
         Set maximum value of slider
         Parameters:
@@ -84,20 +84,20 @@ class Slider(GUIElement):
         """
         self.callback = callback
 
-    def getValue(self):
+    def getValue(self) -> int:
         """
         Get % value of slider
         """
         dot_radius = super().getHeight() / 2
         return (self.position - dot_radius) / (super().getWidth() - dot_radius * 2) * 100
 
-    def getNumber(self):
+    def getNumber(self) -> int:
         """
         Get current number (min <-> max) of slider 
         """
         return self.getValue() / 100.0 * (self.max - self.min) + self.min
 
-    def setValue(self, value):
+    def setValue(self, value: int):
         """
         Set % value 
         Parameters:
@@ -115,7 +115,7 @@ class Slider(GUIElement):
         self.position = dot_radius + value / 100.0 * \
             (super().getWidth() - dot_radius * 2)
 
-    def setNumber(self, value):
+    def setNumber(self, value: int):
         """
         Set number value
         Parameters:
@@ -125,7 +125,7 @@ class Slider(GUIElement):
             value = (value - self.min) / (self.max - self.min) * 100
             self.setValue(value)
 
-    def setLabelFormat(self, format):
+    def setLabelFormat(self, format: str):
         """
         Set label format
         Parameters:
@@ -216,7 +216,7 @@ class Slider(GUIElement):
                     max(dot_radius, self.position), super().getWidth() - dot_radius)
                 self.refreshLabel()
                 if self.callback is not None:
-                    self.callback(self.getValue())
+                    self.callback(self.getNumber())
 
     @overrides(GUIElement)
     def update(self, view):

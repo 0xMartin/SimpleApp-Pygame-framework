@@ -40,7 +40,7 @@ from SimpleApp.gui.label import Label
 
 class ToggleButton(GUIElement):
 
-    def __init__(self, view, style, text, status=False, width=0, height=0, x=0, y=0):
+    def __init__(self, view, style: dict, text: str, status: bool = False, width: int = 0, height: int = 0, x: int = 0, y: int = 0):
         """
         Create ToggleButton
         Parameters:
@@ -60,7 +60,7 @@ class ToggleButton(GUIElement):
         self.hover = False
         self.status = status
 
-    def setText(self, text):
+    def setText(self, text: str):
         """
         Set text of label
         Parameters:
@@ -69,13 +69,13 @@ class ToggleButton(GUIElement):
         if self.label is not None:
             self.label.setText(text)
 
-    def getStatus(self):
+    def getStatus(self) -> bool:
         """
         Get status of toggle button (True/False)
         """
         return self.status
 
-    def getLabel(self):
+    def getLabel(self) -> Label:
         """
         Get label
         """

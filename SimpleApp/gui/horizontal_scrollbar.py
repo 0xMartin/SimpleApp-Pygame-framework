@@ -1,8 +1,8 @@
 """
 Simple library for multiple views game aplication with pygame
 
-File:       canvas.py
-Date:       08.02.2022
+File:       horizontal_scrollbar.py
+Date:       14.02.2022
 
 Github:     https://github.com/0xMartin
 Email:      martin.krcma1@gmail.com
@@ -37,24 +37,35 @@ from ..colors import *
 from ..guielement import *
 
 
-class Canvas(GUIElement):
-    def __init__(self, view, style: dict, width: int = 0, height: int = 0, x: int = 0, y: int = 0):
+class HorizontalScrollbar(GUIElement):
+    def __init__(self, view, style: dict, scroller_size: int, width: int = 0, height: int = 0, x: int = 0, y: int = 0):
         """
-        Create Canvas
+        Create HorizontalScrollbar
         Parameters:
             view -> View where is element
-            style -> More about style for this element in config/styles.json
-            width -> Width of Canvas
-            height -> Height of Canvas
+            style -> more about style for this element in config/styles.json
+            scroller_size -> Scroller height
+            width -> Width of VerticalScrollbar
+            height -> Height of VerticalScrollbar
             x -> X position
             y -> Y position
         """
-        super().__init__(view, x, y, width, height, style)
+        super().__init__(view, x, y, width, height, style, pygame.SYSTEM_CURSOR_SIZEWE)
         self.callback = None
+        self.scroller_pos = 0
+        self.scroller_size = scroller_size
 
-    def setPaintEvt(self, callback):
+    def setScrollerSize(self, size: int):
         """
-        Set paint event callback
+        Set size of scroller
+        Parameters:
+            size -> Height in pixels
+        """
+        self.scroller_size = max(size, super().getHeight())
+
+    def setOnScrollEvt(self, callback):
+        """
+        Set on scroll event callback
         Parameters:
             callback -> callback function
         """
@@ -65,29 +76,42 @@ class Canvas(GUIElement):
         # background
         pygame.draw.rect(screen, super().getStyle()[
                          "background_color"], super().getViewRect())
-
-        # create subsurface
-        surface = screen.subsurface(
+        # scroller
+        pygame.draw.rect(
+            screen,
+            super().getStyle()["foreground_color"],
             pygame.Rect(
-                super().getX(),
+                super().getX() + self.scroller_pos,
                 super().getY(),
-                min(max(super().getWidth(), 10),
-                    screen.get_width() - super().getX()),
-                min(max(super().getHeight(), 10),
-                    screen.get_height() - super().getY())
-            )
+                self.scroller_size,
+                super().getHeight()
+            ),
+            border_radius=6
         )
-        # call paint callback
-        if self.callback is not None:
-            self.callback(surface)
-
         # outline
         pygame.draw.rect(screen, super().getStyle()[
                          "outline_color"], super().getViewRect(), 2)
 
     @overrides(GUIElement)
     def processEvent(self, view, event):
-        pass
+        if self.scroller_size >= super().getWidth():
+            return
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if inRect(event.pos[0], event.pos[1], super().getViewRect()):
+                super().select()
+                self.def_scroller_pos = self.scroller_pos
+                self.drag_start = event.pos[0]
+        elif event.type == pygame.MOUSEBUTTONUP:
+            super().unSelect()
+        elif event.type == pygame.MOUSEMOTION:
+            if super().isSelected():
+                self.scroller_pos = self.def_scroller_pos + \
+                    (event.pos[0] - self.drag_start)
+                self.scroller_pos = min(
+                    max(0, self.scroller_pos), super().getWidth() - self.scroller_size)
+                if self.callback is not None:
+                    self.callback(self.scroller_pos /
+                                  (super().getWidth() - self.scroller_size))
 
     @overrides(GUIElement)
     def update(self, view):

@@ -73,7 +73,7 @@
             "foreground_color": "35, 35, 35",
             "background_color": "195, 195, 195",
             "font_name": "Verdena",
-            "font_size": 24,
+            "font_size": 26,
             "font_bold": "False"
         },
         "body": {

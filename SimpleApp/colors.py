@@ -43,7 +43,7 @@ CYAN = (0, 255, 255)
 MAGENTA = (255, 0, 255)
 
 
-def colorChange(color, amount):
+def colorChange(color: tuple, amount: float) -> tuple:
     """
     Change color lightness
     Parameters:
@@ -60,7 +60,7 @@ def colorChange(color, amount):
     rgb[2] = max(min(rgb[2], 255), 0)
     return tuple(rgb)
 
-def colorAdd(color, amount):
+def colorAdd(color: tuple, amount: int) -> tuple:
     """
     Add number to color
     Parameters:
@@ -77,7 +77,7 @@ def colorAdd(color, amount):
     return tuple(rgb)
 
 
-def colorInvert(color):
+def colorInvert(color: tuple) -> tuple:
     """
     Invert color
     Parameters:
@@ -90,7 +90,7 @@ def colorInvert(color):
     return tuple(rgb)
 
 
-def createColor(red, green, blue):
+def createColor(red: int, green: int, blue: int) -> tuple:
     """
     Create color
     Parameters:

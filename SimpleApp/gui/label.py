@@ -38,7 +38,7 @@ from ..guielement import *
 
 
 class Label(GUIElement):
-    def __init__(self, view, style, text, h_centered=False, v_centered=False, x=0, y=0):
+    def __init__(self, view, style: dict, text: str, h_centered: bool = False, v_centered: bool = False, x: int = 0, y: int = 0):
         """
         Create Label element 
         Parameters:
@@ -55,15 +55,23 @@ class Label(GUIElement):
         self.font = pygame.font.SysFont(
             super().getStyle()["font_name"], super().getStyle()["font_size"], bold=super().getStyle()["font_bold"])
 
-    def setCentered(self, centered):
+    def setHCentered(self, centered: bool):
         """
-        Set label align centered
+        Set label align centered (horizontal)
         Parameters:
             centered -> True: text will be aligned to the center of the coordinates
         """
-        self.centered = centered
+        self.h_centered = centered
 
-    def setText(self, text):
+    def setVCentered(self, centered: bool):
+        """
+        Set label align centered (vertical)
+        Parameters:
+            centered -> True: text will be aligned to the center of the coordinates
+        """
+        self.v_centered = centered
+
+    def setText(self, text: str):
         """
         Set text of Label
         Parameters:
@@ -71,7 +79,7 @@ class Label(GUIElement):
         """
         self.text = text
 
-    def getText(self):
+    def getText(self) -> str:
         """
         Get text of Label
         """
@@ -88,7 +96,7 @@ class Label(GUIElement):
             y = super().getY()
             if self.v_centered:
                 y -= text.get_height()/2
-            screen.blit(text, (x, y))   
+            screen.blit(text, (x, y))
 
     @overrides(GUIElement)
     def processEvent(self, view, event):

@@ -143,7 +143,7 @@ class View2(View):
         img = Image(self, "src/img1.jpg")
         panel1.addElement(img, ['5%', '20%', '45%', '75%'])
         # graph
-        graph = Graph(self)
+        graph = Graph(self, None)
         graph.setFigureBuilderFunc(lambda f: Graph.builderFunc_pieGraph(
             f,
             ['A', 'B', 'C', 'D'],
@@ -201,8 +201,7 @@ def main():
     view2 = View2()
     app = Application([view1, view2], 30, 1, False)
     app.init(640, 400, "Application", "")
-    app.showView(view1)
-    app.run()
+    app.run(view1)
 
 
 if __name__ == "__main__":
