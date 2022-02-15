@@ -103,6 +103,11 @@
         "background_color": "220, 220, 220",
         "foreground_color": "170, 170, 170"
     },
+    "HorizontalScrollbar": {
+        "outline_color": "195, 195, 195",
+        "background_color": "220, 220, 220",
+        "foreground_color": "170, 170, 170"
+    },
     "Panel": {
         "outline_color": "190, 190, 190",
         "background_color": "247, 247, 247"
