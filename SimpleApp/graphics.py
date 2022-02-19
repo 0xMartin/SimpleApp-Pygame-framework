@@ -110,6 +110,12 @@ class Wireframe:
         self.edgeColor = (200, 200, 200)
         self.vertexSize = 3
 
+    def setVertexColor(self, color):
+        self.vertexColor = color
+
+    def setEdgeColor(self, color):
+        self.edgeColor = color
+
     def getVertexCount(self) -> int:
         return len(self.vertices)
 

@@ -236,7 +236,6 @@ class Application:
             self.showView(start_view)
 
         # event loop
-        clock = pygame.time.Clock()
         while self.running:
             # quit event
             event = pygame.event.poll()
@@ -245,7 +244,6 @@ class Application:
             # visible view proccess app events and render
             if self.visible_view is not None:
                 self.visible_view.processEvt(event)
-            clock.tick(60)
 
         # close
         pygame.quit()

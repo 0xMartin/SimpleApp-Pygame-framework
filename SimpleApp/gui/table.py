@@ -80,7 +80,7 @@ class Table(GUIElement, Container):
             position -> Vertical position of table body (0.0 - 1.0)
         """
         header_height = self.header_font.get_height() * 1.8
-        total_body_data_height = header_height + self.body_font.get_height() * 1.2 * \
+        total_body_data_height = header_height + self.body_font.get_height() * 1.4 * \
             len(self.body)
         h = super().getHeight() - super().getStyle()["body"]["scrollbar_width"]
         self.body_offset_y = -max(
@@ -148,7 +148,7 @@ class Table(GUIElement, Container):
         self.v_scroll.setWidth(scroll_size)
         self.v_scroll.setHeight(super().getHeight())
         header_height = self.header_font.get_height() * 1.8
-        total_body_data_height = header_height + self.body_font.get_height() * 1.2 * \
+        total_body_data_height = header_height + self.body_font.get_height() * 1.4 * \
             len(self.body)
         self.v_scroll.setScrollerSize(
             (1.0 - max(0, total_body_data_height - super().getHeight()) / total_body_data_height) * self.v_scroll.getHeight())
@@ -222,7 +222,7 @@ class Table(GUIElement, Container):
                         (
                             super().getX() + 5 + offset,
                             super().getY() + header_offset +
-                            self.body_font.get_height() * 1.2 * j + self.body_offset_y
+                            self.body_font.get_height() * 1.4 * j + self.body_offset_y
                         )
                     )
                     offset += self.col_width[i]
