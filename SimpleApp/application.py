@@ -166,6 +166,8 @@ class Application:
         self.default_font = pygame.font.SysFont("Verdana", 35, bold=True)
         pygame.display.set_caption(name)
         img = loadImage(self.icon)
+        if img is None:
+            img = loadImage("./SimpleApp/src/icon.png")    
         if img is not None:
             pygame.display.set_icon(img)
         self.screen = pygame.display.set_mode((width, height))
