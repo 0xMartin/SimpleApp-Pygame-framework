@@ -141,21 +141,13 @@ class TextInput(GUIElement):
                 super().select()
                 self.caret_position = len(self.text)
             else:
-                # call event
-                if super().isSelected():
-                    # text filter
-                    if self.filter_pattern is not None:
-                        if not self.filter_pattern.match(self.text):
-                            # delate text
-                            self.text = ""
-                    if self.callback is not None:
-                        self.callback(self.text)
-                # unselectd TI
-                super().unSelect()
+                self.unselectTI()
         elif event.type == pygame.KEYDOWN:
             # text writing
             if super().isSelected():
-                if event.key == pygame.K_BACKSPACE:
+                if event.key == pygame.K_RETURN:
+                    self.unselectTI()
+                elif event.key == pygame.K_BACKSPACE:
                     # delate last char
                     i = self.caret_position
                     if i >= len(self.text):
@@ -168,7 +160,8 @@ class TextInput(GUIElement):
                 elif event.key == pygame.K_LEFT:
                     self.caret_position = max(0, self.caret_position - 1)
                 elif event.key == pygame.K_RIGHT:
-                    self.caret_position = min(len(self.text), self.caret_position + 1)
+                    self.caret_position = min(
+                        len(self.text), self.caret_position + 1)
                 else:
                     # new char
                     if event.unicode in string.printable and event.unicode != '':
@@ -187,3 +180,16 @@ class TextInput(GUIElement):
     @overrides(GUIElement)
     def update(self, view):
         pass
+
+    def unselectTI(self):
+        # call event
+        if super().isSelected():
+            # text filter
+            if self.filter_pattern is not None:
+                if not self.filter_pattern.match(self.text):
+                    # delate text
+                    self.text = ""
+            if self.callback is not None:
+                self.callback(self.text)
+        # unselectd TI
+        super().unSelect()
