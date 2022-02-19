@@ -161,7 +161,7 @@ class Table(GUIElement, Container):
         self.h_scroll.setHeight(scroll_size)
         total_body_data_width = sum(self.col_width)
         self.h_scroll.setScrollerSize(
-            (1.0 - max(0, total_body_data_width - super().getWidth() + scroll_size) / total_body_data_width) * self.h_scroll.getWidth())
+            (1.0 - max(0, total_body_data_width - super().getWidth()) / total_body_data_width) * self.h_scroll.getWidth())
 
     @overrides(GUIElement)
     def updateViewRect(self):

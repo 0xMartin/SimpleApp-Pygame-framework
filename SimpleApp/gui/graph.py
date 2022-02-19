@@ -31,7 +31,6 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 
-from graphene import List
 import pygame
 from ..utils import *
 from ..colors import *
@@ -144,7 +143,7 @@ class Graph(GUIElement):
         ax.axis('equal')
 
     @staticmethod
-    def builderFunc_dotGraph(fig: matplotlib.figure, x_label: str, y_label: str, values: list, legend: List = None):
+    def builderFunc_dotGraph(fig: matplotlib.figure, x_label: str, y_label: str, values: list, legend: list = None):
         """
         Builder function for Graph: Dot graph
         Parameters:

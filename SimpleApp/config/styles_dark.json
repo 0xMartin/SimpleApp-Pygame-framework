@@ -4,7 +4,7 @@
     },
     "Button": {
         "outline_color": "45, 45, 45",
-        "foreground_color": "255, 255, 255",
+        "foreground_color": "235, 235, 235",
         "background_color": "42, 42, 42",
         "font_name": "Verdena",
         "font_size": 32,
@@ -12,9 +12,10 @@
     },
     "Canvas": {
         "outline_color": "45, 45, 45",
+        "foreground_color": "70, 70, 70",
         "background_color": "0, 0, 0",
-        "font_name": "Verdena",
-        "font_size": 32,
+        "font_name": "Consolas",
+        "font_size": 18,
         "font_bold": "False"
     },
     "CheckBox": {
@@ -130,5 +131,49 @@
         "font_name": "Verdena",
         "font_size": 22,
         "font_bold": "False"
+    },
+    "ComboBox": {
+        "outline_color": "55, 55, 55",
+        "foreground_color": "190, 190, 190",
+        "background_color": "25, 25, 25",
+        "font_name": "Verdena",
+        "font_size": 26,
+        "font_bold": "False",
+        "button": {
+            "outline_color": "45, 45, 45",
+            "foreground_color": "235, 235, 235",
+            "background_color": "42, 42, 42",
+            "font_name": "Arial",
+            "font_size": 18,
+            "font_bold": "False"
+        },
+        "listpanel": {
+            "outline_color": "55, 55, 55",
+            "foreground_color": "180, 180, 180",
+            "background_color": "28, 28, 28",
+            "scrollbar_width": 16,
+            "font_name": "Verdena",
+            "font_size": 26,
+            "font_bold": "False",
+            "scrollbar": {
+                "outline_color": "45, 45, 45",
+                "background_color": "55, 55, 55",
+                "foreground_color": "75, 75, 75"
+            }
+        }
+    },
+    "ListPanel": {
+        "outline_color": "45, 45, 45",
+        "foreground_color": "190, 190, 190",
+        "background_color": "31, 31, 31",
+        "scrollbar_width": 16,
+        "font_name": "Verdena",
+        "font_size": 26,
+        "font_bold": "False",
+        "scrollbar": {
+            "outline_color": "45, 45, 45",
+            "background_color": "55, 55, 55",
+            "foreground_color": "75, 75, 75"
+        }
     }
 }

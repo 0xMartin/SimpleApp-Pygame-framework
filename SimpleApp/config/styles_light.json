@@ -12,9 +12,10 @@
     },
     "Canvas": {
         "outline_color": "190, 190, 190",
+        "foreground_color": "210, 210, 210",
         "background_color": "255, 255, 255",
-        "font_name": "Verdena",
-        "font_size": 32,
+        "font_name": "Consolas",
+        "font_size": 18,
         "font_bold": "False"
     },
     "CheckBox": {
@@ -93,7 +94,7 @@
     "TextInput": {
         "outline_color": "190, 190, 190",
         "foreground_color": "30, 30, 30",
-        "background_color": "220, 220, 220",
+        "background_color": "245, 245, 245",
         "font_name": "Helvetica",
         "font_size": 18,
         "font_bold": "False"
@@ -130,5 +131,49 @@
         "font_name": "Verdena",
         "font_size": 22,
         "font_bold": "False"
+    },
+    "ComboBox": {
+        "outline_color": "180, 180, 180",
+        "foreground_color": "70, 70, 70",
+        "background_color": "200, 200, 200",
+        "font_name": "Verdena",
+        "font_size": 26,
+        "font_bold": "False",
+        "button": {
+            "outline_color": "180, 180, 180",
+            "foreground_color": "70, 70, 70",
+            "background_color": "200, 200, 200",
+            "font_name": "Arial",
+            "font_size": 18,
+            "font_bold": "False"
+        },
+        "listpanel": {
+            "outline_color": "190, 190, 190",
+            "foreground_color": "70, 70, 70",
+            "background_color": "247, 247, 247",
+            "scrollbar_width": 16,
+            "font_name": "Verdena",
+            "font_size": 26,
+            "font_bold": "False",
+            "scrollbar": {
+                "outline_color": "195, 195, 195",
+                "background_color": "220, 220, 220",
+                "foreground_color": "170, 170, 170"
+            }
+        }
+    },
+    "ListPanel": {
+        "outline_color": "190, 190, 190",
+        "foreground_color": "70, 70, 70",
+        "background_color": "247, 247, 247",
+        "scrollbar_width": 16,
+        "font_name": "Verdena",
+        "font_size": 26,
+        "font_bold": "False",
+        "scrollbar": {
+            "outline_color": "195, 195, 195",
+            "background_color": "220, 220, 220",
+            "foreground_color": "170, 170, 170"
+        }
     }
 }

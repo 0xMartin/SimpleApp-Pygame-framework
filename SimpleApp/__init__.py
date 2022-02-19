@@ -42,3 +42,4 @@ from SimpleApp.utils import *
 from SimpleApp.stylemanager import *
 from SimpleApp.layout import *
 from SimpleApp.gui import *
+from SimpleApp.graphics import *

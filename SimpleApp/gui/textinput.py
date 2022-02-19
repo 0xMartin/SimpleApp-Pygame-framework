@@ -141,14 +141,17 @@ class TextInput(GUIElement):
                 super().select()
                 self.caret_position = len(self.text)
             else:
+                # call event
+                if super().isSelected():
+                    # text filter
+                    if self.filter_pattern is not None:
+                        if not self.filter_pattern.match(self.text):
+                            # delate text
+                            self.text = ""
+                    if self.callback is not None:
+                        self.callback(self.text)
+                # unselectd TI
                 super().unSelect()
-                # text filter
-                if self.filter_pattern is not None:
-                    if not self.filter_pattern.match(self.text):
-                        # delate text
-                        self.text = ""
-                if self.callback is not None:
-                    self.callback(self.text)
         elif event.type == pygame.KEYDOWN:
             # text writing
             if super().isSelected():

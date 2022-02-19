@@ -61,6 +61,7 @@ class Application:
         self.fps = fps
         self.ups = ups
         self.views = []
+        self.draw_queue = []
         self.visible_view = None
         self.inited = False
         self.running = False
@@ -185,7 +186,14 @@ class Application:
             # visible view proccess render
             if self.visible_view is not None:
                 self.visible_view.render(self.screen)
-            # render
+            # draw later
+            if len(self.draw_queue) != 0:
+                draw_elements = sorted(
+                    self.draw_queue, reverse=True, key=lambda x: x["Z-INDEX"])
+                for el in draw_elements:
+                    el["CALLBACK"](self.visible_view, self.screen)
+                self.draw_queue.clear()
+            # update display
             pygame.display.flip()
             clock.tick(self.fps)
 
@@ -301,6 +309,15 @@ class Application:
             if view.ID == id:
                 return self.showView(view)
 
+    def drawLater(self, z_index, draw_callback):
+        """
+        Add some function to queue for later drawing (after rendering of all elements)
+        Parameters:
+            z_index -> Z-INDEX of drawing (higher value means that it will be drawed over others with a lower value)
+            draw_callback -> Draw callback (def draw(self, view, screen))
+        """
+        self.draw_queue.append({"Z-INDEX": z_index, "CALLBACK": draw_callback})
+
 
 # View class
 class View(metaclass=abc.ABCMeta):
@@ -320,6 +337,7 @@ class View(metaclass=abc.ABCMeta):
         self.ID = id
         self.visible = False
         self.fill_color = None
+        self.filter = None
         self.GUIElements = []
         self.layout_manager_list = []
         self.setDefaultCursor()
@@ -427,6 +445,21 @@ class View(metaclass=abc.ABCMeta):
         else:
             return False
 
+    def setFilter_processOnly(self, element):
+        """
+        Set process only filter -> call process only for specified GUI element
+        Parameters:
+            element -> GUI element which will be processed
+        """
+        if element is not None:
+            self.filter = {"type": "process_only", "element": element}
+
+    def clearFilter(self):
+        """
+        Clear filter
+        """
+        self.filter = None
+
     @final
     def reloadElementStyle(self, list=None):
         """
@@ -519,8 +552,11 @@ class View(metaclass=abc.ABCMeta):
         """
         # all events send to view elements
         if self.app is not None:
-            for el in self.GUIElements:
-                el.processEvent(self, event)
+            if self.filter is None:
+                for el in self.GUIElements:
+                    el.processEvent(self, event)
+            else:
+                self.filter["element"].processEvent(self, event)
         # change cursor
         selected = self.findElement(
             self.GUIElements, lambda el: el.isSelected())
@@ -529,7 +565,7 @@ class View(metaclass=abc.ABCMeta):
         else:
             pygame.mouse.set_cursor(self.cursor)
 
-    def findElement(self, list, procces_function = None):
+    def findElement(self, list, procces_function=None):
         """
         Find element in "list of GUI elements" for which procces function return True
         Parameters:
@@ -554,23 +590,23 @@ class View(metaclass=abc.ABCMeta):
                     break
         return ret
 
-    @final
     def render(self, screen: pygame.Surface):
         """
         Render view
         """
         if self.app is not None:
             for el in self.GUIElements:
-                el.draw(self, screen)
+                if el.isVisible():
+                    el.draw(self, screen)
 
-    @final
     def update(self):
         """
         Update view
         """
         if self.app is not None:
             for el in self.GUIElements:
-                el.update(self)
+                if el.isVisible():
+                    el.update(self)
 
 # base layout manager for view
 
